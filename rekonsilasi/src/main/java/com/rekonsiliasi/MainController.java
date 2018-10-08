@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MainController {
@@ -20,9 +21,10 @@ public class MainController {
 	return "redirect:login";
     }
 
-    @RequestMapping(value = "/home")
-    public String asd() {
-    	return "index";
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public ModelAndView handleRequest() {
+    
+    return new ModelAndView("index");
     }
 	
 }
