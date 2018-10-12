@@ -44,7 +44,19 @@ public class DepartmentDAO extends JdbcDaoSupport {
     }
  
     public List<Department> listDepartment() {
-        String sql = DepartmentMapper.BASE_SQL;
+        String sql = DepartmentMapper.BASE_SQL //
+        		+ "Except " + DepartmentMapper.BASE_SQL2 ;
+ 
+        Object[] params = new Object[] {};
+        DepartmentMapper mapper = new DepartmentMapper();
+ 
+        List<Department> list = this.getJdbcTemplate().query(sql, params, mapper);
+        return list;
+    }
+    
+    public List<Department> listDepartment2() {
+        String sql = DepartmentMapper.BASE_SQL2 //
+        		+ "Except " + DepartmentMapper.BASE_SQL ;
  
         Object[] params = new Object[] {};
         DepartmentMapper mapper = new DepartmentMapper();
