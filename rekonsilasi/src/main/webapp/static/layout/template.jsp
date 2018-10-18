@@ -8,6 +8,8 @@
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"  prefix="decorator" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <html lang="en">
 <head>
@@ -20,7 +22,7 @@
 	name="viewport">
 <!-- Bootstrap 3.3.7 -->
 <link rel="stylesheet"
-	href="<c:url value='static/bower_components/bootstrap/dist/css/bootstrap.min.css'/>">
+	href="<c:url value='/static/bower_components/bootstrap/dist/css/bootstrap.min.css'/>">
 <!-- Font Awesome -->
 <link rel="stylesheet"
 	href="<c:url value='/static/bower_components/font-awesome/css/font-awesome.min.css'/>">
@@ -63,7 +65,9 @@
 							alt="User Image">
 					</div>
 					<div class="pull-left info">
-						<p>Alexander Pierce</p>
+					<sec:authorize access="isAuthenticated()">
+						<p><sec:authentication property="name"/></p>
+					</sec:authorize>
 						<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
 					</div>
 				</div>
@@ -255,7 +259,7 @@
 			<!-- /.sidebar -->
 		</aside>
 		<div class="content-wrapper">
-		<jsp:include page="${partial}" />
+		<tiles:insertAttribute name="content"></tiles:insertAttribute>
 		</div>
 		<footer class="main-footer">
 			<jsp:include page="../includes/footer.jsp" />
@@ -455,19 +459,26 @@
 	<script src="<c:url value='/static/dist/js/demo.js'/>"></script>
 	<!-- page script -->
 	<script>
-		$(function() {
-			$('#example1').DataTable({
-				"sAjaxSource": "/list",
-				"sAjaxDataProp": "",
-				"order": [[ 0, "asc" ]],
-				"aoColumns": [
-				    { "mData": "deptId"},
-			      { "mData": "deptNo" },
-					  { "mData": "deptName" },
-					  { "mData": "location" }
-				]
-			})
-		})
+	$(document).ready(function ()
+	        {
+	            $("#example1").DataTable({
+	                "processing": true, // for show progress bar
+	                "serverSide": false, // for process server side
+	                "filter": true, // this is for disable filter (search box)
+	                "orderMulti": false, // for disable multiple column at once
+	                "ajax": {
+	                    "url": "/Rekonsiliasi/List",
+	                    "type": "GET",
+	                    "datatype": "json"
+	                },
+	                "columns": [
+	                    { "data": "deptId", "name": "deptId", "autoWidth": true },
+	                    { "data": "deptNo", "name": "deptNo", "autoWidth": true },
+	                    { "data": "deptName", "name": "deptName", "autoWidth": true },
+	                    { "data": "location", "name": "location", "autoWidth": true },
+	                ]
+	            });
+	        });
 	</script>
 </body>
 </html>

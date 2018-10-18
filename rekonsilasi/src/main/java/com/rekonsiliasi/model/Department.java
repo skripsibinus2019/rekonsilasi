@@ -1,11 +1,18 @@
 package com.rekonsiliasi.model;
- 
+
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Department {
  
     private Integer deptId;
     private String deptNo;
     private String deptName;
     private String location;
+    private List<Department> list;
  
     public Department() {
  
@@ -18,8 +25,17 @@ public class Department {
         this.deptName = deptName;
         this.location = location;
     }
- 
-    public Integer getDeptId() {
+    
+    @JsonProperty(value="data")
+    public List<Department> getList() {
+		return list;
+	}
+
+	public void setList(List<Department> list) {
+		this.list = list;
+	}
+
+	public Integer getDeptId() {
         return deptId;
     }
  

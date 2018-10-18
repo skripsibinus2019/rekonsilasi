@@ -12,7 +12,7 @@ public class JstlView extends InternalResourceView {
 			HttpServletResponse response) throws Exception {
 		String dispatcherPath = prepareForRendering(request, response);
 		// set original view being asked for as a request parameter
-		request.setAttribute("partial", "../../WEB-INF/pages/" +dispatcherPath.substring(dispatcherPath.lastIndexOf("/") + 1));
+		request.setAttribute("partial", "../../" +dispatcherPath);
 		// force everything to be template.jsp
 		RequestDispatcher rd = request.getRequestDispatcher("/static/layout/template.jsp");
 		rd.include(request, response);
