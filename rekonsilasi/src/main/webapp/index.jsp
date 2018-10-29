@@ -16,6 +16,8 @@
                 <th>Dept No</th>
                 <th>Dept Name</th>
                 <th>Location</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
               <c:forEach var="dept" items="${departments}" varStatus="status">
               <tr>

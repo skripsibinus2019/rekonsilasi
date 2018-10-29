@@ -9,21 +9,22 @@ import org.springframework.jdbc.core.RowMapper;
 public class DepartmentMapper implements RowMapper<Department> {
  
     public static final String BASE_SQL = //
-            "Select d.dept_no,d.dept_name,d.location "//
-                    + " from Department d ";
+            "Select a.wsid, a.amount, a.transactionDate, a.status"//
+                    + " from Table_A a ";
     
     public static final String BASE_SQL2 = //
-            "Select d4.dept_no,d4.dept_name,d4.location "//
-                    + " from Department4 d4 ";
+            "Select b.wsid, b.amount, b.transactionDate, b.status"//
+                    + " from Table_B b ";
  
     @Override
     public Department mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Integer deptId = 1;
-        String deptNo = rs.getString("dept_no");
-        String deptName = rs.getString("dept_name");
-        String location = rs.getString("location");
- 
-        return new Department(deptId, deptNo, deptName, location);
+        Integer id = 1;
+        String wsid = rs.getString("wsid");
+        Integer amount = rs.getInt("amount");
+        String transactionDate = rs.getString("transactionDate");
+        Integer status = rs.getInt("status");
+        String tableSource = "";
+        return new Department(id, wsid, amount, transactionDate, status, tableSource);
     }
  
 }

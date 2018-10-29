@@ -5,25 +5,71 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Department {
  
-    private Integer deptId;
-    private String deptNo;
-    private String deptName;
-    private String location;
+    private Integer id;
+    private String wsId;
+    private Integer amount;
+    private String transactionDate;
+    private Integer status;
     private List<Department> list;
- 
-    public Department() {
+    private String draw;
+    private Integer recordsFiltered;
+    private Integer recordsTotal;
+    private String tableSource;
+//    "recordsFiltered": 1,
+//    "recordsTotal": 1,
+    
+    
+    
+    @JsonProperty(value="draw")
+    public String getDraw() {
+		return draw;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Integer getRecordsFiltered() {
+		return recordsFiltered;
+	}
+
+	@JsonProperty(value="recordsFiltered")
+	public void setRecordsFiltered(Integer recordsFiltered) {
+		this.recordsFiltered = recordsFiltered;
+	}
+
+	public void setDraw(String draw) {
+		this.draw = draw;
+	}
+
+	@JsonProperty(value="recordsTotal")
+	public Integer getRecordsTotal() {
+		return recordsTotal;
+	}
+
+	public void setRecordsTotal(Integer recordsTotal) {
+		this.recordsTotal = recordsTotal;
+	}
+
+	public Department() {
  
     }
  
-    public Department(Integer deptId, String deptNo, String deptName,
-            String location) {
-        this.deptId = deptId;
-        this.deptNo = deptNo;
-        this.deptName = deptName;
-        this.location = location;
+    public Department(Integer id, String wsId, Integer amount,
+            String transactionDate, Integer status, String tableSource) {
+        this.id = id;
+        this.wsId = wsId;
+        this.amount = amount;
+        this.transactionDate = transactionDate;
+        this.status = status;
+        this.tableSource = tableSource;
     }
     
     @JsonProperty(value="data")
@@ -35,35 +81,44 @@ public class Department {
 		this.list = list;
 	}
 
-	public Integer getDeptId() {
-        return deptId;
-    }
- 
-    public void setDeptId(Integer deptId) {
-        this.deptId = deptId;
-    }
- 
-    public String getDeptNo() {
-        return deptNo;
-    }
- 
-    public void setDeptNo(String deptNo) {
-        this.deptNo = deptNo;
-    }
- 
-    public String getDeptName() {
-        return deptName;
-    }
- 
-    public void setDeptName(String deptName) {
-        this.deptName = deptName;
-    }
- 
-    public String getLocation() {
-        return location;
-    }
- 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getWsId() {
+		return wsId;
+	}
+
+	public void setWsId(String wsId) {
+		this.wsId = wsId;
+	}
+
+	public Integer getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Integer amount) {
+		this.amount = amount;
+	}
+
+	public String getTransactionDate() {
+		return transactionDate;
+	}
+
+	public void setTransactionDate(String transactionDate) {
+		this.transactionDate = transactionDate;
+	}
+
+	public String getTableSource() {
+		return tableSource;
+	}
+
+	public void setTableSource(String tableSource) {
+		this.tableSource = tableSource;
+	}
+	
 }

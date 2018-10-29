@@ -7,6 +7,16 @@
 
 	<definition name="default" template="/static/layout/template.jsp">
 		<put-attribute name="content" value="" />
+		<put-list-attribute name="javascripts">
+	        <add-attribute value="/static/bower_components/jquery/dist/jquery.min.js" />
+	        <add-attribute value="/static/bower_components/bootstrap/dist/js/bootstrap.min.js" />
+	        <add-attribute value="/static/bower_components/datatables.net/js/jquery.dataTables.min.js" />
+	        <add-attribute value="/static/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js" />
+	        <add-attribute value="/static/bower_components/jquery-slimscroll/jquery.slimscroll.min.js" />
+	        <add-attribute value="/static/bower_components/fastclick/lib/fastclick.js" />
+	        <add-attribute value="/static/dist/js/adminlte.min.js" />
+	        <add-attribute value="/static/dist/js/demo.js" />
+	    </put-list-attribute>
 	</definition>
 	<definition name="front" template="/static/layout/front.jsp">
 		<put-attribute name="content" value="" />
@@ -14,6 +24,16 @@
 
 	<definition name="rekonsiliasi.index" extends="default">
 		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/index.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/rekonsiliasi.js" />
+	    </put-list-attribute>
+	</definition>
+	
+	<definition name="rekonsiliasi.purpose" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/purpose.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/purpose.js" />
+	    </put-list-attribute>
 	</definition>
 
 	<definition name="user.login" extends="front">

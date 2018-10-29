@@ -21,19 +21,9 @@ public class DepartmentDAO extends JdbcDaoSupport {
         this.setDataSource(dataSource);
     }
  
-    private int getMaxDeptId() {
-        String sql = "Select max(d.dept_id) from Department d";
- 
-        Integer value = this.getJdbcTemplate().queryForObject(sql, Integer.class);
-        if (value == null) {
-            return 0;
-        }
-        return value;
-    }
- 
     public Department findDepartment(String deptNo) {
         String sql = DepartmentMapper.BASE_SQL //
-                + " where d.dept_no = ?";
+                + " where a.id = ?";
  
         Object[] params = new Object[] { deptNo };
          
@@ -49,8 +39,9 @@ public class DepartmentDAO extends JdbcDaoSupport {
  
         Object[] params = new Object[] {};
         DepartmentMapper mapper = new DepartmentMapper();
- 
+        
         List<Department> list = this.getJdbcTemplate().query(sql, params, mapper);
+        
         return list;
     }
     
@@ -60,18 +51,9 @@ public class DepartmentDAO extends JdbcDaoSupport {
  
         Object[] params = new Object[] {};
         DepartmentMapper mapper = new DepartmentMapper();
- 
+        
         List<Department> list = this.getJdbcTemplate().query(sql, params, mapper);
         return list;
-    }
- 
-    public void insertDepartment(String deptName, String location) {
-        String sql = "Insert into Department (dept_id,dept_no,dept_name,location) "//
-                + " values (?,?,?,?) ";
-        int deptId = this.getMaxDeptId() + 1;
-        String deptNo = "D" + deptId;
-        Object[] params = new Object[] { deptId, deptNo, deptName, location };
-        this.getJdbcTemplate().update(sql, params);
     }
  
 }

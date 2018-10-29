@@ -2,7 +2,6 @@
  pageEncoding="ISO-8859-1"%>
  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"  prefix="decorator" %>
@@ -10,6 +9,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html lang="en">
 <head>
@@ -249,11 +249,9 @@
 						</ul></li>
 					<li><a href="https://adminlte.io/docs"><i
 							class="fa fa-book"></i> <span>Documentation</span></a></li>
-					<li class="header">LABELS</li>
-					<li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-					<li><a href="#"><i class="fa fa-circle-o text-yellow"></i>
-							<span>Warning</span></a></li>
-					<li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+					<li class="header">USER MANAGEMENT</li>
+					<li><a href="#"><i class="fa fa-user"></i> <span>Users</span></a></li>
+					<li><a href="#"><i class="fa fa-users"></i> <span>Role</span></a></li>
 				</ul>
 			</section>
 			<!-- /.sidebar -->
@@ -436,49 +434,15 @@
 		<div class="control-sidebar-bg"></div>
 	</div>
 
-	<!-- jQuery 3 -->
-	<script
-		src="<c:url value='/static/bower_components/jquery/dist/jquery.min.js'/>"></script>
-	<!-- Bootstrap 3.3.7 -->
-	<script
-		src="<c:url value='/static/bower_components/bootstrap/dist/js/bootstrap.min.js'/>"></script>
-	<!-- DataTables -->
-	<script
-		src="<c:url value='/static/bower_components/datatables.net/js/jquery.dataTables.min.js'/>"></script>
-	<script
-		src="<c:url value='/static/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js'/>"></script>
-	<!-- SlimScroll -->
-	<script
-		src="<c:url value='/static/bower_components/jquery-slimscroll/jquery.slimscroll.min.js'/>"></script>
-	<!-- FastClick -->
-	<script
-		src="<c:url value='/static/bower_components/fastclick/lib/fastclick.js'/>"></script>
-	<!-- AdminLTE App -->
-	<script src="<c:url value='/static/dist/js/adminlte.min.js'/>"></script>
-	<!-- AdminLTE for demo purposes -->
-	<script src="<c:url value='/static/dist/js/demo.js'/>"></script>
 	<!-- page script -->
-	<script>
-	$(document).ready(function ()
-	        {
-	            $("#example1").DataTable({
-	                "processing": true, // for show progress bar
-	                "serverSide": false, // for process server side
-	                "filter": true, // this is for disable filter (search box)
-	                "orderMulti": false, // for disable multiple column at once
-	                "ajax": {
-	                    "url": "/Rekonsiliasi/List",
-	                    "type": "GET",
-	                    "datatype": "json"
-	                },
-	                "columns": [
-	                    { "data": "deptId", "name": "deptId", "autoWidth": true },
-	                    { "data": "deptNo", "name": "deptNo", "autoWidth": true },
-	                    { "data": "deptName", "name": "deptName", "autoWidth": true },
-	                    { "data": "location", "name": "location", "autoWidth": true },
-	                ]
-	            });
-	        });
-	</script>
+	<tiles:importAttribute name="javascripts"/>
+	<c:forEach var="script" items="${javascripts}">
+        <script src="<c:url value="${script}"/>"></script>
+    </c:forEach>
+    
+    <tiles:importAttribute name="javascriptsPage"/>
+	<c:forEach var="script" items="${javascriptsPage}">
+        <script src="<c:url value="${script}"/>"></script>
+    </c:forEach>
 </body>
 </html>

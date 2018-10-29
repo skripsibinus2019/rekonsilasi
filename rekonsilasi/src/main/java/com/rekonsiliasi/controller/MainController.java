@@ -37,7 +37,7 @@ public class MainController {
     @Autowired
     private LoginDaoImpl loginDaoImpl;
 	
-    @RequestMapping(value = { "/Rekonsiliasi/List" }, method =  RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = { "/Rekonsiliasi/List" }, method =  RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public Department getListDepartement(HttpServletRequest request, HttpServletResponse response, Model model){
     	Department dataaas = new Department();
@@ -50,7 +50,11 @@ public class MainController {
 		}
     	
     	dataaas.setList(datas);
-    
+    	Integer asd = dataaas.getList().size();
+    	
+    	dataaas.setRecordsFiltered(asd);
+    	dataaas.setRecordsTotal(asd);
+    	dataaas.setDraw("");
     	return dataaas;
     }
     
