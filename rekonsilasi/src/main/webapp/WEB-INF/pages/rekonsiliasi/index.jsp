@@ -30,6 +30,8 @@
                   <th>WSID</th>
                   <th>Amount</th>
                   <th>Transaction Date</th>
+                  <th>Table Source</th>
+                  <th>Notes</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>

@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import com.rekonsiliasi.dao.DepartmentDAO;
 import com.rekonsiliasi.dao.LoginDaoImpl;
+import com.rekonsiliasi.mapper.DepartmentMapper;
 import com.rekonsiliasi.model.Department;
 import com.rekonsiliasi.model.UserInfo;
 
@@ -69,5 +72,34 @@ public class MainController {
     	return asd;
     }
     
+    @RequestMapping(value = "/rekonsiliasi/{id}"+"/"+"{table}", method = RequestMethod.GET)
+    public String index(Model model, @PathVariable("id")String id, 
+    		@PathVariable("table")String table ) {
+
+    	Department data = new Department();
+    	
+    	if(table.equals("A")) {
+    		data = departmentDAO.findDepartment(id);
+    		data.setTableSource("A");
+    	}else if(table.equals("B")) {
+    		data = departmentDAO.findDepartment2(id);
+    		data.setTableSource("B");
+    	}
+    	
+    	model.addAttribute("data", data);
+    	
+    	return "rekonsiliasi.propose";
+    }
+    
+    @RequestMapping(value = "/rekonsiliasi/{id}/{table}/confirm", method = RequestMethod.POST)
+    public String indexConfirm(Model model, @PathVariable("id")String id, 
+    		@PathVariable("table")String table, @ModelAttribute(value = "data") Department departement) {
+
+    	Department data = new Department();
+    	
+    	System.out.println(departement);
+    	
+    	return "rekonsiliasi.proposeSave";
+    }
     
 }

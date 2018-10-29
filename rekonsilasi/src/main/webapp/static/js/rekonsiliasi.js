@@ -25,19 +25,27 @@ $(document).ready(function() {
 			"data" : "transactionDate",
 			"name" : "transactionDate",
 			"autoWidth" : true
+		}, {
+			"data" : "tableSource",
+			"name" : "tableSource",
+			"autoWidth" : true
+		}, {
+			"data" : "notes",
+			"name" : "notes",
+			"autoWidth" : true
 		},
 		{
 			data: null, render: function (data, type, row) {
             	if(row.status == 0){
             		return '<span class="label label-danger">Unmatch</span>';
             	}else if(row.status == 1){
-            		return '<span class="label label-warning">Purposed</span>';
+            		return '<span class="label label-warning">Proposed</span>';
             	}
             }
         },
         {
             data: null, render: function (data, type, row) {
-                return "<a href='#' class='btn btn-info' onclick=DeleteData('" + row.CustomerID + "'); >Purpose</a>";
+                return "<a href='/rekonsiliasi/"+ row.id + "/" + row.tableSource + "' class='btn btn-info' onclick=DeleteData('" + row.CustomerID + "'); >Propose</a>";
             }
         }]
 	});

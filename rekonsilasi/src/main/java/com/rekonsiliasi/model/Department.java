@@ -18,6 +18,7 @@ public class Department {
     private Integer recordsFiltered;
     private Integer recordsTotal;
     private String tableSource;
+    private String notes;
 //    "recordsFiltered": 1,
 //    "recordsTotal": 1,
     
@@ -57,20 +58,19 @@ public class Department {
 	public void setRecordsTotal(Integer recordsTotal) {
 		this.recordsTotal = recordsTotal;
 	}
+	
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
 
 	public Department() {
  
     }
- 
-    public Department(Integer id, String wsId, Integer amount,
-            String transactionDate, Integer status, String tableSource) {
-        this.id = id;
-        this.wsId = wsId;
-        this.amount = amount;
-        this.transactionDate = transactionDate;
-        this.status = status;
-        this.tableSource = tableSource;
-    }
+
     
     @JsonProperty(value="data")
     public List<Department> getList() {
@@ -120,5 +120,18 @@ public class Department {
 	public void setTableSource(String tableSource) {
 		this.tableSource = tableSource;
 	}
+	
+	 
+    public Department(Integer id, String wsId, Integer amount,
+            String transactionDate, Integer status, String tableSource,
+            String notes) {
+        this.id = id;
+        this.wsId = wsId;
+        this.amount = amount;
+        this.transactionDate = transactionDate;
+        this.status = status;
+        this.tableSource = tableSource;
+        this.notes = notes;
+    }
 	
 }

@@ -29,10 +29,10 @@
 	    </put-list-attribute>
 	</definition>
 	
-	<definition name="rekonsiliasi.purpose" extends="default">
-		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/purpose.jsp" />
+	<definition name="rekonsiliasi.propose" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/propose.jsp" />
 		<put-list-attribute name="javascriptsPage">
-			<add-attribute value="/static/js/purpose.js" />
+			<add-attribute value="/static/js/propose.js" />
 	    </put-list-attribute>
 	</definition>
 
