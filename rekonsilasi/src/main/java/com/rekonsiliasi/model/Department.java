@@ -18,7 +18,8 @@ public class Department {
     private Integer recordsFiltered;
     private Integer recordsTotal;
     private String tableSource;
-    private String notes;
+    private String notes_lama;
+    private String notes_baru;
 //    "recordsFiltered": 1,
 //    "recordsTotal": 1,
     
@@ -59,17 +60,23 @@ public class Department {
 		this.recordsTotal = recordsTotal;
 	}
 	
-	public String getNotes() {
-		return notes;
+	public String getNotes_lama() {
+		return notes_lama;
 	}
 
-	public void setNotes(String notes) {
-		this.notes = notes;
+	public void setNotes_lama(String notes_lama) {
+		this.notes_lama = notes_lama;
 	}
 
-	public Department() {
- 
-    }
+	public String getNotes_baru() {
+		return notes_baru;
+	}
+
+	public void setNotes_baru(String notes_baru) {
+		this.notes_baru = notes_baru;
+	}
+
+
 
     
     @JsonProperty(value="data")
@@ -121,7 +128,40 @@ public class Department {
 		this.tableSource = tableSource;
 	}
 	
-	 
+	public Department() {
+		 
+    }
+
+	public Department(Integer id, String wsId, Integer amount, String transactionDate, Integer status,
+			List<Department> list, String draw, Integer recordsFiltered, Integer recordsTotal, String tableSource,
+			String notes_lama, String notes_baru) {
+		super();
+		this.id = id;
+		this.wsId = wsId;
+		this.amount = amount;
+		this.transactionDate = transactionDate;
+		this.status = status;
+		this.list = list;
+		this.draw = draw;
+		this.recordsFiltered = recordsFiltered;
+		this.recordsTotal = recordsTotal;
+		this.tableSource = tableSource;
+		this.notes_lama = notes_lama;
+		this.notes_baru = notes_baru;
+	}
+
+	public Department(String wsId, Integer amount, String transactionDate, Integer status, String tableSource,
+			String notes_lama, String notes_baru) {
+		super();
+		this.wsId = wsId;
+		this.amount = amount;
+		this.transactionDate = transactionDate;
+		this.status = status;
+		this.tableSource = tableSource;
+		this.notes_lama = notes_lama;
+		this.notes_baru = notes_baru;
+	}
+	
     public Department(Integer id, String wsId, Integer amount,
             String transactionDate, Integer status, String tableSource,
             String notes) {
@@ -131,7 +171,8 @@ public class Department {
         this.transactionDate = transactionDate;
         this.status = status;
         this.tableSource = tableSource;
-        this.notes = notes;
+        this.notes_baru = notes;
     }
 	
+	 
 }

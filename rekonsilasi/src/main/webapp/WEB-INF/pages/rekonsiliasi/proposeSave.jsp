@@ -4,7 +4,8 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
-		Propose <small>advanced tables</small>
+		Propose Confirm
+		<small>advanced tables</small>
 	</h1>
 </section>
 
@@ -19,33 +20,36 @@
 				<!-- /.box-header -->
 				<div class="box-body">
 					<form:form id="formpost" modelAttribute="data"
-						action="/rekonsiliasi/${data.id}/${data.tableSource}/confirm"
-						method="post" class="form-horizontal">
+						action="/rekonsiliasi/${data.id}/${data.tableSource}/save"
+						method="POST" class="form-horizontal">
 						<form:hidden path="id" />
+						<form:hidden path="notes_lama"/>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">WSID</label>
 
 							<div class="col-sm-10">${data.wsId}</div>
+							<form:hidden path="wsId"/>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Amount</label>
 
 							<div class="col-sm-10">${data.amount}</div>
+							<form:hidden path="amount"/>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Transaction Date</label>
 
 							<div class="col-sm-10">${data.transactionDate}</div>
+							<form:hidden path="transactionDate"/>
 						</div>
 						<div class="form-group">
-							<div class="col-sm-12">
-								<textarea name="confirm" rows="4" cols="50" form="formpost"
-									class="form-control"></textarea>
-							</div>
+							<label class="col-sm-2 control-label">Notes</label>
+							<div class="col-sm-10">	${data.notes_baru}</div>
+							<form:hidden path="notes_baru"/>
 						</div>
 						<!-- /.box-body -->
 						<div class="box-footer">
-							<button type="submit" class="btn btn-default">Kembali</button>
+							<a href="/rekonsiliasi/${data.id}/${data.tableSource}" class="btn btn-primary">Kembali</a>
 							<input type="hidden" name="_batal" id="_id_batal" value="0">
 							<button type="submit" value="Proses"
 								class="btn btn-info pull-right">Propose</button>
