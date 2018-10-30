@@ -35,9 +35,23 @@
 			<add-attribute value="/static/js/propose.js" />
 	    </put-list-attribute>
 	</definition>
+	
+	<definition name="rekonsiliasi.proposeSave" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/proposeSave.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/propose.js" />
+	    </put-list-attribute>
+	</definition>
 
 	<definition name="user.login" extends="front">
 		<put-attribute name="content" value="/WEB-INF/pages/user/login.jsp" />
+	</definition>
+	
+	<definition name="user.add" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/user/add.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/user.js" />
+	    </put-list-attribute>
 	</definition>
 
 </tiles-definitions>
