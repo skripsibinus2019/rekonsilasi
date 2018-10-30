@@ -54,7 +54,7 @@ public class ApplicationContextConfig {
        // See: datasouce-cfg.properties
        dataSource.setDriverClassName("net.sourceforge.jtds.jdbc.Driver");
 //       dataSource.setUrl("jdbc:jtds:sqlserver://localhost:1433;instanceName=.;databaseName=rekonsiliasi;sendStringParametersAsUnicode=false;");
-       dataSource.setUrl("jdbc:jtds:sqlserver://192.168.1.103:1433;instanceName=192.168.1.103;databaseName=rekonsiliasi;sendStringParametersAsUnicode=false;");
+       dataSource.setUrl("jdbc:jtds:sqlserver://192.168.1.104:1433;instanceName=192.168.1.103;databaseName=rekonsiliasi;sendStringParametersAsUnicode=false;");
 
        
        dataSource.setUsername("sa");

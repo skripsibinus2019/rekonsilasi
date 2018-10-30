@@ -22,30 +22,35 @@
 						action="/rekonsiliasi/${data.id}/${data.tableSource}/confirm"
 						method="post" class="form-horizontal">
 						<form:hidden path="id" />
+						<form:hidden path="notes_lama"/>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">WSID</label>
 
 							<div class="col-sm-10">${data.wsId}</div>
+							<form:hidden path="wsId"/>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Amount</label>
 
 							<div class="col-sm-10">${data.amount}</div>
+							<form:hidden path="amount"/>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Transaction Date</label>
 
 							<div class="col-sm-10">${data.transactionDate}</div>
+							<form:hidden path="transactionDate"/>
 						</div>
 						<div class="form-group">
-							<div class="col-sm-12">
-								<textarea name="confirm" rows="4" cols="50" form="formpost"
-									class="form-control"></textarea>
+							<label class="col-sm-2 control-label">Notes</label>
+							<div class="col-sm-10">
+								<textarea id="text" name="notes_baru" rows="4" cols="50" form="formpost"
+									placeholder="${data.notes_lama}" class="form-control"></textarea>
 							</div>
 						</div>
 						<!-- /.box-body -->
 						<div class="box-footer">
-							<button type="submit" class="btn btn-default">Kembali</button>
+							<a href="/rekonsiliasi" class="btn btn-primary">Kembali</a>
 							<input type="hidden" name="_batal" id="_id_batal" value="0">
 							<button type="submit" value="Proses"
 								class="btn btn-info pull-right">Propose</button>

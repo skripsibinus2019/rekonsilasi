@@ -30,8 +30,8 @@ $(document).ready(function() {
 			"name" : "tableSource",
 			"autoWidth" : true
 		}, {
-			"data" : "notes",
-			"name" : "notes",
+			"data" : "notes_baru",
+			"name" : "notes_baru",
 			"autoWidth" : true
 		},
 		{
@@ -49,4 +49,8 @@ $(document).ready(function() {
             }
         }]
 	});
+});
+
+jQuery('#_id_batal').click(function() {
+	document.location.href = '/rekonsiliasi';
 });

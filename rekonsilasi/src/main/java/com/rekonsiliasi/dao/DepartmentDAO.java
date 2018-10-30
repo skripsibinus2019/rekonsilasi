@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import com.rekonsiliasi.mapper.DepartmentMapper;
 import com.rekonsiliasi.model.Department; 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ public class DepartmentDAO extends JdbcDaoSupport {
                 + " where a.id = ?";
  
         Object[] params = new Object[] { deptNo };
-         
+        
         DepartmentMapper mapper = new DepartmentMapper();
  
         Department dept = this.getJdbcTemplate().queryForObject(sql, params, mapper);
@@ -35,7 +36,7 @@ public class DepartmentDAO extends JdbcDaoSupport {
     
     public Department findDepartment2(String deptNo) {
         String sql = DepartmentMapper.BASE_SQL2 //
-                + " where a.id = ?";
+                + " where b.id = ?";
  
         Object[] params = new Object[] { deptNo };
          
@@ -71,6 +72,15 @@ public class DepartmentDAO extends JdbcDaoSupport {
 			dataA.setTableSource("B");
 		}
         return list;
+    }
+    
+    public void saveRecord(Department d) {
+    	
+    	String sql = "Insert into Log_Transaction (id,wsid,amount,transactiondate,status,notes_lama,notes_baru) "//
+				+ " values (?,?,?,?,?,?,?) ";
+		Object[] params = new Object[] { d.getId(), d.getWsId(), d.getAmount(), d.getTransactionDate(), d.getStatus(), d.getNotes_lama() , d.getNotes_baru() };
+		this.getJdbcTemplate().update(sql, params);
+		
     }
  
 }
