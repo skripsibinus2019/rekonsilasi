@@ -3,34 +3,35 @@
 <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Data Tables
-        <small>advanced tables</small>
+        Users
+        <small>List</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Tables</a></li>
-        <li class="active">Data tables</li>
+        <li><a href="#">Users</a></li>
+        <li class="active">List</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
       <div class="row">
+      
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Hover Data Table</h3>
+            
+              <h3 class="box-title">All Users</h3>
+              <a href="" class='btn btn-info pull-right'>Add New</a>
             </div>
             <!-- /.box-header -->
+            <div class="col-xs-12"></div>
             <div class="box-body">
+            
               <table id="example1" class="table table-bordered table-hover" width="100%">
                 <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>WSID</th>
-                  <th>Amount</th>
-                  <th>Transaction Date</th>
-                  <th>Status</th>
+                  <th>USERNAME</th>
                   <th>Action</th>
                 </tr>
                 </thead>

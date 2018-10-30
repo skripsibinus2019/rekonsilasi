@@ -53,5 +53,12 @@
 			<add-attribute value="/static/js/user.js" />
 	    </put-list-attribute>
 	</definition>
+	
+	<definition name="user.index" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/user/index.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/user.js" />
+	    </put-list-attribute>
+	</definition>
 
 </tiles-definitions>

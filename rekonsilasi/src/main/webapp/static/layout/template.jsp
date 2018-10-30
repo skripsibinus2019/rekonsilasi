@@ -250,7 +250,7 @@
 					<li><a href="https://adminlte.io/docs"><i
 							class="fa fa-book"></i> <span>Documentation</span></a></li>
 					<li class="header">USER MANAGEMENT</li>
-					<li><a href="#"><i class="fa fa-user"></i> <span>Users</span></a></li>
+					<li><a href="/user"><i class="fa fa-user"></i> <span>Users</span></a></li>
 					<li><a href="#"><i class="fa fa-users"></i> <span>Role</span></a></li>
 				</ul>
 			</section>
