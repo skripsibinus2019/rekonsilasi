@@ -54,7 +54,7 @@ public class LoginDaoImpl extends JdbcDaoSupport implements LoginDao {
 
 	@Override
 	 public List<String> getUserRoles(String username) {
-	  String query = "select user_role from user_roles WHERE username=:username";
+	  String query = "select ur.roleName as user_role from USERS_ROLE ur join USERS u on ur.roleId = u.roleId WHERE username=:username";
 	  List<String> roles = namedParameterJdbcTemplate.queryForList(query, getSqlParameterByModel(username, ""), String.class);
 	  return roles;
 	 }

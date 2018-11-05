@@ -38,5 +38,8 @@ public class LoginController {
     public String doLogout(HttpServletRequest request) {
 	return "redirect:login";
     }
+    
+    
+    
 
 }
