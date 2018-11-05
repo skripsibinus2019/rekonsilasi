@@ -16,6 +16,7 @@ import com.rekonsiliasi.mapper.DepartmentMapper;
 import com.rekonsiliasi.mapper.UserInfoMapper;
 import com.rekonsiliasi.model.Department;
 import com.rekonsiliasi.model.UserInfo;
+import com.rekonsiliasi.model.UserRole;
 
 @Repository
 @Transactional
@@ -38,9 +39,9 @@ public class UserDao extends JdbcDaoSupport {
 	private PasswordEncoder passwordEncoder;
 
 	public void addUser(UserInfo u) {
-		String sql = "Insert into USERS (username, password) "//
+		String sql = "Insert into USER_ROLES (roleName, description) "//
 				+ " values (?,?) ";
-		Object[] params = new Object[] { u.getUsername(), passwordEncoder.encode(u.getPassword()) };
+		Object[] params = new Object[] { u.getUsername(), passwordEncoder.encode(u.getUsername()) };
 		this.getJdbcTemplate().update(sql, params);
 
 	}

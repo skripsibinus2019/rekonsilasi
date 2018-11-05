@@ -5,13 +5,18 @@ $(document).ready(function() {
 		"filter" : true, // this is for disable filter (search box)
 		"orderMulti" : false, // for disable multiple column at once
 		"ajax" : {
-			"url" : "/user-management/user/list",
+			"url" : "/user-management/role/list",
 			"type" : "POST",
 			"datatype" : "json"
 		},
 		"columns" : [ {
-			"data" : "username",
-			"name" : "username",
+			"data" : "roleName",
+			"name" : "roleName",
+			"autoWidth" : true
+		},
+		{
+			"data" : "description",
+			"name" : "description",
 			"autoWidth" : true
 		},
         {

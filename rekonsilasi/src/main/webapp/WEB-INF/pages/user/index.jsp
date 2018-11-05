@@ -22,7 +22,7 @@
             <div class="box-header">
             
               <h3 class="box-title">All Users</h3>
-              <a href="" class='btn btn-info pull-right'>Add New</a>
+              <a href="/user-management/user/add" class='btn btn-info pull-right'>Add New</a>
             </div>
             <!-- /.box-header -->
             <div class="col-xs-12"></div>

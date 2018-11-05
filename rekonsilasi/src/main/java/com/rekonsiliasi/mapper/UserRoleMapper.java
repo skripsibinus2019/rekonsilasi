@@ -6,20 +6,21 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.rekonsiliasi.model.UserInfo;
+import com.rekonsiliasi.model.UserRole;
 
-public class UserRoleMapper implements RowMapper<UserInfo>{
+public class UserRoleMapper implements RowMapper<UserRole>{
 	
     public static final String BASE_SQL = //
             "Select * "//
-                    + " from USER_ROLES u ";
+                    + " from USERS_ROLE u ";
 
 	@Override
-	public UserInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public UserRole mapRow(ResultSet rs, int rowNum) throws SQLException {
 		// TODO Auto-generated method stub
-		String username = rs.getString("username");
-		String password = rs.getString("user_role");
+		String roleName = rs.getString("roleName");
+		String description = rs.getString("description");
 		
-		return new UserInfo(username,password);
+		return new UserRole(roleName, description);
 	}
 
 }

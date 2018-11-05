@@ -36,6 +36,13 @@
 	    </put-list-attribute>
 	</definition>
 	
+	<definition name="rekonsiliasi.approval" extends="default">
+        <put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/approval.jsp" />
+        <put-list-attribute name="javascriptsPage">
+            <add-attribute value="/static/js/approval.js" />
+        </put-list-attribute>
+    </definition>
+	
 	<definition name="rekonsiliasi.proposeSave" extends="default">
 		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/proposeSave.jsp" />
 		<put-list-attribute name="javascriptsPage">
@@ -60,5 +67,21 @@
 			<add-attribute value="/static/js/user.js" />
 	    </put-list-attribute>
 	</definition>
+	
+	<definition name="user-role.index" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/user-role/index.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/role.js" />
+	    </put-list-attribute>
+	</definition>
+	
+	<definition name="user-role.add" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/user-role/add.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/user.js" />
+	    </put-list-attribute>
+	</definition>
+	
+	
 
 </tiles-definitions>

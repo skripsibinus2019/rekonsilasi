@@ -76,21 +76,7 @@
 		<ul class="sidebar-menu" data-widget="tree">
 			<li class="header">TRANSACTION MANAGEMENT</li>
 
-			<li class="treeview"><a href="#"> <i class="fa fa-files-o"></i>
-					<span>Reconciliation</span> <span class="pull-right-container">
-						<span class="label label-primary pull-right">4</span>
-				</span>
-			</a>
-				<ul class="treeview-menu">
-					<li><a href="../layout/top-nav.html"><i
-							class="fa fa-circle-o text-red"></i> Overdue</a></li>
-					<li><a href="../layout/boxed.html"><i
-							class="fa fa-circle-o"></i> Boxed</a></li>
-					<li><a href="../layout/fixed.html"><i
-							class="fa fa-circle-o"></i> Fixed</a></li>
-					<li><a href="../layout/collapsed-sidebar.html"><i
-							class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
-				</ul></li>
+				<li><a href="/rekonsiliasi"><i class="fa fa-pencil"></i> <span>Reconciliation</span></a></li>
 				<li><a href="/log_transaction"><i class="fa fa-pencil"></i> <span>Log Transaction</span></a></li>
 				<li><a href="/rekonsiliasi/import"><i class="fa fa-arrow-circle-up"></i> <span>Import CSV Data</span></a></li>
 
@@ -99,8 +85,8 @@
 					class="fa fa-arrow-circle-down"></i> <span>Export Log
 						Transaction</span></a></li>
 			<li class="header">USER MANAGEMENT</li>
-			<li><a href="/user"><i class="fa fa-user"></i> <span>Users</span></a></li>
-			<li><a href="#"><i class="fa fa-users"></i> <span>Role</span></a></li>
+			<li><a href="/user-management/user"><i class="fa fa-user"></i> <span>Users</span></a></li>
+			<li><a href="/user-management/role"><i class="fa fa-users"></i> <span>Role</span></a></li>
 		</ul>
 		</section> <!-- /.sidebar --> </aside>
 		<div class="content-wrapper">

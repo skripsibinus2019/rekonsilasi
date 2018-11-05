@@ -17,24 +17,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rekonsiliasi.dao.UserDao;
+import com.rekonsiliasi.dao.UserRoleDao;
 import com.rekonsiliasi.model.Department;
 import com.rekonsiliasi.model.UserInfo;
 import com.rekonsiliasi.model.UserRole;
 
 @Controller
-public class UsersController {
+public class RoleController {
 	
 	@Autowired
-	private UserDao userDao;
+	private UserRoleDao userRoleDao;
 	
-	@RequestMapping(value = { "user-management/user/list" }, method =  RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = { "user-management/role/list" }, method =  RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public UserInfo getListUsers(HttpServletRequest request, HttpServletResponse response, Model model){
-		UserInfo dataaas = new UserInfo();
-    	List<UserInfo> datas = new ArrayList<UserInfo>();
+    public UserRole getListUsers(HttpServletRequest request, HttpServletResponse response, Model model){
+		UserRole dataaas = new UserRole();
+    	List<UserRole> datas = new ArrayList<UserRole>();
     	
-    	for (UserInfo userInfo : userDao.listUsers()) {
-			datas.add(userInfo);
+    	for (UserRole userRole : userRoleDao.listRole()) {
+			datas.add(userRole);
 		}
     	
     	dataaas.setList(datas);
@@ -46,32 +47,25 @@ public class UsersController {
     	return dataaas;
     }
 	
-	@RequestMapping(value="user-management/user", method = RequestMethod.GET)
+	@RequestMapping(value="user-management/role", method = RequestMethod.GET)
     public String all(Model model) {
-    	return "user.index";
+    	return "user-role.index";
     }
 	
-	@RequestMapping(value= "user-management/user/addSubmit", method = RequestMethod.POST)
-	public String addPerson(@ModelAttribute("data") UserInfo u, BindingResult bindingResult){
+	@RequestMapping(value= "user-management/role/addSubmit", method = RequestMethod.POST)
+	public String addRole(@ModelAttribute("data") UserRole u, BindingResult bindingResult){
 		if (bindingResult.hasErrors()) {
-			return "user.add";
+			return "user-role.add";
 		}
-		userDao.addUser(u);
-		return "redirect:/user";
+		userRoleDao.addRole(u);
+		return "redirect:/role";
 		
 	}
 	
-	@RequestMapping(value="user-management/user/add", method = RequestMethod.GET)
-    public String addUser(Model model) {
-    	model.addAttribute("data", new UserInfo());
-    	return "user.add";
-    }
-	
-	
-	@RequestMapping(value="user-management/user/assign/role", method = RequestMethod.GET)
-    public String asignRole(Model model) {
+	@RequestMapping(value="user-management/role/add", method = RequestMethod.GET)
+    public String addRole(Model model) {
     	model.addAttribute("data", new UserRole());
-    	return "user.assign.role";
+    	return "user-role.add";
     }
 	
 	
