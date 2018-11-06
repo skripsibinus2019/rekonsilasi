@@ -2,12 +2,18 @@ package com.rekonsiliasi.model;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserRole {
 	
 	private int roleId;
+	@NotNull
 	private String roleName;
+	@NotNull
 	private String description;
 	private List<UserRole> list;
 	private Integer recordsFiltered;

@@ -9,12 +9,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import com.rekonsiliasi.validator.RoleValidator;
  
 @Configuration
 @ComponentScan("com.rekonsiliasi.*")
@@ -36,6 +39,8 @@ public class ApplicationContextConfig {
    // and stores all the properties loaded by the @PropertySource
    @Autowired
    private Environment env;
+   
+   
  
    @Bean(name = "viewResolver")
    public InternalResourceViewResolver getViewResolver() {
@@ -74,5 +79,21 @@ public class ApplicationContextConfig {
  
        return txManager;
    }
- 
+   
+   @Bean(name = "roleValidator")
+   public RoleValidator roleValidator() {
+	   return new RoleValidator();
+   }
+   
+   @Bean(name = "messageSource")
+   public ReloadableResourceBundleMessageSource getMessageSource() {
+	   ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+	   
+	   messageSource.setBasename("classpath:messages");
+	   messageSource.setDefaultEncoding("UTF-8");
+	   
+	   return messageSource;
+   }
+   
+
 }

@@ -62,8 +62,9 @@ public class UserRoleDao extends JdbcDaoSupport {
 		return null;
 	}
 
-	public void removeUser(String username) {
-		// TODO Auto-generated method stub
+	public void removeUserRole(int id) {
+		String sql = "delete USERS_ROLE where roleId=?";
+		this.getJdbcTemplate().update(sql, new Object[]{ id });
 
 	}
 
