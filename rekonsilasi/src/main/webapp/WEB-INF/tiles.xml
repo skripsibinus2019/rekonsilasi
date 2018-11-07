@@ -36,6 +36,13 @@
 	    </put-list-attribute>
 	</definition>
 	
+	<definition name="rekonsiliasi.proposeSave" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/proposeSave.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/propose.js" />
+	    </put-list-attribute>
+	</definition>
+	
 	<definition name="rekonsiliasi.approval" extends="default">
         <put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/approval.jsp" />
         <put-list-attribute name="javascriptsPage">
@@ -43,10 +50,10 @@
         </put-list-attribute>
     </definition>
 	
-	<definition name="rekonsiliasi.proposeSave" extends="default">
-		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/proposeSave.jsp" />
+	<definition name="rekonsiliasi.report" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/report.jsp" />
 		<put-list-attribute name="javascriptsPage">
-			<add-attribute value="/static/js/propose.js" />
+			<add-attribute value="/static/js/report.js" />
 	    </put-list-attribute>
 	</definition>
 

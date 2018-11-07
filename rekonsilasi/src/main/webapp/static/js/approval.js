@@ -36,7 +36,11 @@ $(document).ready(function() {
 		},
 		{
 			data: null, render: function (data, type, row) {
-            	return '<span class="label label-danger">Unmatch</span>';
+            	if(row.status == 0){
+            		return '<span class="label label-danger">Unmatch</span>';
+            	}else if(row.status == 1){
+            		return '<span class="label label-warning">Proposed</span>';
+            	}
             }
         },
         {

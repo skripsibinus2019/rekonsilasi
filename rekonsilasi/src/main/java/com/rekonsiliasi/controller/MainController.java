@@ -22,9 +22,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import com.rekonsiliasi.dao.DepartmentDAO;
+import com.rekonsiliasi.dao.LogTransactionDAO;
 import com.rekonsiliasi.dao.LoginDaoImpl;
 import com.rekonsiliasi.mapper.DepartmentMapper;
 import com.rekonsiliasi.model.Department;
+import com.rekonsiliasi.model.LogTransaction;
 import com.rekonsiliasi.model.UserInfo;
 
 @Controller
@@ -40,9 +42,12 @@ public class MainController {
     private DepartmentDAO departmentDAO;
     
     @Autowired
+    private LogTransactionDAO logTransactionDAO;
+    
+    @Autowired
     private LoginDaoImpl loginDaoImpl;
 	
-    @RequestMapping(value = { "/Rekonsiliasi/List" }, method =  RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = { "/Rekonsiliasi/List" }, method =  {RequestMethod.GET,RequestMethod.POST}, produces = "application/json")
     @ResponseBody
     public Department getListDepartement(HttpServletRequest request, HttpServletResponse response, Model model){
     	Department dataaas = new Department();
@@ -54,6 +59,23 @@ public class MainController {
 			datas.add(department);
 		}
     	
+    	dataaas.setList(datas);
+    	Integer asd = dataaas.getList().size();
+    	
+    	dataaas.setRecordsFiltered(asd);
+    	dataaas.setRecordsTotal(asd);
+    	dataaas.setDraw("");
+    	return dataaas;
+    }
+    
+    @RequestMapping(value = { "/log_transaction" }, method =  {RequestMethod.GET,RequestMethod.POST}, produces = "application/json")
+    @ResponseBody
+    public LogTransaction getListLogTransaction(HttpServletRequest request, HttpServletResponse response, Model model){
+    	LogTransaction dataaas = new LogTransaction();
+    	List<LogTransaction> datas = new ArrayList<LogTransaction>();
+    	for (LogTransaction logTrans : logTransactionDAO.listLogTransaction()) {
+			datas.add(logTrans);
+		}
     	dataaas.setList(datas);
     	Integer asd = dataaas.getList().size();
     	
@@ -113,6 +135,28 @@ public class MainController {
     		departmentDAO.saveRecord(department);
     	
     	return "redirect:/rekonsiliasi";
+    }
+    
+    @RequestMapping(value = "/rekonsiliasi/status", method = RequestMethod.GET)
+    public String showStatusRekonsiliasi(Model model, Principal principal) {
+    	model.addAttribute("username", principal.getName());
+        //masukin return ke page status.
+    	return "";
+    }
+    
+    @RequestMapping(value = "/rekonsiliasi/approval", method = RequestMethod.GET)
+    public String approval(Model model, Principal principal) {
+    	model.addAttribute("username", principal.getName());
+    	
+    	
+        return "rekonsiliasi.approval";
+    }
+    
+    @RequestMapping(value = "/rekonsiliasi/report", method = RequestMethod.GET)
+    public String viewReportLogTransaction(Model model, Principal principal) {
+    	model.addAttribute("username", principal.getName());
+    	
+    	return "rekonsiliasi.report";
     }
     
 }
