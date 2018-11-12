@@ -30,6 +30,9 @@
 	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"> 
 		<property name="definitions" value="/WEB-INF/tiles.xml" />
 	</bean>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+	
 
 	
 </beans>

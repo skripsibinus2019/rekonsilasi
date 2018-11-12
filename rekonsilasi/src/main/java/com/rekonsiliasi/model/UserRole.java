@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserRole {
 	
-	private int roleId;
+	private Integer roleId;
 	@NotNull
 	private String roleName;
 	@NotNull
@@ -61,16 +61,17 @@ public class UserRole {
 		super();
 	}
 
-	public UserRole(String roleName, String description) {
+	public UserRole(Integer roleId, String roleName, String description) {
 		super();
+		this.roleId = roleId;
 		this.roleName = roleName;
 		this.description = description;
 	}
-	public int getRoleId() {
+	public Integer getRoleId() {
 		return roleId;
 	}
 	
-	public void setRoleId(int roleId) {
+	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
 	}
 	public String getRoleName() {

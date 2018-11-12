@@ -17,10 +17,11 @@ public class UserRoleMapper implements RowMapper<UserRole>{
 	@Override
 	public UserRole mapRow(ResultSet rs, int rowNum) throws SQLException {
 		// TODO Auto-generated method stub
+		Integer roleId = rs.getInt("roleId");
 		String roleName = rs.getString("roleName");
 		String description = rs.getString("description");
 		
-		return new UserRole(roleName, description);
+		return new UserRole(roleId, roleName, description);
 	}
 
 }

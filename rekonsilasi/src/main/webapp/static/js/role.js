@@ -21,8 +21,46 @@ $(document).ready(function() {
 		},
         {
             data: null, render: function (data, type, row) {
-                return "<a href='/user/"+ row.id + "/" + row.tableSource + "' class='btn btn-danger' onclick=DeleteData('" + row.CustomerID + "'); >Delete</a> <a href='/user/"+ row.id + "/" + row.tableSource + "' class='btn btn-primary' onclick=DeleteData('" + row.CustomerID + "'); >Edit</a>";
+                return "<a class='btn btn-danger' onclick=DeleteData('" + row.roleId + "'); >Delete</a> <a href='/user-management/role/edit/"+ row.roleId  +" ' class='btn btn-primary' />Edit</a>"
             }
         }]
 	});
 });
+
+function DeleteData(id)  
+{  
+        var url = "/user-management/role/delete";  
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this imaginary file!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.post(url, { "roleId" : id } , function (data) {
+                	 $.ajax({
+                	        type: "post",
+                	        url: url,
+                	        contentType: "application/x-www-form-urlencoded",
+                	        data: { "roleId" : id },
+                	        success: function(data) {}
+                	      })
+                	      .done(function(data) {
+                	    	  oTable = $('#example1').DataTable();
+                              oTable.draw();
+                              swal("Poof! Your imaginary file has been deleted!", {
+                                  icon: "success",
+                              });
+                	      })
+                	      .error(function(data) {
+                	    	  alert("Something Went Wrong!");
+                	      });
+                	  }); 
+            } else {
+                swal("Your imaginary file is safe!");
+            }
+        });
+            
+    }  

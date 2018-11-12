@@ -19,21 +19,18 @@
 		<div class="col-xs-6 col-xs-offset-3">
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title">Add New User</h3>
+					<h3 class="box-title">Edit Profile</h3>
 				</div>
 				<!-- /.box-header -->
-				<form:form method="POST" modelAttribute="data" >
+				<form:form method="POST" modelAttribute="data" action="/user-management/user/editProfile" enctype="multipart/form-data">
 					<div class="box-body">
 						<div class="col-md-12">
 
 							<!-- text input -->
 							<div class="form-group">
-								<label>Username</label> <form:input path="username" type="text" class="form-control"
-									placeholder="Enter Username" />
-							</div>
-							<div class="form-group">
 							<label>Email</label> <form:input path="email" type="text" class="form-control"
 									placeholder="Enter Email" />
+									<form:input path="userId" type="hidden" />
 							</div>
 							<div class="form-group">
 								<label>First Name</label> <form:input path="first_name" type="text" class="form-control"
@@ -48,9 +45,8 @@
 									placeholder="Enter Job Title" />
 							</div>
 							<div class="form-group">
-								<label>Role</label> <form:select path="roleId" type="text" class="form-control"
-									items="${roleList}" />
-							</div>
+								<label>Picture Profile</label> <input type="file" name="file"/>
+							</div> 
 						</div>
 					</div>
 					<div class="box-footer">

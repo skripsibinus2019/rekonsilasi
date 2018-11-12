@@ -4,7 +4,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
-		Role <small>Add Role</small>
+		Role <small>Edit Role</small>
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="#"><i class="fa fa-dashboard"></i> User Management</a></li>
@@ -19,10 +19,10 @@
 		<div class="col-xs-6 col-xs-offset-3">
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title">Add New Role</h3>
+					<h3 class="box-title">Edit Role</h3>
 				</div>
 				<!-- /.box-header -->
-				<form:form method="POST" action="/role/addSubmit" modelAttribute="data" >
+				<form:form method="POST" modelAttribute="data" >
 					<div class="box-body">
 						<div class="col-md-12">
 

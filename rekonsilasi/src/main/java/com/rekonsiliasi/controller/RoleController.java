@@ -2,6 +2,7 @@ package com.rekonsiliasi.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,11 +18,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -86,13 +92,32 @@ public class RoleController {
     	return "user-role.add";
     }
 	
-    @RequestMapping(value = "/user-management/role/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<UserRole> deleteUser(@PathVariable("id") int id) {
-        System.out.println("Fetching & Deleting User with id " + id);
- 
-  
+    
+	@RequestMapping(value="user-management/role/delete", method = RequestMethod.POST)
+	@ResponseBody
+    public void deleteRole(@RequestParam("roleId") int id){
         userRoleDao.removeUserRole(id);
-        return new ResponseEntity<UserRole>(HttpStatus.NO_CONTENT);
+    }
+	
+	@GetMapping("user-management/role/edit/{id}")
+    public String editRoleView(Model model, @PathVariable("id") int id) {
+
+    	UserRole data = new UserRole();
+    	
+    	data = userRoleDao.getUserRoleById(id);
+    	model.addAttribute("data", data);
+    	
+    	return "user-role.edit";
+    }
+	
+	@PostMapping("user-management/role/edit/{id}")
+    public String editRoleSubmit(@ModelAttribute("data") @Validated UserRole u, BindingResult bindingResult, @PathVariable("id") int id) {
+
+		if (bindingResult.hasErrors()) {
+			return "user-role.edit";
+		}
+		userRoleDao.updateUserRole(u, id);
+		return "redirect:/user-management/role";
     }
 	
 	

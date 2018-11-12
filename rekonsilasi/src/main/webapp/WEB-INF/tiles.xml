@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE tiles-definitions PUBLIC
-       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
-       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+      "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+      "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
 
@@ -14,6 +14,7 @@
 	        <add-attribute value="/static/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js" />
 	        <add-attribute value="/static/bower_components/jquery-slimscroll/jquery.slimscroll.min.js" />
 	        <add-attribute value="/static/bower_components/fastclick/lib/fastclick.js" />
+	        <add-attribute value="/static/bower_components/sweetalert/sweetalert.min.js" />
 	        <add-attribute value="/static/dist/js/adminlte.min.js" />
 	        <add-attribute value="/static/dist/js/demo.js" />
 	    </put-list-attribute>
@@ -67,6 +68,18 @@
 			<add-attribute value="/static/js/user.js" />
 	    </put-list-attribute>
 	</definition>
+	<definition name="user.edit" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/user/edit.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/user.js" />
+	    </put-list-attribute>
+	</definition>
+	<definition name="user.edit_profile" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/user/edit_profile.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/user.js" />
+	    </put-list-attribute>
+	</definition>
 	
 	<definition name="user.index" extends="default">
 		<put-attribute name="content" value="/WEB-INF/pages/user/index.jsp" />
@@ -84,6 +97,13 @@
 	
 	<definition name="user-role.add" extends="default">
 		<put-attribute name="content" value="/WEB-INF/pages/user-role/add.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/role.js" />
+	    </put-list-attribute>
+	</definition>
+	
+	<definition name="user-role.edit" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/user-role/edit.jsp" />
 		<put-list-attribute name="javascriptsPage">
 			<add-attribute value="/static/js/user.js" />
 	    </put-list-attribute>

@@ -1,5 +1,6 @@
 package com.rekonsiliasi.config;
  
+import javax.servlet.MultipartConfigElement;
 import javax.sql.DataSource;
  
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.rekonsiliasi.validator.RoleValidator;
@@ -39,8 +43,6 @@ public class ApplicationContextConfig {
    // and stores all the properties loaded by the @PropertySource
    @Autowired
    private Environment env;
-   
-   
  
    @Bean(name = "viewResolver")
    public InternalResourceViewResolver getViewResolver() {
@@ -59,7 +61,7 @@ public class ApplicationContextConfig {
        // See: datasouce-cfg.properties
        dataSource.setDriverClassName("net.sourceforge.jtds.jdbc.Driver");
 //       dataSource.setUrl("jdbc:jtds:sqlserver://localhost:1433;instanceName=.;databaseName=rekonsiliasi;sendStringParametersAsUnicode=false;");
-       dataSource.setUrl("jdbc:jtds:sqlserver://139.192.171.23:16969;instanceName=139.192.171.23;databaseName=rekonsiliasi;sendStringParametersAsUnicode=false;");
+       dataSource.setUrl("jdbc:jtds:sqlserver://localhost:16969;instanceName=.;databaseName=rekonsiliasi;sendStringParametersAsUnicode=false;");
 
        
        dataSource.setUsername("sa");
@@ -94,6 +96,7 @@ public class ApplicationContextConfig {
 	   
 	   return messageSource;
    }
+   
    
 
 }

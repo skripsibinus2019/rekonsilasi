@@ -32,6 +32,9 @@
                 <thead>
                 <tr>
                   <th>USERNAME</th>
+                  <th>NAME</th>
+                  <th>EMAIL</th>
+                  <th>JOB TITLE</th>
                   <th>Action</th>
                 </tr>
                 </thead>

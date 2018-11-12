@@ -1,5 +1,8 @@
 package com.rekonsiliasi.dao;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -12,9 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rekonsiliasi.mapper.DepartmentMapper;
 import com.rekonsiliasi.mapper.UserInfoMapper;
-import com.rekonsiliasi.model.Department;
+import com.rekonsiliasi.mapper.UserRoleMapper;
 import com.rekonsiliasi.model.UserInfo;
 import com.rekonsiliasi.model.UserRole;
 
@@ -39,9 +41,11 @@ public class UserDao extends JdbcDaoSupport {
 	private PasswordEncoder passwordEncoder;
 
 	public void addUser(UserInfo u) {
-		String sql = "Insert into USER_ROLES (roleName, description) "//
-				+ " values (?,?) ";
-		Object[] params = new Object[] { u.getUsername(), passwordEncoder.encode(u.getUsername()) };
+		String sql = "Insert into USERS (username, password, email, first_name, last_name, job_title, profilePicture, roleId, createdAt) "//
+				+ " values (?,?,?,?,?,?,?,?,?) ";
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		Object[] params = new Object[] { u.getUsername(), passwordEncoder.encode(u.getUsername()), u.getEmail(), u.getFirst_name(), u.getLast_name(), u.getJob_title(), u.getProfilePicture(), u.getRoleId(), dateFormat.format(date) };
 		this.getJdbcTemplate().update(sql, params);
 
 	}
@@ -56,18 +60,42 @@ public class UserDao extends JdbcDaoSupport {
         return list;
     }
 
-	public void updateUser(UserInfo u) {
-		// TODO Auto-generated method stub
+	public void updateUser(UserInfo u, Integer id) {
+		String sql = "UPDATE USERS SET username = ?, email = ?, first_name = ?, last_name = ?, job_title = ?, profilePicture = ?, updatedAt = ? WHERE userId = ?" ;
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		Object[] params = new Object[] { u.getUsername(), u.getEmail(), u.getFirst_name(), u.getLast_name(), u.getJob_title(), u.getProfilePicture(), dateFormat.format(date),  id };
+		this.getJdbcTemplate().update(sql, params);
 
 	}
 
-	public UserInfo getUserById(String username) {
-		// TODO Auto-generated method stub
-		return null;
+	public UserInfo getUserById(int id) {
+		String sql = UserInfoMapper.BASE_SQL //
+                + " where userId = ?";
+ 
+        Object[] params = new Object[] { id };
+         
+        UserInfoMapper mapper = new UserInfoMapper();
+ 
+        UserInfo userInfo = this.getJdbcTemplate().queryForObject(sql, params, mapper);
+        return userInfo;
+	}
+	
+	public UserInfo getUserByUsername(String username) {
+		String sql = UserInfoMapper.BASE_SQL //
+                + " where username = ?";
+ 
+        Object[] params = new Object[] { username };
+         
+        UserInfoMapper mapper = new UserInfoMapper();
+ 
+        UserInfo userInfo = this.getJdbcTemplate().queryForObject(sql, params, mapper);
+        return userInfo;
 	}
 
-	public void removeUser(String username) {
-		// TODO Auto-generated method stub
+	public void removeUser(int id) {
+		String sql = "delete USERS where userId=?";
+		this.getJdbcTemplate().update(sql, new Object[]{ id });
 
 	}
 

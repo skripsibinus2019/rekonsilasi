@@ -11,8 +11,10 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rekonsiliasi.mapper.DepartmentMapper;
 import com.rekonsiliasi.mapper.UserInfoMapper;
 import com.rekonsiliasi.mapper.UserRoleMapper;
+import com.rekonsiliasi.model.Department;
 import com.rekonsiliasi.model.UserInfo;
 import com.rekonsiliasi.model.UserRole;
 
@@ -52,20 +54,31 @@ public class UserRoleDao extends JdbcDaoSupport {
         return list;
     }
 
-	public void updateUser(UserRole u) {
-		// TODO Auto-generated method stub
+	public void updateUserRole(UserRole u, Integer id) {
+		String sql = "UPDATE USERS_ROLE SET roleName = ?, description = ? WHERE roleId = ?" ;
+		Object[] params = new Object[] { u.getRoleName(), u.getDescription(), id };
+		this.getJdbcTemplate().update(sql, params);
 
 	}
 
-	public UserRole getUserById(String username) {
-		// TODO Auto-generated method stub
-		return null;
+	public UserRole getUserRoleById(Integer roleId) {
+		String sql = UserRoleMapper.BASE_SQL //
+                + " where roleId = ?";
+ 
+        Object[] params = new Object[] { roleId };
+         
+        UserRoleMapper mapper = new UserRoleMapper();
+ 
+        UserRole userRole = this.getJdbcTemplate().queryForObject(sql, params, mapper);
+        return userRole;
 	}
 
-	public void removeUserRole(int id) {
+	public void removeUserRole(Integer id) {
 		String sql = "delete USERS_ROLE where roleId=?";
 		this.getJdbcTemplate().update(sql, new Object[]{ id });
 
 	}
+	
+	
 
 }

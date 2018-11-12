@@ -22,7 +22,7 @@
 					<h3 class="box-title">Add New User</h3>
 				</div>
 				<!-- /.box-header -->
-				<form:form method="POST" action="/user/addSubmit" modelAttribute="data" >
+				<form:form method="POST" action="/user-management/user/addSubmit" modelAttribute="data" >
 					<div class="box-body">
 						<div class="col-md-12">
 
@@ -32,12 +32,32 @@
 									placeholder="Enter Username" />
 							</div>
 							<div class="form-group">
+							<label>Email</label> <form:input path="email" type="text" class="form-control"
+									placeholder="Enter Email" />
+							</div>
+							<div class="form-group">
 								<label>Password</label> <form:input path="password" type="password"
 									class="form-control" placeholder="Enter Password" />
 							</div>
 							<div class="form-group">
 								<label>Confirm Password</label> <input type="password"
 									class="form-control" placeholder="Confirm Password">
+							</div>
+							<div class="form-group">
+								<label>First Name</label> <form:input path="first_name" type="text" class="form-control"
+									placeholder="Enter First Name" />
+							</div>
+							<div class="form-group">
+								<label>Last Name</label> <form:input path="last_name" type="text" class="form-control"
+									placeholder="Enter Last Name" />
+							</div>
+							<div class="form-group">
+								<label>Job Title</label> <form:input path="job_title" type="text" class="form-control"
+									placeholder="Enter Job Title" />
+							</div>
+							<div class="form-group">
+								<label>Role</label> <form:select path="roleId" type="text" class="form-control"
+									items="${roleList}" />
 							</div>
 						</div>
 					</div>
