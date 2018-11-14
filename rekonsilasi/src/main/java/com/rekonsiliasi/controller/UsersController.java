@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -141,20 +142,19 @@ public class UsersController {
     }
 	
 	@PostMapping(value = "user-management/user/editProfile", consumes = "multipart/form-data")
-    public String editProfileSubmit(@ModelAttribute("data") @Validated UserInfo u, BindingResult bindingResult, @RequestParam MultipartFile file,
+    public String editProfileSubmit(HttpServletRequest request, @ModelAttribute("data") @Validated UserInfo u, BindingResult bindingResult, @RequestParam MultipartFile file,
             RedirectAttributes redirectAttributes) {
-		
-        if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-            return "redirect:/user-management/user/editProfile";
-        }
-
+		UserInfo data = new UserInfo();
+    	data = userDao.getUserById(u.getUserId());
         try {
 
             // Get the file and save it somewhere
+        	String uploadRootPath = request.getServletContext().getRealPath("\\static\\user-data\\photo-profile");
             byte[] bytes = file.getBytes();
-            Path path = Paths.get("E://UserData//" + file.getOriginalFilename());
+            String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+            Path path = Paths.get(uploadRootPath + "\\" + u.getUserId() + "." + extension);
             Files.write(path, bytes);
+            
 
             redirectAttributes.addFlashAttribute("message", 
                         "You successfully uploaded '" + file.getOriginalFilename() + "'");
@@ -162,8 +162,12 @@ public class UsersController {
             if (bindingResult.hasErrors()) {
     			return "user.edit_profile";
     		}
-            u.setProfilePicture(file.getOriginalFilename());
-    		userDao.updateUser(u, u.getUserId());
+            if(file == null) {
+            	u.setProfilePicture(data.getProfilePicture());
+            }else {
+            	u.setProfilePicture(u.getUserId() + "." + extension);
+            }
+    		userDao.editProfile(u);
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,5 +1,6 @@
 package com.rekonsiliasi.model;
 
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,11 +10,11 @@ public class UserInfo {
 	private Integer userId;
 	private String username;
 	private String password;
-	public String getCreatedAt() {
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(String createdAt) {
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
@@ -29,7 +30,7 @@ public class UserInfo {
 	private String first_name;
 	private String last_name;
 	private String job_title;
-	private String createdAt;
+	private Date createdAt;
 	private String updateAt;
 	public Integer getUserId() {
 		return userId;
@@ -132,7 +133,7 @@ public class UserInfo {
 		super();
 	}
 
-	public UserInfo(Integer userId, String username, String password, String email, String first_name, String last_name, String job_title, String profilePicture, Integer roleId, String createdAt, String updateAt) {
+	public UserInfo(Integer userId, String username, String password, String email, String first_name, String last_name, String job_title, String profilePicture, Integer roleId, Date createdAt, String updateAt) {
 		super();
 		this.userId = userId;
 		this.username = username;
@@ -144,6 +145,10 @@ public class UserInfo {
 		this.profilePicture = profilePicture;
 		this.createdAt = createdAt;
 		this.updateAt = updateAt;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getUsername() {

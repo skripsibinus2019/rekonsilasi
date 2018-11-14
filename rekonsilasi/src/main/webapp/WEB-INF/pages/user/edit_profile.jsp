@@ -46,6 +46,7 @@
 							</div>
 							<div class="form-group">
 								<label>Picture Profile</label> <input type="file" name="file"/>
+								<div style="text-align:center;"><img src="<c:url value='/static/user-data/photo-profile/${profilepicture}' />" class="user-image" alt="User Image" width="300px"></div>
 							</div> 
 						</div>
 					</div>

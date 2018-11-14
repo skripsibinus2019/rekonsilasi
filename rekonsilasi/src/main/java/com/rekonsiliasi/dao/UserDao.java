@@ -68,6 +68,15 @@ public class UserDao extends JdbcDaoSupport {
 		this.getJdbcTemplate().update(sql, params);
 
 	}
+	
+	public void editProfile(UserInfo u) {
+		String sql = "UPDATE USERS SET email = ?, first_name = ?, last_name = ?, job_title = ?, profilePicture = ?, updatedAt = ? WHERE userId = ?" ;
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		Object[] params = new Object[] { u.getEmail(), u.getFirst_name(), u.getLast_name(), u.getJob_title(), u.getProfilePicture(), dateFormat.format(date),  u.getUserId() };
+		this.getJdbcTemplate().update(sql, params);
+	}
+
 
 	public UserInfo getUserById(int id) {
 		String sql = UserInfoMapper.BASE_SQL //

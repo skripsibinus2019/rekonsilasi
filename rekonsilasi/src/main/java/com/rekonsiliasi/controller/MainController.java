@@ -33,8 +33,7 @@ import com.rekonsiliasi.model.UserInfo;
 public class MainController {
 
     @RequestMapping(value = "/rekonsiliasi", method = RequestMethod.GET)
-    public String index(Model model, Principal principal) {
-    	model.addAttribute("username", principal.getName());
+    public String index() {   
         return "rekonsiliasi.index";
     }
     

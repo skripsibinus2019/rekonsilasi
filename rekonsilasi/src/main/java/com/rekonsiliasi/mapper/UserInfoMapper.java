@@ -2,6 +2,7 @@ package com.rekonsiliasi.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -25,7 +26,7 @@ public class UserInfoMapper implements RowMapper<UserInfo>{
 		String job_title = rs.getString("job_title");
 		String profilePicture = rs.getString("profilePicture");
 		Integer roleId = rs.getInt("roleId");
-		String createdAt = rs.getString("createdAt");
+		Date createdAt = rs.getDate("createdAt");
 		String updateAt = rs.getString("updatedAt");
 		
 		
