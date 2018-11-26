@@ -22,6 +22,19 @@
 	<definition name="front" template="/static/layout/front.jsp">
 		<put-attribute name="content" value="" />
 	</definition>
+	
+	<definition name="dashboard.index" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/dashboard/index.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/dashboard.js" />
+			<add-attribute value="/static/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js" />
+	        <add-attribute value="/static/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js" />
+	        <add-attribute value="/static/plugins/jvectormap/jquery-jvectormap-world-mill-en.js" />
+	        <add-attribute value="/static/bower_components/jquery-slimscroll/jquery.slimscroll.min.js" />
+	        <add-attribute value="/static/bower_components/chart.js/Chart.js" />
+	        <add-attribute value="/static/dist/js/pages/dashboard2.js" />
+	    </put-list-attribute>
+	</definition>
 
 	<definition name="rekonsiliasi.index" extends="default">
 		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/index.jsp" />
