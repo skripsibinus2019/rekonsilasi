@@ -24,9 +24,12 @@ import com.google.gson.Gson;
 import com.rekonsiliasi.dao.DepartmentDAO;
 import com.rekonsiliasi.dao.LogTransactionDAO;
 import com.rekonsiliasi.dao.LoginDaoImpl;
+import com.rekonsiliasi.dao.StatusLogDAO;
+import com.rekonsiliasi.dao.UserDao;
 import com.rekonsiliasi.mapper.DepartmentMapper;
 import com.rekonsiliasi.model.Department;
 import com.rekonsiliasi.model.LogTransaction;
+import com.rekonsiliasi.model.StatusLog;
 import com.rekonsiliasi.model.UserInfo;
 
 @Controller
@@ -37,11 +40,22 @@ public class MainController {
         return "rekonsiliasi.index";
     }
     
+    @RequestMapping(value = "/log_transaction", method = RequestMethod.GET)
+    public String logTransaction() {   
+        return "rekonsiliasi.report";
+    }
+    
     @Autowired
     private DepartmentDAO departmentDAO;
     
     @Autowired
+    private StatusLogDAO statusLogDAO;
+    
+    @Autowired
     private LogTransactionDAO logTransactionDAO;
+    
+    @Autowired
+    private UserDao userDAO;
     
     @Autowired
     private LoginDaoImpl loginDaoImpl;
@@ -67,7 +81,7 @@ public class MainController {
     	return dataaas;
     }
     
-    @RequestMapping(value = { "/log_transaction" }, method =  {RequestMethod.GET,RequestMethod.POST}, produces = "application/json")
+    @RequestMapping(value = { "/log_transaction/data" }, method =  {RequestMethod.GET,RequestMethod.POST}, produces = "application/json")
     @ResponseBody
     public LogTransaction getListLogTransaction(HttpServletRequest request, HttpServletResponse response, Model model){
     	LogTransaction dataaas = new LogTransaction();
@@ -95,7 +109,7 @@ public class MainController {
     	return asd;
     }
     
-    @RequestMapping(value = "/rekonsiliasi/{id}"+"/"+"{table}", method = RequestMethod.GET)
+    @RequestMapping(value = "/rekonsiliasi/{id}/{table}", method = RequestMethod.GET)
     public String index(Model model, @PathVariable("id")String id, 
     		@PathVariable("table")String table ) {
 
@@ -128,10 +142,22 @@ public class MainController {
     
     @RequestMapping(value = "/rekonsiliasi/{id}/{table}/save", method = RequestMethod.POST)
     public String indexSave(Model model, @PathVariable("id")String id, 
-    		@PathVariable("table")String table, @ModelAttribute(value = "data") Department department) {
+    		@PathVariable("table")String table, @ModelAttribute(value = "data") Department department, HttpServletRequest request) {
 
     		department.setStatus(1);
     		departmentDAO.saveRecord(department);
+    		StatusLog statuslog = new StatusLog();
+    		Principal principal = request.getUserPrincipal();
+    		String username = principal.getName();
+    		Integer userId = userDAO.getUserByUsername(username).getUserId();
+    		
+    		statuslog.setStatus(department.getStatus());
+    		statuslog.setUserId(userId);
+    		statuslog.setLogTransactionId(department.getId());
+    		statuslog.setNotes(department.getNotes_baru());
+    		
+    		statusLogDAO.saveRecordStatusLog(statuslog);
+    		
     	
     	return "redirect:/rekonsiliasi";
     }

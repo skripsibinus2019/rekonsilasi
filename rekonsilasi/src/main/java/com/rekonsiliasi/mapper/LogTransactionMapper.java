@@ -2,16 +2,22 @@ package com.rekonsiliasi.mapper;
  
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.rekonsiliasi.dao.StatusLogDAO;
 import com.rekonsiliasi.model.Department;
 import com.rekonsiliasi.model.LogTransaction;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
  
 public class LogTransactionMapper implements RowMapper<LogTransaction> {
  
     public static final String BASE_SQL = //
-            "Select l.wsid, l.amount, l.transactionDate, l.tableA_id, l.tableB_id"
+            "Select l.logTransId, l.wsid, l.amount, l.transactionDate, l.tableA_id, l.tableB_id"
             + " FROM Log_Transaction l";
+    
+    @Autowired
+    private StatusLogDAO statusLogDAO;
     
 //    public static final String BASE_SQL2 = //
 //            "Select b.id, b.wsid, b.amount, b.transactionDate " + 
@@ -27,11 +33,34 @@ public class LogTransactionMapper implements RowMapper<LogTransaction> {
 //        Integer status = rs.getInt("status");
         String tableSourceA = rs.getString("tableA_id");
         String tableSourceB = rs.getString("tableB_id");
+        Integer logTransId = rs.getInt("logTransId");
+        
+        Integer status = 0;
+        try {
+	        if(statusLogDAO.getStatusDAObylogTransId(logTransId).getStatus()!=null) {
+	        	status = statusLogDAO.getStatusDAObylogTransId(logTransId).getStatus();
+	        }else {
+	        	status = 0;
+	        }
+        }catch(Exception e) {
+        	
+        }
 //        if(rs.getString("notes") != null) {
 //            notes = rs.getString("notes");
 //        }
-        
-        return new LogTransaction(wsid, amount, transactionDate, tableSourceA, tableSourceB, null);
+        String namaStatus = namaStatus(status);
+        return new LogTransaction(wsid, amount, transactionDate, tableSourceA, tableSourceB, namaStatus);
     }
  
+	public String namaStatus(Integer status) {
+		
+		if(status == 1) {
+			return "Pending";
+		}else if(status == 2) {
+			return "Approved";
+		}else if(status == 3) {
+			return "Rejected";
+		}
+		return "Investigate me!";
+	}
 }

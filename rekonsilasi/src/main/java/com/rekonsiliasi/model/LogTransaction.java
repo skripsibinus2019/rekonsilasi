@@ -19,9 +19,28 @@ public class LogTransaction {
     private String tableSourceA;
     private String tableSourceB;
     private String tableSourceId;
+    private Integer status;
+    private String namaStatus;
     
     
-    @JsonProperty(value="draw")
+    
+    public String getNamaStatus() {
+		return namaStatus;
+	}
+
+	public void setNamaStatus(String namaStatus) {
+		this.namaStatus = namaStatus;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	@JsonProperty(value="draw")
     public String getDraw() {
 		return draw;
 	}
@@ -139,16 +158,26 @@ public class LogTransaction {
 	}
 
 	public LogTransaction(String wsId, Integer amount, String transactionDate, String tableSourceA, String tableSourceB,
-			String tableSourceId) {
+			String namaStatus) {
 		super();
 		this.wsId = wsId;
 		this.amount = amount;
 		this.transactionDate = transactionDate;
 		this.tableSourceA = tableSourceA;
 		this.tableSourceB = tableSourceB;
-		this.tableSourceId = tableSourceId;
+		this.namaStatus = namaStatus;
 	}
 
-	
+	public String namaStatus(Integer status) {
+		
+		if(status == 1) {
+			return "Pending";
+		}else if(status == 2) {
+			return "Approved";
+		}else if(status == 3) {
+			return "Rejected";
+		}
+		return "";
+	}
 	 
 }
