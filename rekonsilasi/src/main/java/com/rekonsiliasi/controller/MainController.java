@@ -45,6 +45,11 @@ public class MainController {
         return "rekonsiliasi.report";
     }
     
+    @RequestMapping(value = "/approval", method = RequestMethod.GET)
+    public String approval() {   
+        return "rekonsiliasi.approval";
+    }
+    
     @Autowired
     private DepartmentDAO departmentDAO;
     
@@ -72,6 +77,23 @@ public class MainController {
 			datas.add(department);
 		}
     	
+    	dataaas.setList(datas);
+    	Integer asd = dataaas.getList().size();
+    	
+    	dataaas.setRecordsFiltered(asd);
+    	dataaas.setRecordsTotal(asd);
+    	dataaas.setDraw("");
+    	return dataaas;
+    }
+    
+    @RequestMapping(value = { "/approval/data" }, method =  {RequestMethod.GET,RequestMethod.POST}, produces = "application/json")
+    @ResponseBody
+    public LogTransaction getListApproval(HttpServletRequest request, HttpServletResponse response, Model model){
+    	LogTransaction dataaas = new LogTransaction();
+    	List<LogTransaction> datas = new ArrayList<LogTransaction>();
+    	for (LogTransaction logTrans : logTransactionDAO.allLogTransaction()) {
+			datas.add(logTrans);
+		}
     	dataaas.setList(datas);
     	Integer asd = dataaas.getList().size();
     	

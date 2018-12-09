@@ -5,15 +5,11 @@ $(document).ready(function() {
 		"filter" : true, // this is for disable filter (search box)
 		"orderMulti" : false, // for disable multiple column at once
 		"ajax" : {
-			"url" : "/Rekonsiliasi/List",
+			"url" : "/approval/data",
 			"type" : "POST",
 			"datatype" : "json"
 		},
 		"columns" : [ {
-			"data" : "id",
-			"name" : "id",
-			"autoWidth" : true
-		}, {
 			"data" : "wsId",
 			"name" : "wsId",
 			"autoWidth" : true
@@ -26,26 +22,29 @@ $(document).ready(function() {
 			"name" : "transactionDate",
 			"autoWidth" : true
 		}, {
-			"data" : "tableSource",
-			"name" : "tableSource",
+            data: null, render: function (data, type, row) {
+            	if(row.tableSourceA != null){
+            		return "A";
+            	}else{
+            		return "B";
+            	}
+            }
+        }, {
+			"data" : "notes",
+			"name" : "notes",
 			"autoWidth" : true
 		}, {
-			"data" : "notes_baru",
-			"name" : "notes_baru",
+			"data" : "namaStatus",
+			"name" : "namaStatus",
 			"autoWidth" : true
-		},
-		{
-			data: null, render: function (data, type, row) {
-            	if(row.status == 0){
-            		return '<span class="label label-danger">Unmatch</span>';
-            	}else if(row.status == 1){
-            		return '<span class="label label-warning">Proposed</span>';
-            	}
+		}, {
+            data: null, render: function (data, type, row) {
+                return "<a href='/approval/"+ row.id + "/" + row.tableSource + "' class='btn btn-info' onclick=DeleteData('" + row.CustomerID + "'); >Propose</a>";
             }
         },
         {
             data: null, render: function (data, type, row) {
-                return "<a href='/rekonsiliasi/"+ row.id + "/" + row.tableSource + "' class='btn btn-info' onclick=DeleteData('" + row.CustomerID + "'); >Propose</a>";
+                return "<a href='/approval/"+ row.id + "/" + row.tableSource + "' class='btn btn-info' onclick=DeleteData('" + row.CustomerID + "'); >Propose</a>";
             }
         }]
 	});

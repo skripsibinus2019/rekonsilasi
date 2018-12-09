@@ -5,15 +5,11 @@ $(document).ready(function() {
 		"filter" : true, // this is for disable filter (search box)
 		"orderMulti" : false, // for disable multiple column at once
 		"ajax" : {
-			"url" : "/Rekonsiliasi/List",
+			"url" : "/log_transaction/data",
 			"type" : "POST",
 			"datatype" : "json"
 		},
 		"columns" : [ {
-			"data" : "id",
-			"name" : "id",
-			"autoWidth" : true
-		}, {
 			"data" : "wsId",
 			"name" : "wsId",
 			"autoWidth" : true
@@ -26,23 +22,17 @@ $(document).ready(function() {
 			"name" : "transactionDate",
 			"autoWidth" : true
 		}, {
-			"data" : "tableSource",
-			"name" : "tableSource",
-			"autoWidth" : true
-		}, {
-			"data" : "notes_baru",
-			"name" : "notes_baru",
-			"autoWidth" : true
-		},
-		{
-			data: null, render: function (data, type, row) {
-            	return '<span class="label label-danger">Unmatch</span>';
-            }
-        },
-        {
             data: null, render: function (data, type, row) {
-                return "<a href='/rekonsiliasi/"+ row.id + "/" + row.tableSource + "' class='btn btn-info' onclick=DeleteData('" + row.CustomerID + "'); >Propose</a>";
+            	if(row.tableSourceA != null){
+            		return "A";
+            	}else{
+            		return "B";
+            	}
             }
+        }, {
+        	"data" : "namaStatus",
+        	"name" : "namaStatus",
+        	"autoWidth" : true
         }]
 	});
 });

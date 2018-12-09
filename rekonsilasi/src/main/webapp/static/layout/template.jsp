@@ -78,6 +78,7 @@
 
 				<li><a href="/rekonsiliasi"><i class="fa fa-pencil"></i> <span>Reconciliation</span></a></li>
 				<li><a href="/log_transaction"><i class="fa fa-pencil"></i> <span>Log Transaction</span></a></li>
+				<li><a href="/approval"><i class="fa fa-pencil"></i> <span>Approval</span></a></li>
 				<li><a href="/rekonsiliasi/import"><i class="fa fa-arrow-circle-up"></i> <span>Import CSV Data</span></a></li>
 
 			<li class="header">REPORTING</li>

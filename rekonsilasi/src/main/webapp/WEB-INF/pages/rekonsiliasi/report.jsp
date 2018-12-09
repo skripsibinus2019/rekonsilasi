@@ -26,7 +26,6 @@
               <table id="example1" class="table table-bordered table-hover" width="100%">
                 <thead>
                 <tr>
-                  <th>ID</th>
                   <th>WSID</th>
                   <th>Amount</th>
                   <th>Transaction Date</th>

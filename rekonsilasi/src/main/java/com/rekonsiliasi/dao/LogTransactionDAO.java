@@ -54,5 +54,16 @@ public class LogTransactionDAO extends JdbcDaoSupport {
 //		this.getJdbcTemplate().update(sql, params);
 //		
 //    }
+    
+    public List<LogTransaction> allLogTransaction(){
+    	
+        String sql = LogTransactionMapper.ALL_SQL;
+        
+        Object[] params = new Object[] {};
+        LogTransactionMapper mapper = new LogTransactionMapper();
+        
+        List<LogTransaction> list = this.getJdbcTemplate().query(sql, params, mapper);
+        return list;
+    }
  
 }

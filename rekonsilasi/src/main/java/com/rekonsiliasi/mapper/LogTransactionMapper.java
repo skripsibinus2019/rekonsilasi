@@ -16,6 +16,10 @@ public class LogTransactionMapper implements RowMapper<LogTransaction> {
             "Select l.logTransId, l.wsid, l.amount, l.transactionDate, l.tableA_id, l.tableB_id"
             + " FROM Log_Transaction l";
     
+    public static final String ALL_SQL = //
+            "Select *"
+            + " FROM Log_Transaction l";
+    
     @Autowired
     private StatusLogDAO statusLogDAO;
     
@@ -45,9 +49,13 @@ public class LogTransactionMapper implements RowMapper<LogTransaction> {
         }catch(Exception e) {
         	
         }
-//        if(rs.getString("notes") != null) {
-//            notes = rs.getString("notes");
-//        }
+        
+        try {
+          String notes = rs.getString("notes");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
         String namaStatus = namaStatus(status);
         return new LogTransaction(wsid, amount, transactionDate, tableSourceA, tableSourceB, namaStatus);
     }

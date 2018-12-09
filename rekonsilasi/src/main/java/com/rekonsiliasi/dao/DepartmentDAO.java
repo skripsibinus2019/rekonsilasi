@@ -21,6 +21,7 @@ public class DepartmentDAO extends JdbcDaoSupport {
     public DepartmentDAO(DataSource dataSource) {
         this.setDataSource(dataSource);
     }
+    
  
     public Department findDepartment(String deptNo) {
         String sql = DepartmentMapper.BASE_SQL //
