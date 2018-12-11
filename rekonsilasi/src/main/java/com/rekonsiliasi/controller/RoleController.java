@@ -55,20 +55,7 @@ public class RoleController {
 	@RequestMapping(value = { "user-management/role/list" }, method =  RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public UserRole getListUsers(HttpServletRequest request, HttpServletResponse response, Model model){
-		UserRole dataaas = new UserRole();
-    	List<UserRole> datas = new ArrayList<UserRole>();
-    	
-    	for (UserRole userRole : userRoleDao.listRole()) {
-			datas.add(userRole);
-		}
-    	
-    	dataaas.setList(datas);
-    	Integer asd = dataaas.getList().size();
-    	
-    	dataaas.setRecordsFiltered(asd);
-    	dataaas.setRecordsTotal(asd);
-    	dataaas.setDraw("");
-    	return dataaas;
+		return userRoleDao.listRoleDatatable();
     }
 	
 	@RequestMapping(value="user-management/role", method = RequestMethod.GET)
@@ -102,10 +89,7 @@ public class RoleController {
 	@GetMapping("user-management/role/edit/{id}")
     public String editRoleView(Model model, @PathVariable("id") int id) {
 
-    	UserRole data = new UserRole();
-    	
-    	data = userRoleDao.getUserRoleById(id);
-    	model.addAttribute("data", data);
+    	model.addAttribute("data", userRoleDao.getUserRoleById(id));
     	
     	return "user-role.edit";
     }

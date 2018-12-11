@@ -53,21 +53,8 @@ public class UsersController {
 	
 	@RequestMapping(value = { "user-management/user/list" }, method =  RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public UserInfo getListUsers(HttpServletRequest request, HttpServletResponse response, Model model){
-		UserInfo dataaas = new UserInfo();
-    	List<UserInfo> datas = new ArrayList<UserInfo>();
-    	
-    	for (UserInfo userInfo : userDao.listUsers()) {
-			datas.add(userInfo);
-		}
-    	
-    	dataaas.setList(datas);
-    	Integer asd = dataaas.getList().size();
-    	
-    	dataaas.setRecordsFiltered(asd);
-    	dataaas.setRecordsTotal(asd);
-    	dataaas.setDraw("");
-    	return dataaas;
+    public UserInfo getListUsers(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("draw") String draw){
+		return userDao.listUsersDatatable();
     }
 	
 	@RequestMapping(value="user-management/user", method = RequestMethod.GET)
@@ -99,11 +86,7 @@ public class UsersController {
 	
 	@GetMapping("user-management/user/edit/{id}")
     public String editUserView(Model model, @PathVariable("id") int id) {
-
-    	UserInfo data = new UserInfo();
-    	
-    	data = userDao.getUserById(id);
-    	model.addAttribute("data", data);
+    	model.addAttribute("data", userDao.getUserById(id));
     	
     	return "user.edit";
     }
@@ -122,7 +105,7 @@ public class UsersController {
 	@ModelAttribute("roleList")
 	public Map<String, String> getRoleList() {
 		Map<String, String> roleList = new HashMap<String, String>();
-		for (UserRole userRole : userRoleDao.listRole()) {      
+		for (UserRole userRole : userRoleDao.listRole()) { 
 			roleList.put(userRole.getRoleId().toString(), userRole.getRoleName());
 		}
 		
@@ -134,9 +117,7 @@ public class UsersController {
     	
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	    String username = user.getUsername(); //get logged in username
-	    UserInfo data = new UserInfo();
-    	data = userDao.getUserByUsername(username);
-    	model.addAttribute("data", data);
+    	model.addAttribute("data", userDao.getUserByUsername(username));
     	
     	return "user.edit_profile";
     }

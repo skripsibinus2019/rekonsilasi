@@ -59,6 +59,17 @@ public class UserDao extends JdbcDaoSupport {
         List<UserInfo> list = this.getJdbcTemplate().query(sql, params, mapper);
         return list;
     }
+	
+	public UserInfo listUsersDatatable() {
+		UserInfo data = new UserInfo();
+    	data.setList(this.listUsers());
+    	Integer size = this.listUsers().size();
+    	
+    	data.setRecordsFiltered(size);
+    	data.setRecordsTotal(size);
+    	data.setDraw("");
+    	return data;
+	}
 
 	public void updateUser(UserInfo u, Integer id) {
 		String sql = "UPDATE USERS SET username = ?, email = ?, first_name = ?, last_name = ?, job_title = ?, profilePicture = ?, updatedAt = ? WHERE userId = ?" ;

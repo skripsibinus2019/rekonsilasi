@@ -42,12 +42,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http.csrf().disable();
 		http.authorizeRequests().antMatchers("/login").permitAll();
-		http.authorizeRequests().antMatchers("/","/rekonsiliasi").access("hasRole('ROLE_ADMIN')");
+		http.authorizeRequests().antMatchers("/","/dashboard").access("hasRole('ROLE_ADMIN')");
 		
 		http.authorizeRequests().and().formLogin()
 			.loginProcessingUrl("/j_spring_security_check")
 			.loginPage("/login")
-			.defaultSuccessUrl("/rekonsiliasi")
+			.defaultSuccessUrl("/dashboard")
 			.failureUrl("/login?error=true")
 			.usernameParameter("username")
 			.passwordParameter("password")

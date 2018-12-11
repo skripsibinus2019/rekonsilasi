@@ -1,26 +1,42 @@
 package com.rekonsiliasi.controller;
 
 
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.Size;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import com.rekonsiliasi.dao.DepartmentDAO;
 import com.rekonsiliasi.dao.LogTransactionDAO;
 import com.rekonsiliasi.dao.LoginDaoImpl;
@@ -206,4 +222,35 @@ public class MainController {
     	return "rekonsiliasi.report";
     }
     
+    @RequestMapping(value = "/rekonsiliasi/matching-rules", method = RequestMethod.GET)
+    public String viewMatchingRules() {
+    	return "rekonsiliasi.matchingRules";
+    }
+    
+    @GetMapping(value = "/rekonsiliasi/submitmatch")
+    public String matchingRulesSubmit(HttpServletRequest request) {
+    	int matches = 0;
+		try {
+			String uploadRootPath = request.getServletContext().getRealPath("\\static\\temp");
+	    	Reader reader;
+			reader = Files.newBufferedReader(Paths.get(uploadRootPath + "\\" + "temp.csv"));
+			CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
+			Pattern pattern = Pattern.compile("foo");
+			List<String[]> records = csvReader.readAll();
+			for(int i = 0; i<9; i++) {
+				for(int j = 0; j<records.get(i).length; j++ ) {
+					Matcher matcher = pattern.matcher(records.get(i)[j]);
+					if(matcher.find()) {
+						matches++;
+					}
+				}
+			}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	System.out.println(matches);
+		return "rekonsiliasi.matchingRules";
+    }
 }

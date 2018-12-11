@@ -53,6 +53,18 @@ public class UserRoleDao extends JdbcDaoSupport {
         List<UserRole> list = this.getJdbcTemplate().query(sql, params, mapper);
         return list;
     }
+	
+	public UserRole listRoleDatatable() {
+		UserRole data = new UserRole();
+    	
+		data.setList(this.listRole());
+    	Integer size = data.getList().size();
+    	
+    	data.setRecordsFiltered(size);
+    	data.setRecordsTotal(size);
+    	data.setDraw("");
+    	return data;
+	}
 
 	public void updateUserRole(UserRole u, Integer id) {
 		String sql = "UPDATE USERS_ROLE SET roleName = ?, description = ? WHERE roleId = ?" ;
