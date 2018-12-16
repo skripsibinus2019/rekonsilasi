@@ -8,7 +8,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,8 +47,10 @@ import com.rekonsiliasi.dao.UserDao;
 import com.rekonsiliasi.mapper.DepartmentMapper;
 import com.rekonsiliasi.model.Department;
 import com.rekonsiliasi.model.LogTransaction;
+import com.rekonsiliasi.model.MatchingRulesViewModel;
 import com.rekonsiliasi.model.StatusLog;
 import com.rekonsiliasi.model.UserInfo;
+import com.rekonsiliasi.model.UserRole;
 
 @Controller
 public class MainController {
@@ -80,6 +84,8 @@ public class MainController {
     
     @Autowired
     private LoginDaoImpl loginDaoImpl;
+    
+    private MatchingRulesViewModel ViewModel = new MatchingRulesViewModel();
 	
     @RequestMapping(value = { "/Rekonsiliasi/List" }, method =  {RequestMethod.GET,RequestMethod.POST}, produces = "application/json")
     @ResponseBody
@@ -227,30 +233,54 @@ public class MainController {
     	return "rekonsiliasi.matchingRules";
     }
     
-    @GetMapping(value = "/rekonsiliasi/submitmatch")
-    public String matchingRulesSubmit(HttpServletRequest request) {
-    	int matches = 0;
+    @PostMapping(value = "/rekonsiliasi/submitmatch")
+    public String matchingRulesSubmit(HttpServletRequest request, @RequestParam("file") MultipartFile file, Model model) {
+    	int[] matches = {0};
+    	int biggest = 0;
 		try {
 			String uploadRootPath = request.getServletContext().getRealPath("\\static\\temp");
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(uploadRootPath + "\\" + "temp.csv");
+            Files.write(path, bytes);
 	    	Reader reader;
-			reader = Files.newBufferedReader(Paths.get(uploadRootPath + "\\" + "temp.csv"));
+			reader = Files.newBufferedReader(path);
 			CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
-			Pattern pattern = Pattern.compile("foo");
 			List<String[]> records = csvReader.readAll();
+			Pattern pattern = Pattern.compile("foo");
 			for(int i = 0; i<9; i++) {
 				for(int j = 0; j<records.get(i).length; j++ ) {
 					Matcher matcher = pattern.matcher(records.get(i)[j]);
 					if(matcher.find()) {
-						matches++;
+						matches[j]++;
 					}
 				}
 			}
 			
+			for(int i=0; i<matches.length; i++) {
+				if(matches[i]>biggest) {
+					biggest = matches[i];
+				}
+			}
+			
+			
+			Map<String, String> columnList = new HashMap<String, String>();
+			for(int i = 0; i<matches.length; i++) {
+				if(matches[i] == biggest) {
+					columnList.put(Integer.toString(i), records.get(0)[i]);
+				}
+			}
+			ViewModel.setColumnList(columnList);
+			model.addAttribute("data", new UserInfo());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	System.out.println(matches);
-		return "rekonsiliasi.matchingRules";
+		return "rekonsiliasi.matchingRulesSubmit";
     }
+    
+    @ModelAttribute("columnList")
+	public Map<String, String> getColumnList() {
+		
+		return ViewModel.getColumnList();
+	}
 }
