@@ -42,11 +42,13 @@ import com.opencsv.CSVReaderBuilder;
 import com.rekonsiliasi.dao.DepartmentDAO;
 import com.rekonsiliasi.dao.LogTransactionDAO;
 import com.rekonsiliasi.dao.LoginDaoImpl;
+import com.rekonsiliasi.dao.MatchingRulesDAO;
 import com.rekonsiliasi.dao.StatusLogDAO;
 import com.rekonsiliasi.dao.UserDao;
 import com.rekonsiliasi.mapper.DepartmentMapper;
 import com.rekonsiliasi.model.Department;
 import com.rekonsiliasi.model.LogTransaction;
+import com.rekonsiliasi.model.MatchingRules;
 import com.rekonsiliasi.model.MatchingRulesViewModel;
 import com.rekonsiliasi.model.StatusLog;
 import com.rekonsiliasi.model.UserInfo;
@@ -78,6 +80,9 @@ public class MainController {
     
     @Autowired
     private LogTransactionDAO logTransactionDAO;
+    
+    @Autowired
+    private MatchingRulesDAO matchingRulesDao;
     
     @Autowired
     private UserDao userDAO;
@@ -239,43 +244,126 @@ public class MainController {
     	int biggest = 0;
 		try {
 			String uploadRootPath = request.getServletContext().getRealPath("\\static\\temp");
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(uploadRootPath + "\\" + "temp.csv");
-            Files.write(path, bytes);
-	    	Reader reader;
-			reader = Files.newBufferedReader(path);
-			CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
-			List<String[]> records = csvReader.readAll();
-			Pattern pattern = Pattern.compile("foo");
-			for(int i = 0; i<9; i++) {
-				for(int j = 0; j<records.get(i).length; j++ ) {
-					Matcher matcher = pattern.matcher(records.get(i)[j]);
-					if(matcher.find()) {
-						matches[j]++;
+			Path path = Paths.get(uploadRootPath + "\\" + "temp.csv");
+			if(ViewModel.getNowColumn() == "") {
+	            byte[] bytes = file.getBytes();
+	            Files.write(path, bytes);
+		    	Reader reader;
+				reader = Files.newBufferedReader(path);
+				CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
+				List<String[]> records = csvReader.readAll();
+				//ganti regex wsid
+				Pattern pattern = Pattern.compile("foo");
+				for(int i = 0; i<9; i++) {
+					for(int j = 0; j<records.get(i).length; j++ ) {
+						Matcher matcher = pattern.matcher(records.get(i)[j]);
+						if(matcher.find()) {
+							matches[j]++;
+						}
 					}
 				}
-			}
-			
-			for(int i=0; i<matches.length; i++) {
-				if(matches[i]>biggest) {
-					biggest = matches[i];
+				
+				for(int i=0; i<matches.length; i++) {
+					if(matches[i]>biggest) {
+						biggest = matches[i];
+					}
 				}
-			}
-			
-			
-			Map<String, String> columnList = new HashMap<String, String>();
-			for(int i = 0; i<matches.length; i++) {
-				if(matches[i] == biggest) {
-					columnList.put(Integer.toString(i), records.get(0)[i]);
+				
+				
+				Map<String, String> columnList = new HashMap<String, String>();
+				for(int i = 0; i<matches.length; i++) {
+					if(matches[i] == biggest) {
+						columnList.put(Integer.toString(i), records.get(0)[i]);
+					}
 				}
+				ViewModel.setColumnList(columnList);
+				ViewModel.setNowColumn("wsid");
+				return "rekonsiliasi.matchingRulesSubmit";
+			}else if(ViewModel.getNowColumn() == "wsid") {
+				Reader reader;
+				reader = Files.newBufferedReader(path);
+				CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
+				List<String[]> records = csvReader.readAll();
+				//ganti regex amount
+				Pattern pattern = Pattern.compile("foo");
+				for(int i = 0; i<9; i++) {
+					for(int j = 0; j<records.get(i).length; j++ ) {
+						Matcher matcher = pattern.matcher(records.get(i)[j]);
+						if(matcher.find()) {
+							matches[j]++;
+						}
+					}
+				}
+				
+				for(int i=0; i<matches.length; i++) {
+					if(matches[i]>biggest) {
+						biggest = matches[i];
+					}
+				}
+				
+				
+				Map<String, String> columnList = new HashMap<String, String>();
+				for(int i = 0; i<matches.length; i++) {
+					if(matches[i] == biggest) {
+						columnList.put(Integer.toString(i), records.get(0)[i]);
+					}
+				}
+				ViewModel.setColumnList(columnList);
+				ViewModel.setNowColumn("amount");
+				return "rekonsiliasi.matchingRulesSubmit";
+			}else if(ViewModel.getNowColumn() == "amount") {
+				Reader reader;
+				reader = Files.newBufferedReader(path);
+				CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
+				List<String[]> records = csvReader.readAll();
+				//ganti regex transaction date
+				Pattern pattern = Pattern.compile("foo");
+				for(int i = 0; i<9; i++) {
+					for(int j = 0; j<records.get(i).length; j++ ) {
+						Matcher matcher = pattern.matcher(records.get(i)[j]);
+						if(matcher.find()) {
+							matches[j]++;
+						}
+					}
+				}
+				
+				for(int i=0; i<matches.length; i++) {
+					if(matches[i]>biggest) {
+						biggest = matches[i];
+					}
+				}
+				
+				
+				Map<String, String> columnList = new HashMap<String, String>();
+				for(int i = 0; i<matches.length; i++) {
+					if(matches[i] == biggest) {
+						columnList.put(Integer.toString(i), records.get(0)[i]);
+					}
+				}
+				ViewModel.setColumnList(columnList);
+				ViewModel.setNowColumn("transactionDate");
+				return "rekonsiliasi.matchingRulesSubmit";
+			}else if(ViewModel.getNowColumn() == "transactionDate") {
+				Reader reader;
+				reader = Files.newBufferedReader(path);
+				CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
+				List<String[]> records = csvReader.readAll();
+
+				for(int i = 0; i<records.size(); i++) {
+					MatchingRules mr = new MatchingRules();
+					mr.setWsId(records.get(i)[ViewModel.getWsid()]);
+					mr.setAmount(Integer.parseInt(records.get(i)[ViewModel.getAmount()]));
+					mr.setTransactionDate(records.get(i)[ViewModel.getTrasactionDate()]);
+					matchingRulesDao.insertRecord(mr);
+				}
+				return "redirect:/rekonsiliasi/matching-rules/View";
 			}
-			ViewModel.setColumnList(columnList);
-			model.addAttribute("data", new UserInfo());
+			model.addAttribute("data", ViewModel);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "rekonsiliasi.matchingRulesSubmit";
+		return "redirect:/rekonsiliasi/matching-rules/View";
     }
     
     @ModelAttribute("columnList")

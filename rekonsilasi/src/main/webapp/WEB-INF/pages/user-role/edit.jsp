@@ -30,10 +30,12 @@
 							<div class="form-group">
 								<label>Role Name</label> <form:input path="roleName" type="text" class="form-control"
 									placeholder="Enter Role Name" />
+									<form:errors path="roleName" />
 							</div>
 							<div class="form-group">
 								<label>Role Description</label> <form:input path="description" type="text"
 									class="form-control" placeholder="Enter Role Description" />
+									<form:errors path="description" />
 							</div>
 						</div>
 					</div>

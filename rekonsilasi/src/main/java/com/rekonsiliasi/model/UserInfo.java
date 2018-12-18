@@ -3,12 +3,16 @@ package com.rekonsiliasi.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserInfo {
 
 	private Integer userId;
+	@NotNull
 	private String username;
+	@NotNull
 	private String password;
 	public Date getCreatedAt() {
 		return createdAt;
@@ -25,10 +29,13 @@ public class UserInfo {
 	public void setUpdateAt(String updateAt) {
 		this.updateAt = updateAt;
 	}
-
+	@NotNull
 	private String email;
+	@NotNull
 	private String first_name;
+	@NotNull
 	private String last_name;
+	@NotNull
 	private String job_title;
 	private Date createdAt;
 	private String updateAt;

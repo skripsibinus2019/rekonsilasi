@@ -22,6 +22,7 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.rekonsiliasi.validator.RoleValidator;
+import com.rekonsiliasi.validator.UsersValidator;
  
 @Configuration
 @ComponentScan("com.rekonsiliasi.*")
@@ -86,6 +87,11 @@ public class ApplicationContextConfig {
    @Bean(name = "roleValidator")
    public RoleValidator roleValidator() {
 	   return new RoleValidator();
+   }
+   
+   @Bean(name = "usersValidator")
+   public UsersValidator usersValidator() {
+	   return new UsersValidator();
    }
    
    @Bean(name = "messageSource")

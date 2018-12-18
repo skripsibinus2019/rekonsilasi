@@ -17,13 +17,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,6 +55,15 @@ public class UsersController {
 	@Autowired
 	private UserRoleDao userRoleDao;
 	
+	@Autowired
+	@Qualifier("usersValidator")
+	private Validator validator;
+	
+	@InitBinder
+	private void initBinder(WebDataBinder binder) {
+		binder.setValidator(validator);
+	}
+	
 	@RequestMapping(value = { "user-management/user/list" }, method =  RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public UserInfo getListUsers(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("draw") String draw){
@@ -63,7 +76,7 @@ public class UsersController {
     }
 	
 	@RequestMapping(value= "user-management/user/addSubmit", method = RequestMethod.POST)
-	public String addPerson(@ModelAttribute("data") UserInfo u, BindingResult bindingResult){
+	public String addPerson(@ModelAttribute("data") @Validated UserInfo u, BindingResult bindingResult){
 		if (bindingResult.hasErrors()) {
 			return "user.add";
 		}
@@ -95,7 +108,7 @@ public class UsersController {
     public String editUserSubmit(@ModelAttribute("data") @Validated UserInfo u, BindingResult bindingResult, @PathVariable("id") int id) {
 
 		if (bindingResult.hasErrors()) {
-			return "user-role.edit";
+			return "user.edit";
 		}
 		userDao.updateUser(u, id);
 		return "redirect:/user-management/user";
@@ -114,7 +127,7 @@ public class UsersController {
 	
 	@GetMapping("user-management/user/editProfile")
     public String editProfileView(Model model) {
-    	
+		
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	    String username = user.getUsername(); //get logged in username
     	model.addAttribute("data", userDao.getUserByUsername(username));
@@ -125,6 +138,9 @@ public class UsersController {
 	@PostMapping(value = "user-management/user/editProfile", consumes = "multipart/form-data")
     public String editProfileSubmit(HttpServletRequest request, @ModelAttribute("data") @Validated UserInfo u, BindingResult bindingResult, @RequestParam MultipartFile file,
             RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors()) {
+			return "user.edit_profile";
+		}
 		UserInfo data = new UserInfo();
     	data = userDao.getUserById(u.getUserId());
         try {
