@@ -7,8 +7,10 @@ import javax.sql.DataSource;
 
 import com.rekonsiliasi.mapper.DepartmentMapper;
 import com.rekonsiliasi.mapper.LogTransactionMapper;
+import com.rekonsiliasi.mapper.StatusLogMapper;
 import com.rekonsiliasi.model.Department;
 import com.rekonsiliasi.model.LogTransaction;
+import com.rekonsiliasi.model.StatusLog;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -64,6 +66,18 @@ public class LogTransactionDAO extends JdbcDaoSupport {
         
         List<LogTransaction> list = this.getJdbcTemplate().query(sql, params, mapper);
         return list;
+    }
+    
+    public LogTransaction getById(Integer logTransId) {
+        String sql = LogTransactionMapper.ALL_SQL //
+                + " where l.logTransId = ?";
+ 
+        Object[] params = new Object[] { logTransId };
+        
+        LogTransactionMapper mapper = new LogTransactionMapper();
+ 
+        LogTransaction dept = this.getJdbcTemplate().queryForObject(sql, params, mapper);
+        return dept;
     }
  
 }

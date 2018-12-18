@@ -113,6 +113,32 @@ public class MainController {
     	return dataaas;
     }
     
+    @RequestMapping(value = { "/approval/{id}/approve"}, method =  {RequestMethod.GET,RequestMethod.POST})
+    public String approveRequest(Model model,@PathVariable("id")String idRequest) {
+    	LogTransaction approveReq = new LogTransaction();
+    	
+    	approveReq = logTransactionDAO.getById(Integer.parseInt(idRequest));
+    	
+    	model.addAttribute("logTrans",approveReq);
+    	return "rekonsiliasi.approvalConfirm";
+    }
+    
+    @RequestMapping(value = { "approval/{id}/approve/process"}, method =  {RequestMethod.GET,RequestMethod.POST})
+    public String approved() {
+    	
+    	//proses approve
+    	
+    	return "redirect:/approval";
+    }
+    
+    @RequestMapping(value = { "/approval/{id}/reject"}, method =  {RequestMethod.GET,RequestMethod.POST})
+    public String rejectRequest() {
+    	
+    	//proses reject
+    	
+    	return "";
+    }
+    
     @RequestMapping(value = { "/approval/data" }, method =  {RequestMethod.GET,RequestMethod.POST}, produces = "application/json")
     @ResponseBody
     public LogTransaction getListApproval(HttpServletRequest request, HttpServletResponse response, Model model){
@@ -245,15 +271,15 @@ public class MainController {
 		try {
 			String uploadRootPath = request.getServletContext().getRealPath("\\static\\temp");
 			Path path = Paths.get(uploadRootPath + "\\" + "temp.csv");
-			if(ViewModel.getNowColumn() == "") {
+			if(ViewModel.getNowColumn() == null) {
 	            byte[] bytes = file.getBytes();
 	            Files.write(path, bytes);
 		    	Reader reader;
 				reader = Files.newBufferedReader(path);
 				CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
 				List<String[]> records = csvReader.readAll();
-				//ganti regex wsid
-				Pattern pattern = Pattern.compile("foo");
+				//regex wsid
+				Pattern pattern = Pattern.compile("^[Z90-6][a-zA-Z0-6]+$");
 				for(int i = 0; i<9; i++) {
 					for(int j = 0; j<records.get(i).length; j++ ) {
 						Matcher matcher = pattern.matcher(records.get(i)[j]);
@@ -284,8 +310,8 @@ public class MainController {
 				reader = Files.newBufferedReader(path);
 				CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
 				List<String[]> records = csvReader.readAll();
-				//ganti regex amount
-				Pattern pattern = Pattern.compile("foo");
+				//regex amount
+				Pattern pattern = Pattern.compile("^[0-9]+$");
 				for(int i = 0; i<9; i++) {
 					for(int j = 0; j<records.get(i).length; j++ ) {
 						Matcher matcher = pattern.matcher(records.get(i)[j]);
@@ -316,8 +342,8 @@ public class MainController {
 				reader = Files.newBufferedReader(path);
 				CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
 				List<String[]> records = csvReader.readAll();
-				//ganti regex transaction date
-				Pattern pattern = Pattern.compile("foo");
+				//regex transaction date
+				Pattern pattern = Pattern.compile("^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$");
 				for(int i = 0; i<9; i++) {
 					for(int j = 0; j<records.get(i).length; j++ ) {
 						Matcher matcher = pattern.matcher(records.get(i)[j]);

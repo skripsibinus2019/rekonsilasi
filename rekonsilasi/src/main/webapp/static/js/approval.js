@@ -39,12 +39,12 @@ $(document).ready(function() {
 			"autoWidth" : true
 		}, {
             data: null, render: function (data, type, row) {
-                return "<a href='/approval/"+ row.id + "/" + row.tableSource + "' class='btn btn-info' onclick=DeleteData('" + row.CustomerID + "'); >Propose</a>";
+                return "<a href='/approval/"+ row.id + "/" + "approve" + "' class='btn btn-info' onclick=DeleteData('" + row.CustomerID + "'); >Propose</a>";
             }
         },
         {
             data: null, render: function (data, type, row) {
-                return "<a href='/approval/"+ row.id + "/" + row.tableSource + "' class='btn btn-info' onclick=DeleteData('" + row.CustomerID + "'); >Propose</a>";
+                return "<a href='/approval/"+ row.id + "/" + "reject" + "' class='btn btn-info' onclick=DeleteData('" + row.CustomerID + "'); >Propose</a>";
             }
         }]
 	});

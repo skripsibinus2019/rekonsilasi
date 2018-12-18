@@ -17,11 +17,10 @@ public class LogTransactionMapper implements RowMapper<LogTransaction> {
             + " FROM Log_Transaction l";
     
     public static final String ALL_SQL = //
-            "Select *"
-            + " FROM Log_Transaction l";
-    
-    @Autowired
-    private StatusLogDAO statusLogDAO;
+            "Select * "
+            + "FROM Log_Transaction l "
+            + "JOIN StatusLog s "
+            + "ON l.logTransId = s.logTransId";
     
 //    public static final String BASE_SQL2 = //
 //            "Select b.id, b.wsid, b.amount, b.transactionDate " + 
@@ -37,27 +36,38 @@ public class LogTransactionMapper implements RowMapper<LogTransaction> {
 //        Integer status = rs.getInt("status");
         String tableSourceA = rs.getString("tableA_id");
         String tableSourceB = rs.getString("tableB_id");
-        Integer logTransId = rs.getInt("logTransId");
         
         Integer status = 0;
         try {
-	        if(statusLogDAO.getStatusDAObylogTransId(logTransId).getStatus()!=null) {
-	        	status = statusLogDAO.getStatusDAObylogTransId(logTransId).getStatus();
+	        if(rs.getInt("Status")!=0) {
+	        	status = rs.getInt("Status");
 	        }else {
 	        	status = 0;
 	        }
         }catch(Exception e) {
-        	
+        	e.printStackTrace();
         }
-        
+        Integer id = null;
         try {
-          String notes = rs.getString("notes");
+        	id = rs.getInt("logTransId");
+        }catch(Exception e) {
+        	e.printStackTrace();
+        }
+        String namaStatus = namaStatus(status);
+        String notes = "";
+        try {
+        	if(!rs.getString("Notes").isEmpty()) {
+	        	notes = rs.getString("Notes");
+	        }else {
+	        	
+	        }
+        	return new LogTransaction(id,wsid, amount, transactionDate, tableSourceA, tableSourceB, namaStatus, notes);
 		} catch (Exception e) {
-			// TODO: handle exception
+			 
 		}
 
-        String namaStatus = namaStatus(status);
-        return new LogTransaction(wsid, amount, transactionDate, tableSourceA, tableSourceB, namaStatus);
+        
+        return new LogTransaction(id,wsid, amount, transactionDate, tableSourceA, tableSourceB, namaStatus);
     }
  
 	public String namaStatus(Integer status) {

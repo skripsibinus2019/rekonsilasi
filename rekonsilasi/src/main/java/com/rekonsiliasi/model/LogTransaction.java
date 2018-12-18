@@ -21,10 +21,19 @@ public class LogTransaction {
     private String tableSourceId;
     private Integer status;
     private String namaStatus;
+    private String notes;
     
     
     
-    public String getNamaStatus() {
+    public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public String getNamaStatus() {
 		return namaStatus;
 	}
 
@@ -156,6 +165,18 @@ public class LogTransaction {
 		this.tableSourceB = tableSourceB;
 		this.tableSourceId = tableSourceId;
 	}
+	
+	public LogTransaction(Integer id,String wsId, Integer amount, String transactionDate, String tableSourceA, String tableSourceB,
+			String namaStatus) {
+		super();
+		this.id = id;
+		this.wsId = wsId;
+		this.amount = amount;
+		this.transactionDate = transactionDate;
+		this.tableSourceA = tableSourceA;
+		this.tableSourceB = tableSourceB;
+		this.namaStatus = namaStatus;
+	}
 
 	public LogTransaction(String wsId, Integer amount, String transactionDate, String tableSourceA, String tableSourceB,
 			String namaStatus) {
@@ -168,6 +189,31 @@ public class LogTransaction {
 		this.namaStatus = namaStatus;
 	}
 
+	public LogTransaction(String wsId, Integer amount, String transactionDate, String tableSourceA, String tableSourceB,
+			String namaStatus, String notes) {
+		super();
+		this.wsId = wsId;
+		this.amount = amount;
+		this.transactionDate = transactionDate;
+		this.tableSourceA = tableSourceA;
+		this.tableSourceB = tableSourceB;
+		this.namaStatus = namaStatus;
+		this.notes = notes;
+	}
+	
+	public LogTransaction(Integer id,String wsId, Integer amount, String transactionDate, String tableSourceA, String tableSourceB,
+			String namaStatus, String notes) {
+		super();
+		this.id = id;
+		this.wsId = wsId;
+		this.amount = amount;
+		this.transactionDate = transactionDate;
+		this.tableSourceA = tableSourceA;
+		this.tableSourceB = tableSourceB;
+		this.namaStatus = namaStatus;
+		this.notes = notes;
+	}
+	
 	public String namaStatus(Integer status) {
 		
 		if(status == 1) {
