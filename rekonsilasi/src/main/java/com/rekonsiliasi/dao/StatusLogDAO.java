@@ -40,45 +40,6 @@ public class StatusLogDAO extends JdbcDaoSupport {
         return dept;
     }
     
-    public Department findDepartment2(String deptNo) {
-        String sql = DepartmentMapper.BASE_SQL2 //
-                + " where b.id = ?";
- 
-        Object[] params = new Object[] { deptNo };
-         
-        DepartmentMapper mapper = new DepartmentMapper();
- 
-        Department dept = this.getJdbcTemplate().queryForObject(sql, params, mapper);
-        return dept;
-    }
- 
-    public List<Department> listDepartment() {
-        String sql = DepartmentMapper.BASE_SQL //
-        		+ "Except " + DepartmentMapper.BASE_SQL2 ;
- 
-        Object[] params = new Object[] {};
-        DepartmentMapper mapper = new DepartmentMapper();
-        
-        List<Department> list = this.getJdbcTemplate().query(sql, params, mapper);
-        for (Department dataA : list) {
-			dataA.setTableSource("A");
-		}
-        return list;
-    }
-    
-    public List<Department> listDepartment2() {
-        String sql = DepartmentMapper.BASE_SQL2 //
-        		+ "Except " + DepartmentMapper.BASE_SQL ;
- 
-        Object[] params = new Object[] {};
-        DepartmentMapper mapper = new DepartmentMapper();
-        
-        List<Department> list = this.getJdbcTemplate().query(sql, params, mapper);
-        for (Department dataA : list) {
-			dataA.setTableSource("B");
-		}
-        return list;
-    }
     
     public void saveRecordStatusLog(StatusLog d) {
     	

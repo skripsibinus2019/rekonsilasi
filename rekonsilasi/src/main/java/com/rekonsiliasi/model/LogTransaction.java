@@ -8,23 +8,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LogTransaction {
  
-    private Integer id;
+    private Long id;
     private String wsId;
     private Integer amount;
     private String transactionDate;
-    private List<LogTransaction> list;
+	private List<LogTransaction> list;
     private String draw;
     private Integer recordsFiltered;
     private Integer recordsTotal;
-    private String tableSourceA;
-    private String tableSourceB;
-    private String tableSourceId;
+	private int tableSourceId;
+    private String tableSource;
     private Integer status;
     private String namaStatus;
     private String notes;
     
     
-    
+
+	
     public String getNotes() {
 		return notes;
 	}
@@ -76,9 +76,13 @@ public class LogTransaction {
 		this.recordsTotal = recordsTotal;
 	}
 	
+    public String getTableSource() {
+		return tableSource;
+	}
 
-
-
+	public void setTableSource(String tableSource) {
+		this.tableSource = tableSource;
+	}
     
     @JsonProperty(value="data")
     public List<LogTransaction> getList() {
@@ -89,11 +93,11 @@ public class LogTransaction {
 		this.list = list;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -121,27 +125,11 @@ public class LogTransaction {
 		this.transactionDate = transactionDate;
 	}
 	
-	public String getTableSourceA() {
-		return tableSourceA;
-	}
-
-	public void setTableSourceA(String tableSourceA) {
-		this.tableSourceA = tableSourceA;
-	}
-
-	public String getTableSourceB() {
-		return tableSourceB;
-	}
-
-	public void setTableSourceB(String tableSourceB) {
-		this.tableSourceB = tableSourceB;
-	}
-
-	public String getTableSourceId() {
+	public int getTableSourceId() {
 		return tableSourceId;
 	}
 
-	public void setTableSourceId(String tableSourceId) {
+	public void setTableSourceId(int tableSourceId) {
 		this.tableSourceId = tableSourceId;
 	}
 
@@ -149,9 +137,9 @@ public class LogTransaction {
 		 
     }
 
-	public LogTransaction(Integer id, String wsId, Integer amount, String transactionDate, List<LogTransaction> list,
+	public LogTransaction(Long id, String wsId, Integer amount, String transactionDate, List<LogTransaction> list,
 			String draw, Integer recordsFiltered, Integer recordsTotal, String tableSourceA, String tableSourceB,
-			String tableSourceId) {
+			Integer tableSourceId) {
 		super();
 		this.id = id;
 		this.wsId = wsId;
@@ -161,20 +149,16 @@ public class LogTransaction {
 		this.draw = draw;
 		this.recordsFiltered = recordsFiltered;
 		this.recordsTotal = recordsTotal;
-		this.tableSourceA = tableSourceA;
-		this.tableSourceB = tableSourceB;
 		this.tableSourceId = tableSourceId;
 	}
 	
-	public LogTransaction(Integer id,String wsId, Integer amount, String transactionDate, String tableSourceA, String tableSourceB,
+	public LogTransaction(Long id,String wsId, Integer amount, String transactionDate, String tableSourceA, String tableSourceB,
 			String namaStatus) {
 		super();
 		this.id = id;
 		this.wsId = wsId;
 		this.amount = amount;
 		this.transactionDate = transactionDate;
-		this.tableSourceA = tableSourceA;
-		this.tableSourceB = tableSourceB;
 		this.namaStatus = namaStatus;
 	}
 
@@ -184,34 +168,32 @@ public class LogTransaction {
 		this.wsId = wsId;
 		this.amount = amount;
 		this.transactionDate = transactionDate;
-		this.tableSourceA = tableSourceA;
-		this.tableSourceB = tableSourceB;
 		this.namaStatus = namaStatus;
 	}
 
-	public LogTransaction(String wsId, Integer amount, String transactionDate, String tableSourceA, String tableSourceB,
+	public LogTransaction(String wsId, Integer amount, String transactionDate, String tableSource, Integer tableSourceId, String tableSourceB,
 			String namaStatus, String notes) {
 		super();
 		this.wsId = wsId;
 		this.amount = amount;
 		this.transactionDate = transactionDate;
-		this.tableSourceA = tableSourceA;
-		this.tableSourceB = tableSourceB;
 		this.namaStatus = namaStatus;
 		this.notes = notes;
+		this.tableSource = tableSource;
+		this.tableSourceId = tableSourceId;
 	}
 	
-	public LogTransaction(Integer id,String wsId, Integer amount, String transactionDate, String tableSourceA, String tableSourceB,
+	public LogTransaction(Long id,String wsId, Integer amount, String transactionDate, String tableSource, Integer tableSourceId,
 			String namaStatus, String notes) {
 		super();
 		this.id = id;
 		this.wsId = wsId;
 		this.amount = amount;
 		this.transactionDate = transactionDate;
-		this.tableSourceA = tableSourceA;
-		this.tableSourceB = tableSourceB;
 		this.namaStatus = namaStatus;
 		this.notes = notes;
+		this.tableSource = tableSource;
+		this.tableSourceId = tableSourceId;
 	}
 	
 	public String namaStatus(Integer status) {

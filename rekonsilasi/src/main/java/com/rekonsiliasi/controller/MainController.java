@@ -184,52 +184,54 @@ public class MainController {
     	return asd;
     }
     
-    @RequestMapping(value = "/rekonsiliasi/{id}/{table}", method = RequestMethod.GET)
-    public String index(Model model, @PathVariable("id")String id, 
+    @RequestMapping(value = "/rekonsiliasi/{tableSourceId}/{table}", method = RequestMethod.GET)
+    public String index(Model model, @PathVariable("tableSourceId")String tableSourceId, 
     		@PathVariable("table")String table ) {
 
-    	Department data = new Department();
+    	LogTransaction data = new LogTransaction();
     	
     	if(table.equals("A")) {
-    		data = departmentDAO.findDepartment(id);
+    		data.setWsId(departmentDAO.findDepartment(tableSourceId).getWsId());
+    		data.setTransactionDate(departmentDAO.findDepartment(tableSourceId).getTransactionDate());
+    		data.setAmount(departmentDAO.findDepartment(tableSourceId).getAmount());
+    		data.setTableSourceId(departmentDAO.findDepartment(tableSourceId).getId());
     		data.setTableSource("A");
     	}else if(table.equals("B")) {
-    		data = departmentDAO.findDepartment2(id);
+    		data.setWsId(departmentDAO.findDepartment2(tableSourceId).getWsId());
+    		data.setTransactionDate(departmentDAO.findDepartment2(tableSourceId).getTransactionDate());
+    		data.setAmount(departmentDAO.findDepartment2(tableSourceId).getAmount());
+    		data.setTableSourceId(departmentDAO.findDepartment2(tableSourceId).getId());
     		data.setTableSource("B");
     	}
-    	data.setNotes_lama(data.getNotes_baru());
     	model.addAttribute("data", data);
     	
     	return "rekonsiliasi.propose";
     }
     
-    @RequestMapping(value = "/rekonsiliasi/{id}/{table}/confirm", method = RequestMethod.POST)
-    public String indexConfirm(Model model, @PathVariable("id")String id, 
-    		@PathVariable("table")String table, @ModelAttribute(value = "data") Department department,
+    @RequestMapping(value = "/rekonsiliasi/{tableSourceId}/{table}/confirm", method = RequestMethod.POST)
+    public String indexConfirm(Model model, @PathVariable("tableSourceId")String tableSourceId, 
+    		@PathVariable("table")String table, @ModelAttribute(value = "data") LogTransaction data,
     		@RequestParam(value = "_batal", required = false) String isBatal) {
 
-    	department.setTableSource(table);
-		model.addAttribute("data", department);
-		
-		
+		model.addAttribute("data", data);
     	return "rekonsiliasi.proposeSave";
     }
     
-    @RequestMapping(value = "/rekonsiliasi/{id}/{table}/save", method = RequestMethod.POST)
-    public String indexSave(Model model, @PathVariable("id")String id, 
-    		@PathVariable("table")String table, @ModelAttribute(value = "data") Department department, HttpServletRequest request) {
+    @RequestMapping(value = "/rekonsiliasi/{tableSourceId}/{table}/save", method = RequestMethod.POST)
+    public String indexSave(Model model, @PathVariable("tableSourceId")String tableSourceId, 
+    		@PathVariable("table")String table, @ModelAttribute(value = "data") LogTransaction data, HttpServletRequest request) {
 
-    		department.setStatus(1);
-    		departmentDAO.saveRecord(department);
+    		logTransactionDAO.saveRecord(data);
+    		
     		StatusLog statuslog = new StatusLog();
     		Principal principal = request.getUserPrincipal();
     		String username = principal.getName();
     		Integer userId = userDAO.getUserByUsername(username).getUserId();
     		
-    		statuslog.setStatus(department.getStatus());
+    		statuslog.setStatus(1);
     		statuslog.setUserId(userId);
-    		statuslog.setLogTransactionId(department.getId());
-    		statuslog.setNotes(department.getNotes_baru());
+    		statuslog.setLogTransactionId(data.getId());
+    		statuslog.setNotes(data.getNotes());
     		
     		statusLogDAO.saveRecordStatusLog(statuslog);
     		
@@ -265,7 +267,7 @@ public class MainController {
     }
     
     @PostMapping(value = "/rekonsiliasi/submitmatch")
-    public String matchingRulesSubmit(HttpServletRequest request, @RequestParam("file") MultipartFile file, Model model) {
+    public String matchingRulesSubmit(HttpServletRequest request, @RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes) {
     	int[] matches = {0};
     	int biggest = 0;
 		try {
@@ -295,16 +297,23 @@ public class MainController {
 					}
 				}
 				
-				
-				Map<String, String> columnList = new HashMap<String, String>();
-				for(int i = 0; i<matches.length; i++) {
-					if(matches[i] == biggest) {
-						columnList.put(Integer.toString(i), records.get(0)[i]);
+				if(biggest != 0) {
+					Map<String, String> columnList = new HashMap<String, String>();
+					for(int i = 0; i<matches.length; i++) {
+						if(matches[i] == biggest) {
+							columnList.put(Integer.toString(i), records.get(0)[i]);
+						}
 					}
+					ViewModel.setColumnList(columnList);
+					ViewModel.setNowColumn("wsid");
+					model.addAttribute("data", ViewModel);
+					return "rekonsiliasi.matchingRulesSubmit";
+				}else {
+					redirectAttributes.addFlashAttribute("message", 
+	                        "There's No Match Value For WSID Column!");
+					
+					return "redirect:/rekonsiliasi/matching-rules";
 				}
-				ViewModel.setColumnList(columnList);
-				ViewModel.setNowColumn("wsid");
-				return "rekonsiliasi.matchingRulesSubmit";
 			}else if(ViewModel.getNowColumn() == "wsid") {
 				Reader reader;
 				reader = Files.newBufferedReader(path);
@@ -327,16 +336,23 @@ public class MainController {
 					}
 				}
 				
-				
-				Map<String, String> columnList = new HashMap<String, String>();
-				for(int i = 0; i<matches.length; i++) {
-					if(matches[i] == biggest) {
-						columnList.put(Integer.toString(i), records.get(0)[i]);
+				if(biggest != 0) {
+					Map<String, String> columnList = new HashMap<String, String>();
+					for(int i = 0; i<matches.length; i++) {
+						if(matches[i] == biggest) {
+							columnList.put(Integer.toString(i), records.get(0)[i]);
+						}
 					}
+					ViewModel.setColumnList(columnList);
+					ViewModel.setNowColumn("amount");
+					model.addAttribute("data", ViewModel);
+					return "rekonsiliasi.matchingRulesSubmit";
+				}else {
+					redirectAttributes.addFlashAttribute("message", 
+	                        "There's No Match Value For Amount Column!");
+					
+					return "redirect:/rekonsiliasi/matching-rules";
 				}
-				ViewModel.setColumnList(columnList);
-				ViewModel.setNowColumn("amount");
-				return "rekonsiliasi.matchingRulesSubmit";
 			}else if(ViewModel.getNowColumn() == "amount") {
 				Reader reader;
 				reader = Files.newBufferedReader(path);
@@ -359,16 +375,23 @@ public class MainController {
 					}
 				}
 				
-				
-				Map<String, String> columnList = new HashMap<String, String>();
-				for(int i = 0; i<matches.length; i++) {
-					if(matches[i] == biggest) {
-						columnList.put(Integer.toString(i), records.get(0)[i]);
+				if(biggest != 0) {
+					Map<String, String> columnList = new HashMap<String, String>();
+					for(int i = 0; i<matches.length; i++) {
+						if(matches[i] == biggest) {
+							columnList.put(Integer.toString(i), records.get(0)[i]);
+						}
 					}
+					ViewModel.setColumnList(columnList);
+					ViewModel.setNowColumn("transactionDate");
+					model.addAttribute("data", ViewModel);
+					return "rekonsiliasi.matchingRulesSubmit";
+				}else {
+					redirectAttributes.addFlashAttribute("message", 
+	                        "There's No Match Value For Transaction Date Column!");
+					
+					return "redirect:/rekonsiliasi/matching-rules";
 				}
-				ViewModel.setColumnList(columnList);
-				ViewModel.setNowColumn("transactionDate");
-				return "rekonsiliasi.matchingRulesSubmit";
 			}else if(ViewModel.getNowColumn() == "transactionDate") {
 				Reader reader;
 				reader = Files.newBufferedReader(path);
@@ -384,7 +407,7 @@ public class MainController {
 				}
 				return "redirect:/rekonsiliasi/matching-rules/View";
 			}
-			model.addAttribute("data", ViewModel);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -396,5 +419,11 @@ public class MainController {
 	public Map<String, String> getColumnList() {
 		
 		return ViewModel.getColumnList();
+	}
+    
+    @ModelAttribute("nowColumn")
+	public String getNowColumn() {
+		
+		return ViewModel.getNowColumn();
 	}
 }

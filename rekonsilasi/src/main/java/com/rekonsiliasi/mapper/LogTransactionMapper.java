@@ -13,14 +13,19 @@ import org.springframework.jdbc.core.RowMapper;
 public class LogTransactionMapper implements RowMapper<LogTransaction> {
  
     public static final String BASE_SQL = //
-            "Select l.logTransId, l.wsid, l.amount, l.transactionDate, l.tableA_id, l.tableB_id"
-            + " FROM Log_Transaction l";
+    		"Select * "
+            + "FROM Log_Transaction l "
+            + "JOIN StatusLog s "
+            + "ON l.logTransId = s.logTransId "
+            + "Where createdAt = (Select Max(createdAt) From StatusLog Where logTransId = l.logTransId)";
     
     public static final String ALL_SQL = //
             "Select * "
             + "FROM Log_Transaction l "
             + "JOIN StatusLog s "
-            + "ON l.logTransId = s.logTransId";
+            + "ON l.logTransId = s.logTransId "
+            + "Where createdAt = (Select Max(createdAt) From StatusLog Where logTransId = l.logTransId) "
+            + "AND s.status = 1";
     
 //    public static final String BASE_SQL2 = //
 //            "Select b.id, b.wsid, b.amount, b.transactionDate " + 
@@ -33,41 +38,23 @@ public class LogTransactionMapper implements RowMapper<LogTransaction> {
         String wsid = rs.getString("wsid");
         Integer amount = rs.getInt("amount");
         String transactionDate = rs.getString("transactionDate");
-//        Integer status = rs.getInt("status");
-        String tableSourceA = rs.getString("tableA_id");
-        String tableSourceB = rs.getString("tableB_id");
+        String tableSource = "";
+        Integer tableSourceId;
+        Integer tableA_id = rs.getInt("tableA_id");
+        if(tableA_id != 0) {
+        	tableSource = "A";
+        	tableSourceId = rs.getInt("tableA_id");
+        }else{
+        	tableSource = "B";
+        	tableSourceId = rs.getInt("tableB_id");
+        }
         
-        Integer status = 0;
-        try {
-	        if(rs.getInt("Status")!=0) {
-	        	status = rs.getInt("Status");
-	        }else {
-	        	status = 0;
-	        }
-        }catch(Exception e) {
-        	e.printStackTrace();
-        }
-        Integer id = null;
-        try {
-        	id = rs.getInt("logTransId");
-        }catch(Exception e) {
-        	e.printStackTrace();
-        }
+        Integer status = rs.getInt("status");
+        Long id = rs.getLong("logTransId");
         String namaStatus = namaStatus(status);
-        String notes = "";
-        try {
-        	if(!rs.getString("Notes").isEmpty()) {
-	        	notes = rs.getString("Notes");
-	        }else {
-	        	
-	        }
-        	return new LogTransaction(id,wsid, amount, transactionDate, tableSourceA, tableSourceB, namaStatus, notes);
-		} catch (Exception e) {
-			 
-		}
-
+        String notes = rs.getString("notes");
         
-        return new LogTransaction(id,wsid, amount, transactionDate, tableSourceA, tableSourceB, namaStatus);
+        return new LogTransaction(id,wsid, amount, transactionDate, tableSource, tableSourceId, namaStatus, notes);
     }
  
 	public String namaStatus(Integer status) {

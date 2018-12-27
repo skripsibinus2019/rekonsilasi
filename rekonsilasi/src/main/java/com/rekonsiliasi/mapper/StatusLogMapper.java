@@ -26,7 +26,7 @@ public class StatusLogMapper implements RowMapper<StatusLog> {
         Integer statusLogId = rs.getInt("statusLogId");
         Integer status = rs.getInt("status");
         Integer userId = rs.getInt("userId");
-        Integer logTransId = rs.getInt("logTransId");
+        Long logTransId = rs.getLong("logTransId");
         String notes = rs.getString("notes");
         Date createdAt = rs.getDate("createdAt");
 

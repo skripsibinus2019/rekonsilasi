@@ -74,14 +74,5 @@ public class DepartmentDAO extends JdbcDaoSupport {
 		}
         return list;
     }
-    
-    public void saveRecord(Department d) {
-    	
-    	String sql = "Insert into Log_Transaction (wsid,amount,transactiondate) "//
-				+ " values (?,?,?) ";
-		Object[] params = new Object[] { d.getWsId(), d.getAmount(), d.getTransactionDate() };
-		this.getJdbcTemplate().update(sql, params);
-		
-    }
  
 }

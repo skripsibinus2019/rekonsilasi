@@ -1,5 +1,9 @@
 package com.rekonsiliasi.dao;
  
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
  
@@ -14,7 +18,10 @@ import com.rekonsiliasi.model.StatusLog;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
  
@@ -69,7 +76,7 @@ public class LogTransactionDAO extends JdbcDaoSupport {
     }
     
     public LogTransaction getById(Integer logTransId) {
-        String sql = LogTransactionMapper.ALL_SQL //
+        String sql = LogTransactionMapper.BASE_SQL //
                 + " where l.logTransId = ?";
  
         Object[] params = new Object[] { logTransId };
@@ -79,5 +86,54 @@ public class LogTransactionDAO extends JdbcDaoSupport {
         LogTransaction dept = this.getJdbcTemplate().queryForObject(sql, params, mapper);
         return dept;
     }
+    
+	public void saveRecord(LogTransaction l) {
+	    	if(l.getTableSource().equals("A")) {
+	    		String sql = "Insert into Log_Transaction (tableA_id,wsid,amount,transactiondate) "//
+					+ " values (?,?,?,?) ";
+				KeyHolder keyHolder = new GeneratedKeyHolder();
+				this.getJdbcTemplate().update(new PreparedStatementCreator() {
+				    @Override
+				    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				        PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				        statement.setInt(1, l.getTableSourceId());
+				        statement.setString(2, l.getWsId());
+				        statement.setInt(3, l.getAmount());
+				        statement.setString(4, l.getTransactionDate());
+				        return statement;
+				    }
+				}, keyHolder);
+				
+				Long id = keyHolder.getKey().longValue();
+				l.setId(id);
+	    	}else if(l.getTableSource().equals("B")) {
+	    		String sql = "Insert into Log_Transaction (tableB_id,wsid,amount,transactiondate) "//
+						+ " values (?,?,?,?) ";
+					KeyHolder keyHolder = new GeneratedKeyHolder();
+					this.getJdbcTemplate().update(new PreparedStatementCreator() {
+					    @Override
+					    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+					        PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+					        statement.setInt(1, l.getTableSourceId());
+					        statement.setString(2, l.getWsId());
+					        statement.setInt(3, l.getAmount());
+					        statement.setString(4, l.getTransactionDate());
+					        return statement;
+					    }
+					}, keyHolder);
+					
+					Long id = keyHolder.getKey().longValue();
+					l.setId(id);
+	    	}else if(l.getTableSource().equals("CSV")) {
+	    		String sql = "Insert into Log_Transaction (wsid,amount,transactiondate,from_csv) "//
+						+ " values (?,?,?,?) ";
+		    		Object[] params = new Object[] { l.getWsId(), l.getAmount(), l.getTransactionDate(), 1};
+					KeyHolder keyHolder = new GeneratedKeyHolder();
+					this.getJdbcTemplate().update(sql, params, keyHolder);
+					
+					Long id = keyHolder.getKey().longValue();
+					l.setId(id);
+	    	}	
+	 }
  
 }

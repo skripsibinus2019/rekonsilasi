@@ -29,10 +29,6 @@ $(document).ready(function() {
 			"data" : "tableSource",
 			"name" : "tableSource",
 			"autoWidth" : true
-		}, {
-			"data" : "notes_baru",
-			"name" : "notes_baru",
-			"autoWidth" : true
 		},
 		{
 			data: null, render: function (data, type, row) {

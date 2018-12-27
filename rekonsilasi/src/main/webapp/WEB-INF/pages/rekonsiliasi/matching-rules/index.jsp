@@ -21,6 +21,7 @@
 				<div class="box-header">
 					<h3 class="box-title">Matching Rules</h3>
 				</div>
+				${message}
 				<!-- /.box-header -->
 				<form:form method="POST" action="/rekonsiliasi/submitmatch" enctype="multipart/form-data" >
 					<div class="box-body">

@@ -61,13 +61,13 @@ public class ApplicationContextConfig {
  
        // See: datasouce-cfg.properties
        dataSource.setDriverClassName("net.sourceforge.jtds.jdbc.Driver");
-//       dataSource.setUrl("jdbc:jtds:sqlserver://localhost:1433;instanceName=.;databaseName=rekonsiliasi;sendStringParametersAsUnicode=false;");
+       dataSource.setUrl("jdbc:jtds:sqlserver://localhost:16969;instanceName=.;databaseName=rekonsiliasi;sendStringParametersAsUnicode=false;");
 //       dataSource.setUrl("jdbc:jtds:sqlserver://localhost:16969;instanceName=.;databaseName=rekonsiliasi;sendStringParametersAsUnicode=false;");
-       dataSource.setUrl("jdbc:jtds:sqlserver://rekonsiliasi.database.windows.net:1433;instanceName=rekonsiliasi.database.windows.net;databaseName=rekonsiliasi;user=skripsi@rekonsiliasi;password=r4h4s14!!!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;sendStringParametersAsUnicode=false;");
+       //dataSource.setUrl("jdbc:jtds:sqlserver://localhost:1433;instanceName=.;databaseName=rekonsiliasi;sendStringParametersAsUnicode=false;");
        
        
        dataSource.setUsername("sa");
-       dataSource.setPassword("apaajadeh");
+       dataSource.setPassword("r4h4s14!!!");
  
        System.out.println("## getDataSource: " + dataSource);
  

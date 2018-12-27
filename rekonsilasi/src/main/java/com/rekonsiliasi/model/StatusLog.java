@@ -12,7 +12,7 @@ public class StatusLog {
     private Integer statusLogId;
     private Integer status;
     private Integer userId;
-    private Integer logTransactionId;
+    private Long logTransactionId;
     private List<StatusLog> list;
     
     private String notes;
@@ -49,11 +49,11 @@ public class StatusLog {
 		this.userId = userId;
 	}
 
-	public Integer getLogTransactionId() {
+	public Long getLogTransactionId() {
 		return logTransactionId;
 	}
 
-	public void setLogTransactionId(Integer logTransactionId) {
+	public void setLogTransactionId(Long logTransactionId) {
 		this.logTransactionId = logTransactionId;
 	}
 
@@ -117,7 +117,7 @@ public class StatusLog {
 		this.list = list;
 	}
 
-	public StatusLog(Integer statusLogId, Integer status, Integer userId, Integer logTransactionId, List<StatusLog> list,
+	public StatusLog(Integer statusLogId, Integer status, Integer userId, Long logTransactionId, List<StatusLog> list,
 			String notes, Date createdAt, String tableSourceId, String draw, Integer recordsFiltered,
 			Integer recordsTotal) {
 		super();
@@ -134,7 +134,7 @@ public class StatusLog {
 		this.recordsTotal = recordsTotal;
 	}
 
-	public StatusLog(Integer statusLogId, Integer status, Integer userId, Integer logTransactionId, String notes,
+	public StatusLog(Integer statusLogId, Integer status, Integer userId, Long logTransactionId, String notes,
 			Date createdAt) {
 		super();
 		this.statusLogId = statusLogId;

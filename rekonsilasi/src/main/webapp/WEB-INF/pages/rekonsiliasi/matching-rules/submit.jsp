@@ -22,10 +22,10 @@
 					<h3 class="box-title">Matching Rules</h3>
 				</div>
 				<!-- /.box-header -->
-				<form:form method="POST" action="/reconciliatiion/matching-rules" modelAttribute="data" enctype="multipart/form-data" >
+				<form:form method="POST" action="/rekonsiliasi/submitmatch" modelAttribute="data" enctype="multipart/form-data" >
 					<div class="box-body">
 						<div class="col-md-12">
-							<label>Role</label> <form:select path="wsid" type="text" class="form-control"
+							<label>Role</label> <form:select path="${nowColumn}" type="text" class="form-control"
 									items="${columnList}" />
 						</div>
 					</div>

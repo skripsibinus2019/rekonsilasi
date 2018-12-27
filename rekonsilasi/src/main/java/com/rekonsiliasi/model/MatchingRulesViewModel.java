@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 
 public class MatchingRulesViewModel {
- 
+	
 	private Map<String, String> columnList;
 	private int wsid;
 	private int amount;
@@ -45,6 +45,7 @@ public class MatchingRulesViewModel {
 		this.trasactionDate = trasactionDate;
 	}
 
+	@ModelAttribute("columnList")
 	public Map<String, String> getColumnList() {
 		return columnList;
 	}

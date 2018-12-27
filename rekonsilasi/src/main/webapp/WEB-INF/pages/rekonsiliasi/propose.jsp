@@ -19,10 +19,10 @@
 				<!-- /.box-header -->
 				<div class="box-body">
 					<form:form id="formpost" modelAttribute="data"
-						action="/rekonsiliasi/${data.id}/${data.tableSource}/confirm"
+						action="/rekonsiliasi/${data.tableSourceId}/${data.tableSource}/confirm"
 						method="post" class="form-horizontal">
-						<form:hidden path="id" />
-						<form:hidden path="notes_lama"/>
+						<form:hidden path="tableSourceId" />
+						<form:hidden path="tableSource" />
 						<div class="form-group">
 							<label class="col-sm-2 control-label">WSID</label>
 
@@ -44,8 +44,8 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Notes</label>
 							<div class="col-sm-10">
-								<textarea id="text" name="notes_baru" rows="4" cols="50" form="formpost"
-									placeholder="${data.notes_lama}" class="form-control"></textarea>
+								<textarea id="text" name="notes" rows="4" cols="50" form="formpost"
+								 class="form-control"></textarea>
 							</div>
 						</div>
 						<!-- /.box-body -->

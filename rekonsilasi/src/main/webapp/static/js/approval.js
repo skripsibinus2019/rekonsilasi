@@ -22,14 +22,10 @@ $(document).ready(function() {
 			"name" : "transactionDate",
 			"autoWidth" : true
 		}, {
-            data: null, render: function (data, type, row) {
-            	if(row.tableSourceA != null){
-            		return "A";
-            	}else{
-            		return "B";
-            	}
-            }
-        }, {
+			"data" : "tableSource",
+			"name" : "tableSource",
+			"autoWidth" : true
+		}, {
 			"data" : "notes",
 			"name" : "notes",
 			"autoWidth" : true

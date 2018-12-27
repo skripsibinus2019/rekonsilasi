@@ -20,10 +20,10 @@
 				<!-- /.box-header -->
 				<div class="box-body">
 					<form:form id="formpost" modelAttribute="data"
-						action="/rekonsiliasi/${data.id}/${data.tableSource}/save"
+						action="/rekonsiliasi/${data.tableSourceId}/${data.tableSource}/save"
 						method="POST" class="form-horizontal">
-						<form:hidden path="id" />
-						<form:hidden path="notes_lama"/>
+						<form:hidden path="tableSourceId" />
+						<form:hidden path="tableSource" />
 						<div class="form-group">
 							<label class="col-sm-2 control-label">WSID</label>
 
@@ -44,12 +44,12 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Notes</label>
-							<div class="col-sm-10">	${data.notes_baru}</div>
-							<form:hidden path="notes_baru"/>
+							<div class="col-sm-10">	${data.notes}</div>
+							<form:hidden path="notes"/>
 						</div>
 						<!-- /.box-body -->
 						<div class="box-footer">
-							<a href="/rekonsiliasi/${data.id}/${data.tableSource}" class="btn btn-primary">Kembali</a>
+							<a href="/rekonsiliasi/${data.tableSourceId}/${data.tableSource}" class="btn btn-primary">Kembali</a>
 							<input type="hidden" name="_batal" id="_id_batal" value="0">
 							<button type="submit" value="Proses"
 								class="btn btn-info pull-right">Propose</button>
