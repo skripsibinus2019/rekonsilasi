@@ -14,16 +14,22 @@
 	<div class="row">
 		<div class="col-xs-offset-3 col-xs-6">
 			<div class="box">
+				<c:if test="${method eq \"approve\" }">
 				<div class="box-header">
-					<h3 class="box-title">Propose</h3>
+					<h3 class="box-title">Approve</h3>
 				</div>
+				</c:if>
+				<c:if test="${method eq \"reject\" }">
+				<div class="box-header">
+					<h3 class="box-title">Reject</h3>
+				</div>
+				</c:if>
 				<!-- /.box-header -->
 				<div class="box-body">
 					<form:form id="formpost" modelAttribute="data"
-						action="/rekonsiliasi/${data.logTransId}/approve/process"
+						action="/approval/${id}/${method}/process"
 						method="POST" class="form-horizontal">
 						<form:hidden path="id" />
-						<form:hidden path="notes_lama"/>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">WSID</label>
 
@@ -44,12 +50,12 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Notes</label>
-							<div class="col-sm-10">	${data.notes_baru}</div>
-							<form:hidden path="notes_baru"/>
+							<div class="col-sm-10">	${data.notes}</div>
+							<form:hidden path="notes"/>
 						</div>
 						<!-- /.box-body -->
 						<div class="box-footer">
-							<a href="/rekonsiliasi/${data.id}/${data.tableSource}" class="btn btn-primary">Kembali</a>
+							<a href="/approval" class="btn btn-primary">Kembali</a>
 							<input type="hidden" name="_batal" id="_id_batal" value="0">
 							<button type="submit" value="Proses"
 								class="btn btn-info pull-right">Propose</button>

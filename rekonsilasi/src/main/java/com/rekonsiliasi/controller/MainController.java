@@ -115,28 +115,64 @@ public class MainController {
     
     @RequestMapping(value = { "/approval/{id}/approve"}, method =  {RequestMethod.GET,RequestMethod.POST})
     public String approveRequest(Model model,@PathVariable("id")String idRequest) {
-    	LogTransaction approveReq = new LogTransaction();
     	
-    	approveReq = logTransactionDAO.getById(Integer.parseInt(idRequest));
+    	LogTransaction approveReq = logTransactionDAO.getById(Integer.parseInt(idRequest));
+    	model.addAttribute("method", "approve");
+    	model.addAttribute("id", idRequest);
+    	model.addAttribute("data",approveReq);
     	
-    	model.addAttribute("logTrans",approveReq);
     	return "rekonsiliasi.approvalConfirm";
     }
     
     @RequestMapping(value = { "approval/{id}/approve/process"}, method =  {RequestMethod.GET,RequestMethod.POST})
-    public String approved() {
+    public String approved(Model model, @PathVariable("id")String IdRequest, 
+    		@ModelAttribute(value = "data") LogTransaction data, HttpServletRequest request) {
     	
     	//proses approve
+		StatusLog statuslog = new StatusLog();
+		Principal principal = request.getUserPrincipal();
+		String username = principal.getName();
+		Integer userId = userDAO.getUserByUsername(username).getUserId();
+		
+		statuslog.setStatus(2);// 2 = approved  lihat di model
+		statuslog.setUserId(userId);
+		statuslog.setLogTransactionId(data.getId());
+		statuslog.setNotes(data.getNotes());
+		
+		statusLogDAO.saveRecordStatusLog(statuslog);
     	
     	return "redirect:/approval";
     }
     
     @RequestMapping(value = { "/approval/{id}/reject"}, method =  {RequestMethod.GET,RequestMethod.POST})
-    public String rejectRequest() {
+    public String rejectRequest(Model model,@PathVariable("id")String idRequest) {
+
+    	LogTransaction approveReq = logTransactionDAO.getById(Integer.parseInt(idRequest));
+    	model.addAttribute("method", "reject");
+    	model.addAttribute("id", idRequest);
+    	model.addAttribute("data",approveReq);
+    	
+    	return "rekonsiliasi.approvalConfirm";
+    }
+    
+    @RequestMapping(value = { "/approval/{id}/reject/process"}, method =  {RequestMethod.GET,RequestMethod.POST})
+    public String rejected(Model model, @PathVariable("id")String IdRequest, 
+    		@ModelAttribute(value = "data") LogTransaction data, HttpServletRequest request) {
     	
     	//proses reject
+		StatusLog statuslog = new StatusLog();
+		Principal principal = request.getUserPrincipal();
+		String username = principal.getName();
+		Integer userId = userDAO.getUserByUsername(username).getUserId();
+		
+		statuslog.setStatus(3);// 3 = reject  lihat di model
+		statuslog.setUserId(userId);
+		statuslog.setLogTransactionId(data.getId());
+		statuslog.setNotes(data.getNotes());
+		
+		statusLogDAO.saveRecordStatusLog(statuslog);
     	
-    	return "";
+    	return "redirect:/approval";
     }
     
     @RequestMapping(value = { "/approval/data" }, method =  {RequestMethod.GET,RequestMethod.POST}, produces = "application/json")

@@ -63,6 +63,13 @@
             <add-attribute value="/static/js/approval.js" />
         </put-list-attribute>
     </definition>
+    
+    <definition name="rekonsiliasi.approvalConfirm" extends="default">
+        <put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/approvalConfirm.jsp" />
+        <put-list-attribute name="javascriptsPage">
+            <add-attribute value="/static/js/approval.js" />
+        </put-list-attribute>
+    </definition>
 	
 	<definition name="rekonsiliasi.report" extends="default">
 		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/report.jsp" />

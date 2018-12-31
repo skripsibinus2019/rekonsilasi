@@ -17,15 +17,21 @@ public class LogTransactionMapper implements RowMapper<LogTransaction> {
             + "FROM Log_Transaction l "
             + "JOIN StatusLog s "
             + "ON l.logTransId = s.logTransId "
-            + "Where createdAt = (Select Max(createdAt) From StatusLog Where logTransId = l.logTransId)";
+            + "Where createdAt = (Select Max(createdAt) From StatusLog sl Where sl.logTransId = l.logTransId)";
     
     public static final String ALL_SQL = //
             "Select * "
             + "FROM Log_Transaction l "
             + "JOIN StatusLog s "
             + "ON l.logTransId = s.logTransId "
-            + "Where createdAt = (Select Max(createdAt) From StatusLog Where logTransId = l.logTransId) "
+            + "Where createdAt = (Select Max(createdAt) From StatusLog sl Where sl.logTransId = l.logTransId) "
             + "AND s.status = 1";
+    
+    public static final String ID_SEARCH = //
+    		"Select * "
+            + "FROM Log_Transaction l "
+            + "JOIN StatusLog s "
+            + "ON l.logTransId = s.logTransId ";
     
 //    public static final String BASE_SQL2 = //
 //            "Select b.id, b.wsid, b.amount, b.transactionDate " + 

@@ -76,7 +76,7 @@ public class LogTransactionDAO extends JdbcDaoSupport {
     }
     
     public LogTransaction getById(Integer logTransId) {
-        String sql = LogTransactionMapper.BASE_SQL //
+        String sql = LogTransactionMapper.ID_SEARCH //
                 + " where l.logTransId = ?";
  
         Object[] params = new Object[] { logTransId };
