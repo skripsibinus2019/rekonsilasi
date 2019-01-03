@@ -17,6 +17,14 @@ public class DepartmentMapper implements RowMapper<Department> {
             "Select b.id, b.wsid, b.amount, b.transactionDate " + 
             "From Table_B b " + 
             "WHERE NOT EXISTS(SELECT l.tableA_id From Log_Transaction l WHERE l.tableB_id = b.id)";
+    
+    public static final String BASE_SQL3 = //
+            "Select c.id, c.wsid, c.amount, c.transactionDate " + 
+            "From Table_CSV c ";
+    
+    public static final String BASE_SQL4 = //
+    		"Select a.id, a.wsid, a.amount, a.transactionDate " + 
+            "From Table_A a ";
  
     @Override
     public Department mapRow(ResultSet rs, int rowNum) throws SQLException {

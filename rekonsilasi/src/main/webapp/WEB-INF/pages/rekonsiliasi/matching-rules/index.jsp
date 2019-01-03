@@ -23,7 +23,7 @@
 				</div>
 				${message}
 				<!-- /.box-header -->
-				<form:form method="POST" action="/rekonsiliasi/submitmatch" enctype="multipart/form-data" >
+				<form:form method="POST" action="/matching-rules/submitMatchingUpload" enctype="multipart/form-data" >
 					<div class="box-body">
 						<div class="col-md-12">
 							<label>Choose CSV To Match</label> 

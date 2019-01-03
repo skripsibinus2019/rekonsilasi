@@ -32,6 +32,7 @@
                   <th>Table Source</th>
                   <th>Notes</th>
                   <th>Status</th>
+                  <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>

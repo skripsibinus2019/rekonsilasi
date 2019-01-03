@@ -10,7 +10,7 @@ public class MatchingRulesViewModel {
 	private Map<String, String> columnList;
 	private int wsid;
 	private int amount;
-	private int trasactionDate;
+	private int transactionDate;
 	private String nowColumn;
 
 	public String getNowColumn() {
@@ -37,12 +37,12 @@ public class MatchingRulesViewModel {
 		this.amount = amount;
 	}
 
-	public int getTrasactionDate() {
-		return trasactionDate;
+	public int getTransactionDate() {
+		return transactionDate;
 	}
 
-	public void setTrasactionDate(int trasactionDate) {
-		this.trasactionDate = trasactionDate;
+	public void setTransactionDate(int transactionDate) {
+		this.transactionDate = transactionDate;
 	}
 
 	@ModelAttribute("columnList")

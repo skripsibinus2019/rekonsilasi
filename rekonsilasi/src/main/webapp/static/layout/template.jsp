@@ -79,7 +79,18 @@
 				<li><a href="/rekonsiliasi"><i class="fa fa-clone"></i> <span>Reconciliation</span></a></li>
 				<li><a href="/log_transaction"><i class="fa fa-sticky-note"></i> <span>Log Transaction</span></a></li>
 				<li><a href="/approval"><i class="fa fa-check-square-o"></i> <span>Approval</span></a></li>
-				<li><a href="/rekonsiliasi/matching-rules"><i class="fa fa-edit"></i> <span>Matching Rules</span></a></li>
+				<li class="treeview">
+		          <a href="#">
+		            <i class="fa fa-table"></i> <span>Matching Rules</span>
+		            <span class="pull-right-container">
+		              <i class="fa fa-angle-left pull-right"></i>
+		            </span>
+		          </a>
+		          <ul class="treeview-menu">
+		            <li><a href="/matching-rules/upload"><i class="fa fa-circle-o"></i> Upload CSV</a></li>
+		            <li><a href="/matching-rules/reconciliation"><i class="fa fa-circle-o"></i> View Reconciliation</a></li>
+		          </ul>
+		        </li>
 
 			<li class="header">REPORTING</li>
 			<li><a href="/export/log_transaction"><i

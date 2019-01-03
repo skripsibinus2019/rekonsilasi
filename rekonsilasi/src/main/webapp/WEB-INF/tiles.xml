@@ -143,6 +143,13 @@
 	    </put-list-attribute>
 	</definition>
 	
+	<definition name="rekonsiliasi.matchingRulesView" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/matching-rules/reconciliation.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/matchingRules.js" />
+	    </put-list-attribute>
+	</definition>
+	
 	
 
 </tiles-definitions>

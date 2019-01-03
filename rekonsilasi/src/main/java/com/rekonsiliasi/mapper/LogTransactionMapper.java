@@ -47,12 +47,16 @@ public class LogTransactionMapper implements RowMapper<LogTransaction> {
         String tableSource = "";
         Integer tableSourceId;
         Integer tableA_id = rs.getInt("tableA_id");
+        Integer tableB_id = rs.getInt("tableB_id");
         if(tableA_id != 0) {
         	tableSource = "A";
         	tableSourceId = rs.getInt("tableA_id");
-        }else{
+        }else if(tableB_id != 0){
         	tableSource = "B";
         	tableSourceId = rs.getInt("tableB_id");
+        }else {
+        	tableSource = "CSV";
+        	tableSourceId = 0;
         }
         
         Integer status = rs.getInt("status");

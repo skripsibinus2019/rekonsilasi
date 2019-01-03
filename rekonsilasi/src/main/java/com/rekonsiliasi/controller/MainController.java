@@ -238,6 +238,12 @@ public class MainController {
     		data.setAmount(departmentDAO.findDepartment2(tableSourceId).getAmount());
     		data.setTableSourceId(departmentDAO.findDepartment2(tableSourceId).getId());
     		data.setTableSource("B");
+    	}else if(table.equals("CSV")) {
+    		data.setWsId(departmentDAO.findDepartment3(tableSourceId).getWsId());
+    		data.setTransactionDate(departmentDAO.findDepartment3(tableSourceId).getTransactionDate());
+    		data.setAmount(departmentDAO.findDepartment3(tableSourceId).getAmount());
+    		data.setTableSourceId(departmentDAO.findDepartment3(tableSourceId).getId());
+    		data.setTableSource("CSV");
     	}
     	model.addAttribute("data", data);
     	
@@ -297,28 +303,42 @@ public class MainController {
     	return "rekonsiliasi.report";
     }
     
-    @RequestMapping(value = "/rekonsiliasi/matching-rules", method = RequestMethod.GET)
+    @RequestMapping(value = "/matching-rules/upload", method = RequestMethod.GET)
     public String viewMatchingRules() {
     	return "rekonsiliasi.matchingRules";
     }
     
-    @PostMapping(value = "/rekonsiliasi/submitmatch")
-    public String matchingRulesSubmit(HttpServletRequest request, @RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes) {
-    	int[] matches = {0};
-    	int biggest = 0;
+    @PostMapping(value = "/matching-rules/submitMatchingUpload")
+    public String uploadMatchingCSV(HttpServletRequest request, @RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes) {
+		try {
+			String uploadRootPath = request.getServletContext().getRealPath("\\static\\temp");
+			Path path = Paths.get(uploadRootPath + "\\" + "temp.csv");
+			byte[] bytes = file.getBytes();
+            Files.write(path, bytes);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ViewModel.setNowColumn(null);
+		return matchingRulesSubmit(request, model, redirectAttributes, ViewModel);
+    }
+    
+    @PostMapping(value = "/matching-rules/submitMatching")
+    public String matchingRulesSubmit(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes, @ModelAttribute("data") MatchingRulesViewModel data) {
+    	ViewModel.setNowColumn(data.getNowColumn());
 		try {
 			String uploadRootPath = request.getServletContext().getRealPath("\\static\\temp");
 			Path path = Paths.get(uploadRootPath + "\\" + "temp.csv");
 			if(ViewModel.getNowColumn() == null) {
-	            byte[] bytes = file.getBytes();
-	            Files.write(path, bytes);
 		    	Reader reader;
 				reader = Files.newBufferedReader(path);
-				CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
+				CSVReader csvReader = new CSVReaderBuilder(reader).build();
 				List<String[]> records = csvReader.readAll();
+				int[] matches = new int[records.get(0).length];
+		    	int biggest = 0;
 				//regex wsid
-				Pattern pattern = Pattern.compile("^[Z90-6][a-zA-Z0-6]+$");
-				for(int i = 0; i<9; i++) {
+				Pattern pattern = Pattern.compile("^(Z|9|[0-6])([a-zA-Z0-6]+)$");
+				for(int i = 1; i<10; i++) {
 					for(int j = 0; j<records.get(i).length; j++ ) {
 						Matcher matcher = pattern.matcher(records.get(i)[j]);
 						if(matcher.find()) {
@@ -340,24 +360,27 @@ public class MainController {
 							columnList.put(Integer.toString(i), records.get(0)[i]);
 						}
 					}
-					ViewModel.setColumnList(columnList);
-					ViewModel.setNowColumn("wsid");
+					model.addAttribute("columnList", columnList);
+					model.addAttribute("nowColumn", "wsid");
 					model.addAttribute("data", ViewModel);
 					return "rekonsiliasi.matchingRulesSubmit";
 				}else {
 					redirectAttributes.addFlashAttribute("message", 
 	                        "There's No Match Value For WSID Column!");
 					
-					return "redirect:/rekonsiliasi/matching-rules";
+					return "redirect:/matching-rules/upload";
 				}
-			}else if(ViewModel.getNowColumn() == "wsid") {
+			}else if(ViewModel.getNowColumn().equals("wsid")) {
+				ViewModel.setWsid(data.getWsid());
 				Reader reader;
 				reader = Files.newBufferedReader(path);
-				CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
+				CSVReader csvReader = new CSVReaderBuilder(reader).build();
 				List<String[]> records = csvReader.readAll();
+				int[] matches = new int[records.get(0).length];
+		    	int biggest = 0;
 				//regex amount
 				Pattern pattern = Pattern.compile("^[0-9]+$");
-				for(int i = 0; i<9; i++) {
+				for(int i = 1; i<10; i++) {
 					for(int j = 0; j<records.get(i).length; j++ ) {
 						Matcher matcher = pattern.matcher(records.get(i)[j]);
 						if(matcher.find()) {
@@ -379,24 +402,27 @@ public class MainController {
 							columnList.put(Integer.toString(i), records.get(0)[i]);
 						}
 					}
-					ViewModel.setColumnList(columnList);
-					ViewModel.setNowColumn("amount");
+					model.addAttribute("columnList", columnList);
+					model.addAttribute("nowColumn", "amount");
 					model.addAttribute("data", ViewModel);
 					return "rekonsiliasi.matchingRulesSubmit";
 				}else {
 					redirectAttributes.addFlashAttribute("message", 
 	                        "There's No Match Value For Amount Column!");
 					
-					return "redirect:/rekonsiliasi/matching-rules";
+					return "redirect:/matching-rules/upload";
 				}
-			}else if(ViewModel.getNowColumn() == "amount") {
+			}else if(ViewModel.getNowColumn().equals("amount")) {
+				ViewModel.setAmount(data.getAmount());
 				Reader reader;
 				reader = Files.newBufferedReader(path);
-				CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
+				CSVReader csvReader = new CSVReaderBuilder(reader).build();
 				List<String[]> records = csvReader.readAll();
+				int[] matches = new int[records.get(0).length];
+		    	int biggest = 0;
 				//regex transaction date
 				Pattern pattern = Pattern.compile("^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$");
-				for(int i = 0; i<9; i++) {
+				for(int i = 1; i<10; i++) {
 					for(int j = 0; j<records.get(i).length; j++ ) {
 						Matcher matcher = pattern.matcher(records.get(i)[j]);
 						if(matcher.find()) {
@@ -418,17 +444,18 @@ public class MainController {
 							columnList.put(Integer.toString(i), records.get(0)[i]);
 						}
 					}
-					ViewModel.setColumnList(columnList);
-					ViewModel.setNowColumn("transactionDate");
+					model.addAttribute("columnList", columnList);
+					model.addAttribute("nowColumn", "transactionDate");
 					model.addAttribute("data", ViewModel);
 					return "rekonsiliasi.matchingRulesSubmit";
 				}else {
 					redirectAttributes.addFlashAttribute("message", 
 	                        "There's No Match Value For Transaction Date Column!");
 					
-					return "redirect:/rekonsiliasi/matching-rules";
+					return "redirect:/matching-rules/upload";
 				}
-			}else if(ViewModel.getNowColumn() == "transactionDate") {
+			}else if(ViewModel.getNowColumn().equals("transactionDate")) {
+				ViewModel.setTransactionDate(data.getTransactionDate());
 				Reader reader;
 				reader = Files.newBufferedReader(path);
 				CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
@@ -438,23 +465,17 @@ public class MainController {
 					MatchingRules mr = new MatchingRules();
 					mr.setWsId(records.get(i)[ViewModel.getWsid()]);
 					mr.setAmount(Integer.parseInt(records.get(i)[ViewModel.getAmount()]));
-					mr.setTransactionDate(records.get(i)[ViewModel.getTrasactionDate()]);
+					mr.setTransactionDate(records.get(i)[ViewModel.getTransactionDate()]);
 					matchingRulesDao.insertRecord(mr);
 				}
-				return "redirect:/rekonsiliasi/matching-rules/View";
+				return "redirect:/matching-rules/reconciliation";
 			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "redirect:/rekonsiliasi/matching-rules/View";
-    }
-    
-    @ModelAttribute("columnList")
-	public Map<String, String> getColumnList() {
-		
-		return ViewModel.getColumnList();
+		return "redirect:/matching-rules/reconciliation";
 	}
     
     @ModelAttribute("nowColumn")
@@ -462,4 +483,27 @@ public class MainController {
 		
 		return ViewModel.getNowColumn();
 	}
+    
+    @RequestMapping(value = "/matching-rules/reconciliation", method = RequestMethod.GET)
+    public String viewMatchingRulesList() {
+    	return "rekonsiliasi.matchingRulesView";
+    }
+    
+    @RequestMapping(value = { "/matching-rules/List" }, method =  {RequestMethod.GET,RequestMethod.POST}, produces = "application/json")
+    @ResponseBody
+    public Department getListMatchingRules(HttpServletRequest request, HttpServletResponse response, Model model){
+    	Department dataaas = new Department();
+    	List<Department> datas = new ArrayList<Department>();
+    	for (Department department : departmentDAO.listDepartment3()) {
+			datas.add(department);
+		}
+    	
+    	dataaas.setList(datas);
+    	Integer asd = dataaas.getList().size();
+    	
+    	dataaas.setRecordsFiltered(asd);
+    	dataaas.setRecordsTotal(asd);
+    	dataaas.setDraw("");
+    	return dataaas;
+    }
 }

@@ -127,9 +127,18 @@ public class LogTransactionDAO extends JdbcDaoSupport {
 	    	}else if(l.getTableSource().equals("CSV")) {
 	    		String sql = "Insert into Log_Transaction (wsid,amount,transactiondate,from_csv) "//
 						+ " values (?,?,?,?) ";
-		    		Object[] params = new Object[] { l.getWsId(), l.getAmount(), l.getTransactionDate(), 1};
 					KeyHolder keyHolder = new GeneratedKeyHolder();
-					this.getJdbcTemplate().update(sql, params, keyHolder);
+					this.getJdbcTemplate().update(new PreparedStatementCreator() {
+					    @Override
+					    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+					        PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+					        statement.setString(1, l.getWsId());
+					        statement.setInt(2, l.getAmount());
+					        statement.setString(3, l.getTransactionDate());
+					        statement.setInt(4, 1);
+					        return statement;
+					    }
+					}, keyHolder);
 					
 					Long id = keyHolder.getKey().longValue();
 					l.setId(id);

@@ -46,6 +46,18 @@ public class DepartmentDAO extends JdbcDaoSupport {
         Department dept = this.getJdbcTemplate().queryForObject(sql, params, mapper);
         return dept;
     }
+    
+    public Department findDepartment3(String deptNo) {
+        String sql = DepartmentMapper.BASE_SQL3 //
+                + " where c.id = ?";
+ 
+        Object[] params = new Object[] { deptNo };
+         
+        DepartmentMapper mapper = new DepartmentMapper();
+ 
+        Department dept = this.getJdbcTemplate().queryForObject(sql, params, mapper);
+        return dept;
+    }
  
     public List<Department> listDepartment() {
         String sql = DepartmentMapper.BASE_SQL //
@@ -71,6 +83,20 @@ public class DepartmentDAO extends JdbcDaoSupport {
         List<Department> list = this.getJdbcTemplate().query(sql, params, mapper);
         for (Department dataA : list) {
 			dataA.setTableSource("B");
+		}
+        return list;
+    }
+    
+    public List<Department> listDepartment3() {
+        String sql = DepartmentMapper.BASE_SQL3 //
+        		+ "Except " + DepartmentMapper.BASE_SQL4 ;
+ 
+        Object[] params = new Object[] {};
+        DepartmentMapper mapper = new DepartmentMapper();
+        
+        List<Department> list = this.getJdbcTemplate().query(sql, params, mapper);
+        for (Department dataA : list) {
+			dataA.setTableSource("CSV");
 		}
         return list;
     }
