@@ -12,6 +12,7 @@ import com.rekonsiliasi.mapper.DepartmentMapper;
 import com.rekonsiliasi.mapper.StatusLogMapper;
 import com.rekonsiliasi.model.Department;
 import com.rekonsiliasi.model.StatusLog;
+import com.rekonsiliasi.model.UserInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -52,6 +53,18 @@ public class StatusLogDAO extends JdbcDaoSupport {
         return dept;
     }
     
+    public List<StatusLog> getStatusDAObyUserIdList(Integer userId) {
+        String sql = StatusLogMapper.BASE_SQL //
+                + " where u.userId = ?";
+ 
+        Object[] params = new Object[] { userId };
+        
+        StatusLogMapper mapper = new StatusLogMapper();
+ 
+        List<StatusLog> dept = this.getJdbcTemplate().query(sql, params, mapper);
+        return dept;
+    }
+    
     
     public void saveRecordStatusLog(StatusLog d) {
     	
@@ -63,5 +76,40 @@ public class StatusLogDAO extends JdbcDaoSupport {
 		this.getJdbcTemplate().update(sql, params);
 		
     }
+    
+    public StatusLog listStatusLog() {
+		StatusLog data = new StatusLog();
+    	data.setList(this.getStatusLog());
+    	Integer size = this.getStatusLog().size();
+    	
+    	data.setRecordsFiltered(size);
+    	data.setRecordsTotal(size);
+    	data.setDraw("");
+    	return data;
+	}
+    
+    public StatusLog listStatusLogById(Integer userId) {
+		StatusLog data = new StatusLog();
+    	data.setList(this.getStatusDAObyUserIdList(userId));
+    	Integer size = this.getStatusLog().size();
+    	
+    	data.setRecordsFiltered(size);
+    	data.setRecordsTotal(size);
+    	data.setDraw("");
+    	return data;
+	}
+    
+    public List<StatusLog> getStatusLog() {
+        String sql = StatusLogMapper.BASE_SQL;
+ 
+        Object[] params = new Object[] {};
+        
+        StatusLogMapper mapper = new StatusLogMapper();
+ 
+        List<StatusLog> dept = this.getJdbcTemplate().query(sql, params, mapper);
+        return dept;
+    }
+    
+    
  
 }

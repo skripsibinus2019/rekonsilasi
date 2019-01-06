@@ -39,10 +39,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.rekonsiliasi.dao.StatusLogDAO;
 import com.rekonsiliasi.dao.UserDao;
 import com.rekonsiliasi.dao.UserRoleDao;
 import com.rekonsiliasi.model.Department;
 import com.rekonsiliasi.model.LogTransaction;
+import com.rekonsiliasi.model.StatusLog;
 import com.rekonsiliasi.model.UserInfo;
 import com.rekonsiliasi.model.UserRole;
 
@@ -59,10 +61,15 @@ public class UsersController {
 	@Qualifier("usersValidator")
 	private Validator validator;
 	
+	@Autowired
+    private StatusLogDAO statusLogDAO;
+	
 	@InitBinder
 	private void initBinder(WebDataBinder binder) {
 		binder.setValidator(validator);
 	}
+	
+	private int idRequestActivity;
 	
 	@RequestMapping(value = { "user-management/user/list" }, method =  RequestMethod.POST, produces = "application/json")
     @ResponseBody
@@ -134,6 +141,34 @@ public class UsersController {
     	
     	return "user.edit_profile";
     }
+	
+	@GetMapping("user-management/user/myActivity")
+    public String myActivityView() {
+    	return "user.myActivity";
+    }
+	
+	@GetMapping("user-management/user/activity/{id}")
+    public String userActivityView(Model model, @PathVariable("id")Integer idRequest) {
+		idRequestActivity = idRequest;
+    	return "user.activity";
+    }
+	
+    @RequestMapping(value = { "user-management/user/myActivityList" }, method =  RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public StatusLog getListActivity(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("draw") String draw){
+    	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	    String username = user.getUsername(); //get logged in username
+    	
+		return statusLogDAO.listStatusLogById(userDao.getUserByUsername(username).getUserId());
+    }
+    
+    @RequestMapping(value = { "user-management/user/activityList" }, method =  RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public StatusLog getListActivityPerUser(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("draw") String draw){
+    	
+		return statusLogDAO.listStatusLogById(idRequestActivity);
+    }
+	
 	
 	@PostMapping(value = "user-management/user/editProfile", consumes = "multipart/form-data")
     public String editProfileSubmit(HttpServletRequest request, @ModelAttribute("data") @Validated UserInfo u, BindingResult bindingResult, @RequestParam MultipartFile file,

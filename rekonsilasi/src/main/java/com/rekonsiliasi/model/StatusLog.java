@@ -1,8 +1,13 @@
 package com.rekonsiliasi.model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -16,6 +21,9 @@ public class StatusLog {
     private List<StatusLog> list;
     
     private String notes;
+    
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
     private Date createdAt;
     private String tableSourceId;
     
@@ -23,10 +31,19 @@ public class StatusLog {
     private Integer recordsFiltered;
     private Integer recordsTotal;
     private UserInfo User;
+    private LogTransaction logTransaction;
     
     
     
-    public UserInfo getUser() {
+    public LogTransaction getLogTransaction() {
+		return logTransaction;
+	}
+
+	public void setLogTransaction(LogTransaction logTransaction) {
+		this.logTransaction = logTransaction;
+	}
+
+	public UserInfo getUser() {
 		return User;
 	}
 
@@ -144,7 +161,7 @@ public class StatusLog {
 	}
 
 	public StatusLog(Integer statusLogId, Integer status, Integer userId, Long logTransactionId, String notes,
-			Date createdAt, UserInfo User) {
+			Date createdAt, UserInfo User, LogTransaction logTransaction) {
 		super();
 		this.statusLogId = statusLogId;
 		this.status = status;
@@ -153,6 +170,7 @@ public class StatusLog {
 		this.notes = notes;
 		this.createdAt = createdAt;
 		this.User = User;
+		this.logTransaction = logTransaction;
 	}
 
 	public StatusLog() {

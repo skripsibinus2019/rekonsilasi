@@ -74,6 +74,8 @@
 		</div>
 		<!-- sidebar menu: : style can be found in sidebar.less -->
 		<ul class="sidebar-menu" data-widget="tree">
+		<li class="header">Main Navigation</li>
+		<li><a href="/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
 			<li class="header">TRANSACTION MANAGEMENT</li>
 
 				<li><a href="/rekonsiliasi"><i class="fa fa-clone"></i> <span>Reconciliation</span></a></li>
@@ -96,6 +98,8 @@
 			<li><a href="/export/log_transaction"><i
 					class="fa fa-arrow-circle-down"></i> <span>Export Log
 						Transaction</span></a></li>
+			<li class="header">Status Log</li>
+			<li><a href="/activity"><i class="fa fa-clock-o"></i> <span>Activity</span></a></li>
 			<li class="header">USER MANAGEMENT</li>
 			<li><a href="/user-management/user"><i class="fa fa-user"></i> <span>Users</span></a></li>
 			<li><a href="/user-management/role"><i class="fa fa-users"></i> <span>Role</span></a></li>

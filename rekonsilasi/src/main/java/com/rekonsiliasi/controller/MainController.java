@@ -516,4 +516,15 @@ public class MainController {
     	dataaas.setDraw("");
     	return dataaas;
     }
+    
+    @RequestMapping(value = { "/activity/list" }, method =  RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public StatusLog getListActivity(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("draw") String draw){
+		return statusLogDAO.listStatusLog();
+    }
+    
+    @RequestMapping(value = "/activity", method = RequestMethod.GET)
+    public String activityView() {   
+        return "activity.index";
+    }
 }

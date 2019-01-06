@@ -2,6 +2,9 @@ package com.rekonsiliasi.mapper;
  
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.rekonsiliasi.model.Department;
@@ -16,7 +19,8 @@ public class StatusLogMapper implements RowMapper<StatusLog> {
     public static final String BASE_SQL = //
             "Select *"
             + " FROM StatusLog l"
-            + " LEFT JOIN USERS u on l.userId = u.userId";
+            + " LEFT JOIN USERS u on l.userId = u.userId"
+            + " LEFT JOIN Log_Transaction t on l.logTransId = t.logTransId";
     
 //    public static final String BASE_SQL2 = //
 //            "Select b.id, b.wsid, b.amount, b.transactionDate " + 
@@ -30,15 +34,44 @@ public class StatusLogMapper implements RowMapper<StatusLog> {
         Integer userId = rs.getInt("userId");
         Long logTransId = rs.getLong("logTransId");
         String notes = rs.getString("notes");
-        Date createdAt = rs.getDate("createdAt");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date createdAt = new Date();
+		try {
+			createdAt = dateFormat.parse(rs.getString("createdAt"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         UserInfo User = new UserInfo();
+        LogTransaction logTransaction = new LogTransaction();
+        
         User.setEmail(rs.getString("email"));
         User.setFirst_name(rs.getString("first_name"));
         User.setLast_name(rs.getString("last_name"));
         User.setUsername(rs.getString("username"));
         User.setJob_title(rs.getString("job_title"));
+        
+        logTransaction.setAmount(rs.getInt("amount"));
+        logTransaction.setTransactionDate(rs.getString("transactionDate"));
+        logTransaction.setTransactionDate(rs.getString("wsid"));
+        logTransaction.setId(rs.getLong("logTransId"));
+        
 
-        return new StatusLog(statusLogId,status,userId,logTransId,notes,createdAt,User);
+        Integer tableA_id = rs.getInt("tableA_id");
+        Integer tableB_id = rs.getInt("tableB_id");
+        if(tableA_id != 0) {
+        	logTransaction.setTableSource("A");
+        	logTransaction.setTableSourceId(rs.getInt("tableA_id"));
+        }else if(tableB_id != 0){
+        	logTransaction.setTableSource("B");
+        	logTransaction.setTableSourceId(rs.getInt("tableB_id"));
+        }else {
+        	logTransaction.setTableSource("CSV");
+        	logTransaction.setTableSourceId(0);
+        }
+        
+
+        return new StatusLog(statusLogId,status,userId,logTransId,notes,createdAt,User,logTransaction);
     }
  
 }

@@ -107,9 +107,21 @@
 			<add-attribute value="/static/js/user.js" />
 	    </put-list-attribute>
 	</definition>
+	<definition name="user.myActivity" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/user/myActivity.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/user.js" />
+	    </put-list-attribute>
+	</definition>
+	<definition name="user.activity" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/user/activity.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/user.js" />
+	    </put-list-attribute>
+	</definition>
 	
 	<definition name="user.index" extends="default">
-		<put-attribute name="content" value="/WEB-INF/pages/user/index.jsp" />
+		<put-attribute name="content" value="/WEB-INF/pages/user/viewAll.jsp" />
 		<put-list-attribute name="javascriptsPage">
 			<add-attribute value="/static/js/user.js" />
 	    </put-list-attribute>
@@ -154,6 +166,13 @@
 		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/matching-rules/reconciliation.jsp" />
 		<put-list-attribute name="javascriptsPage">
 			<add-attribute value="/static/js/matchingRules.js" />
+	    </put-list-attribute>
+	</definition>
+	
+	<definition name="activity.index" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/activity/index.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/activity.js" />
 	    </put-list-attribute>
 	</definition>
 	
