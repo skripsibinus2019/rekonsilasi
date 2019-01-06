@@ -22,10 +22,19 @@ public class StatusLog {
     private String draw;
     private Integer recordsFiltered;
     private Integer recordsTotal;
+    private UserInfo User;
     
     
     
-    public Integer getStatusLogId() {
+    public UserInfo getUser() {
+		return User;
+	}
+
+	public void setUser(UserInfo user) {
+		User = user;
+	}
+
+	public Integer getStatusLogId() {
 		return statusLogId;
 	}
 
@@ -135,7 +144,7 @@ public class StatusLog {
 	}
 
 	public StatusLog(Integer statusLogId, Integer status, Integer userId, Long logTransactionId, String notes,
-			Date createdAt) {
+			Date createdAt, UserInfo User) {
 		super();
 		this.statusLogId = statusLogId;
 		this.status = status;
@@ -143,6 +152,7 @@ public class StatusLog {
 		this.logTransactionId = logTransactionId;
 		this.notes = notes;
 		this.createdAt = createdAt;
+		this.User = User;
 	}
 
 	public StatusLog() {

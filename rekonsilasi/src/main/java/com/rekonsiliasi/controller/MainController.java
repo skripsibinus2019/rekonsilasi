@@ -57,21 +57,6 @@ import com.rekonsiliasi.model.UserRole;
 @Controller
 public class MainController {
 
-    @RequestMapping(value = "/rekonsiliasi", method = RequestMethod.GET)
-    public String index() {   
-        return "rekonsiliasi.index";
-    }
-    
-    @RequestMapping(value = "/log_transaction", method = RequestMethod.GET)
-    public String logTransaction() {   
-        return "rekonsiliasi.report";
-    }
-    
-    @RequestMapping(value = "/approval", method = RequestMethod.GET)
-    public String approval() {   
-        return "rekonsiliasi.approval";
-    }
-    
     @Autowired
     private DepartmentDAO departmentDAO;
     
@@ -91,6 +76,30 @@ public class MainController {
     private LoginDaoImpl loginDaoImpl;
     
     private MatchingRulesViewModel ViewModel = new MatchingRulesViewModel();
+    
+    @RequestMapping(value = "/rekonsiliasi", method = RequestMethod.GET)
+    public String index() {   
+        return "rekonsiliasi.index";
+    }
+    
+    @RequestMapping(value = "/log_transaction", method = RequestMethod.GET)
+    public String logTransaction() {   
+        return "rekonsiliasi.report";
+    }
+    
+    @RequestMapping(value = "/log_transaction/{id}", method = RequestMethod.GET)
+    public String logTransactionDetail(Model model, @PathVariable("id")Integer idRequest) { 
+    	
+    	List<StatusLog> detail = statusLogDAO.getStatusDAObylogTransIdList(idRequest);
+    	model.addAttribute("data", detail);
+    	
+        return "rekonsiliasi.reportDetail";
+    }
+    
+    @RequestMapping(value = "/approval", method = RequestMethod.GET)
+    public String approval() {   
+        return "rekonsiliasi.approval";
+    }
 	
     @RequestMapping(value = { "/Rekonsiliasi/List" }, method =  {RequestMethod.GET,RequestMethod.POST}, produces = "application/json")
     @ResponseBody
@@ -302,6 +311,7 @@ public class MainController {
     	
     	return "rekonsiliasi.report";
     }
+    
     
     @RequestMapping(value = "/matching-rules/upload", method = RequestMethod.GET)
     public String viewMatchingRules() {

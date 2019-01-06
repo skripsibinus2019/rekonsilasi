@@ -40,6 +40,18 @@ public class StatusLogDAO extends JdbcDaoSupport {
         return dept;
     }
     
+    public List<StatusLog> getStatusDAObylogTransIdList(Integer logTransId) {
+        String sql = StatusLogMapper.BASE_SQL //
+                + " where l.logTransId = ?";
+ 
+        Object[] params = new Object[] { logTransId };
+        
+        StatusLogMapper mapper = new StatusLogMapper();
+ 
+        List<StatusLog> dept = this.getJdbcTemplate().query(sql, params, mapper);
+        return dept;
+    }
+    
     
     public void saveRecordStatusLog(StatusLog d) {
     	

@@ -35,7 +35,7 @@ $(document).ready(function() {
 			"autoWidth" : true
 		},{
 			data: null, render: function (data, type, row) {
-            	return "<a href='/rekonsiliasi/"+ row.id + "/" + row.tableSource + "' class='btn btn-info' onclick=DeleteData('" + row.CustomerID + "'); ><i class='fa fa-info'></i></a>";
+            	return "<a href='/log_transaction/"+ row.id + "' class='btn btn-info' ><i class='fa fa-info'></i></a>";
             }
         }]
 	});

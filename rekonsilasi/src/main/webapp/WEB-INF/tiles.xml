@@ -58,21 +58,28 @@
 	</definition>
 	
 	<definition name="rekonsiliasi.approval" extends="default">
-        <put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/approval.jsp" />
+        <put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/approval/approval.jsp" />
         <put-list-attribute name="javascriptsPage">
             <add-attribute value="/static/js/approval.js" />
         </put-list-attribute>
     </definition>
     
     <definition name="rekonsiliasi.approvalConfirm" extends="default">
-        <put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/approvalConfirm.jsp" />
+        <put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/approval/approvalConfirm.jsp" />
         <put-list-attribute name="javascriptsPage">
             <add-attribute value="/static/js/approval.js" />
         </put-list-attribute>
     </definition>
 	
 	<definition name="rekonsiliasi.report" extends="default">
-		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/report.jsp" />
+		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/report/report.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/report.js" />
+	    </put-list-attribute>
+	</definition>
+	
+	<definition name="rekonsiliasi.reportDetail" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/report/reportDetail.jsp" />
 		<put-list-attribute name="javascriptsPage">
 			<add-attribute value="/static/js/report.js" />
 	    </put-list-attribute>
