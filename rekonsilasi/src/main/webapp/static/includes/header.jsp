@@ -253,7 +253,7 @@
                   <a href="user-management/user/editProfile" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="/logout" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="/j_spring_security_logout" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>

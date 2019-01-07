@@ -40,6 +40,7 @@ import com.google.gson.Gson;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.rekonsiliasi.dao.DepartmentDAO;
+import com.rekonsiliasi.dao.FavoriteDAO;
 import com.rekonsiliasi.dao.LogTransactionDAO;
 import com.rekonsiliasi.dao.LoginDaoImpl;
 import com.rekonsiliasi.dao.MatchingRulesDAO;
@@ -47,6 +48,7 @@ import com.rekonsiliasi.dao.StatusLogDAO;
 import com.rekonsiliasi.dao.UserDao;
 import com.rekonsiliasi.mapper.DepartmentMapper;
 import com.rekonsiliasi.model.Department;
+import com.rekonsiliasi.model.Favorite;
 import com.rekonsiliasi.model.LogTransaction;
 import com.rekonsiliasi.model.MatchingRules;
 import com.rekonsiliasi.model.MatchingRulesViewModel;
@@ -68,6 +70,9 @@ public class MainController {
     
     @Autowired
     private MatchingRulesDAO matchingRulesDao;
+    
+    @Autowired
+    private FavoriteDAO favoriteDAO;
     
     @Autowired
     private UserDao userDAO;
@@ -206,7 +211,15 @@ public class MainController {
     public LogTransaction getListLogTransaction(HttpServletRequest request, HttpServletResponse response, Model model){
     	LogTransaction dataaas = new LogTransaction();
     	List<LogTransaction> datas = new ArrayList<LogTransaction>();
+    	Principal principal = request.getUserPrincipal();
+		String username = principal.getName();
+		Integer userId = userDAO.getUserByUsername(username).getUserId();
     	for (LogTransaction logTrans : logTransactionDAO.listLogTransaction()) {
+    		if(favoriteDAO.getUserByUserIdlogTransId(userId, logTrans.getId()) != null) {
+    			logTrans.setFav(0);
+    		}else {
+    			logTrans.setFav(1);
+    		}
 			datas.add(logTrans);
 		}
     	dataaas.setList(datas);
@@ -527,4 +540,20 @@ public class MainController {
     public String activityView() {   
         return "activity.index";
     }
+    
+    @RequestMapping(value = "/favorite/{id}", method = RequestMethod.GET)
+    public String addToFavorite(HttpServletRequest request, @PathVariable("id")Integer idRequest) { 
+    	
+    	Favorite favorite = new Favorite();
+    	favorite.setLogTransId(idRequest);
+    	Principal principal = request.getUserPrincipal();
+		String username = principal.getName();
+		Integer userId = userDAO.getUserByUsername(username).getUserId();
+    	favorite.setUserId(userId);
+    	favoriteDAO.addToFavorite(favorite);
+    	
+        return "redirect:/log_transaction";
+    }
+    
+    
 }

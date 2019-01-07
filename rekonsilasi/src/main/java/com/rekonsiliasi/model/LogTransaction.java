@@ -21,11 +21,20 @@ public class LogTransaction {
     private Integer status;
     private String namaStatus;
     private String notes;
+    private Integer fav;
     
     
 
 	
-    public String getNotes() {
+    public Integer getFav() {
+		return fav;
+	}
+
+	public void setFav(Integer fav) {
+		this.fav = fav;
+	}
+
+	public String getNotes() {
 		return notes;
 	}
 

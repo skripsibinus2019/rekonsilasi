@@ -35,7 +35,11 @@ $(document).ready(function() {
 			"autoWidth" : true
 		},{
 			data: null, render: function (data, type, row) {
-            	return "<a href='/log_transaction/"+ row.id + "' class='btn btn-info' ><i class='fa fa-info'></i></a>";
+				if(row.fav == 1){
+					return "<a href='/log_transaction/"+ row.id + "' class='btn btn-info' ><i class='fa fa-info'></i></a> <a href='/favorite/"+ row.id + "' class='btn btn-warning' ><i class='fa fa-star'></i></a>";
+				}else{
+					return "<a href='/log_transaction/"+ row.id + "' class='btn btn-info' ><i class='fa fa-info'></i></a>";
+				}
             }
         }]
 	});

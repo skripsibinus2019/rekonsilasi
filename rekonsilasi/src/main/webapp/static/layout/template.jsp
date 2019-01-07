@@ -9,8 +9,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html lang="en">
@@ -80,7 +79,9 @@
 
 				<li><a href="/rekonsiliasi"><i class="fa fa-clone"></i> <span>Reconciliation</span></a></li>
 				<li><a href="/log_transaction"><i class="fa fa-sticky-note"></i> <span>Log Transaction</span></a></li>
+				<sec:authorize access="hasAnyRole('ROLE_SUPERVISOR','ROLE_ADMIN')">
 				<li><a href="/approval"><i class="fa fa-check-square-o"></i> <span>Approval</span></a></li>
+				</sec:authorize>
 				<li class="treeview">
 		          <a href="#">
 		            <i class="fa fa-table"></i> <span>Matching Rules</span>
@@ -89,7 +90,9 @@
 		            </span>
 		          </a>
 		          <ul class="treeview-menu">
+		          	<sec:authorize access="hasAnyRole('ROLE_OPERATOR','ROLE_ADMIN')">
 		            <li><a href="/matching-rules/upload"><i class="fa fa-circle-o"></i> Upload CSV</a></li>
+		            </sec:authorize>
 		            <li><a href="/matching-rules/reconciliation"><i class="fa fa-circle-o"></i> View Reconciliation</a></li>
 		          </ul>
 		        </li>
@@ -98,11 +101,13 @@
 			<li><a href="/export/log_transaction"><i
 					class="fa fa-arrow-circle-down"></i> <span>Export Log
 						Transaction</span></a></li>
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
 			<li class="header">Status Log</li>
 			<li><a href="/activity"><i class="fa fa-clock-o"></i> <span>Activity</span></a></li>
 			<li class="header">USER MANAGEMENT</li>
 			<li><a href="/user-management/user"><i class="fa fa-user"></i> <span>Users</span></a></li>
 			<li><a href="/user-management/role"><i class="fa fa-users"></i> <span>Role</span></a></li>
+			</sec:authorize>
 		</ul>
 		</section> <!-- /.sidebar --> </aside>
 		<div class="content-wrapper">

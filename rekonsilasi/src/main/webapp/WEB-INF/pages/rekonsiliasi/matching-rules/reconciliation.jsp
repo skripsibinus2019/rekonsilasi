@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
@@ -19,7 +20,27 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example1" class="table table-bordered table-hover" width="100%">
+            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+              <table id="admin" class="table table-bordered table-hover" width="100%">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>WSID</th>
+                  <th>Amount</th>
+                  <th>Transaction Date</th>
+                  <th>Table Source</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+               	</tbody>
+               	<tfoot>
+                </tfoot>
+              </table>
+            </sec:authorize>
+            
+            <sec:authorize access="hasAnyRole('ROLE_OPERATOR')">
+              <table id="user" class="table table-bordered table-hover" width="100%">
                 <thead>
                 <tr>
                   <th>ID</th>
@@ -36,6 +57,7 @@
                	<tfoot>
                 </tfoot>
               </table>
+            </sec:authorize>
             </div>
             <!-- /.box-body -->
           </div>
