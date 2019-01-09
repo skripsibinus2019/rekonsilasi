@@ -65,7 +65,7 @@ public class FavoriteDAO extends JdbcDaoSupport {
 	
 	public List<Favorite> getUserByUserIdlogTransId(Integer userId, Long logTransId) {
 		String sql = FavoriteMapper.BASE_SQL //
-                + " where f.userId = ? AND f.logTransId = ?";
+                + " AND f.userId = ? AND f.logTransId = ?";
  
         Object[] params = new Object[] { userId, logTransId };
          
@@ -77,6 +77,20 @@ public class FavoriteDAO extends JdbcDaoSupport {
         }else {
         	return fav;
         }
+        
+	}
+	
+	public List<Favorite> getUserByUserId(Integer userId) {
+		String sql = FavoriteMapper.BASE_SQL //
+                + " and f.userId = ?";
+ 
+        Object[] params = new Object[] { userId };
+         
+        FavoriteMapper mapper = new FavoriteMapper();
+ 
+        List<Favorite> fav = this.getJdbcTemplate().query(sql, params, mapper);
+        
+        return fav;
 	}
 	
 	

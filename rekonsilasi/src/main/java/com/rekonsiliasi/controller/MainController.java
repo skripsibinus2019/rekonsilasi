@@ -555,5 +555,11 @@ public class MainController {
         return "redirect:/log_transaction";
     }
     
+    @RequestMapping(value = "/favoriteDelete/{id}", method = RequestMethod.GET)
+    public String deleteFavorite(HttpServletRequest request, @PathVariable("id")Integer idRequest) { 
+    	favoriteDAO.removeFavorite(idRequest);
+        return "redirect:/dashboard";
+    }
+    
     
 }

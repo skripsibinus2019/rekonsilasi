@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>BCA</b>Reconciliation</a>
+    <a href="../../index2.html"><b>XYZ</b>Reconciliation</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
