@@ -50,15 +50,21 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Notes</label>
-							<div class="col-sm-10">	${data.notes}</div>
-							<form:hidden path="notes"/>
+							<div class="col-sm-10">	${noted}</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">New Notes</label>
+							<div class="col-sm-10">
+								<textarea id="text" name="notes" rows="4" cols="50" form="formpost"
+								 class="form-control"></textarea>
+							</div>
 						</div>
 						<!-- /.box-body -->
 						<div class="box-footer">
 							<a href="/approval" class="btn btn-primary">Kembali</a>
 							<input type="hidden" name="_batal" id="_id_batal" value="0">
 							<button type="submit" value="Proses"
-								class="btn btn-info pull-right">Propose</button>
+								class="btn btn-info pull-right">Proses</button>
 						</div>
 						<!-- /.box-footer -->
 					</form:form>

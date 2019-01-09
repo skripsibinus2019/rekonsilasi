@@ -134,6 +134,9 @@ public class MainController {
     	model.addAttribute("method", "approve");
     	model.addAttribute("id", idRequest);
     	model.addAttribute("data",approveReq);
+    	String noted = approveReq.getNotes();
+    	model.addAttribute("noted", noted);
+    	approveReq.setNotes("");
     	
     	return "rekonsiliasi.approvalConfirm";
     }
@@ -165,6 +168,9 @@ public class MainController {
     	model.addAttribute("method", "reject");
     	model.addAttribute("id", idRequest);
     	model.addAttribute("data",approveReq);
+    	String noted = approveReq.getNotes();
+    	model.addAttribute("noted", noted);
+    	approveReq.setNotes("");
     	
     	return "rekonsiliasi.approvalConfirm";
     }
