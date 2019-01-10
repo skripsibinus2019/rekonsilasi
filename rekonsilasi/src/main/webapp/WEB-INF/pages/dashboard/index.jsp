@@ -178,7 +178,7 @@
 					</div>
 				</div>
 				<div class="box-body">
-					<canvas id="pieChart" style="height: 250px"></canvas>
+					<canvas id="pieChart2" style="height: 250px"></canvas>
 				</div>
 				<!-- /.box-body -->
 			</div>

@@ -4,12 +4,11 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
-		Matching <small>Rules</small>
+		Export <small>Data</small>
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-		<li><a href="#">Reconciliation</a></li>
-		<li class="active">Matching Rules</li>
+		<li class="active">Export</li>
 	</ol>
 </section>
 
@@ -19,19 +18,33 @@
 		<div class="col-xs-6 col-xs-offset-3">
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title">Matching Rules</h3>
+					<h3 class="box-title">Log Transaction Export</h3>
 				</div>
 				<!-- /.box-header -->
-				<form:form method="POST" action="/matching-rules/submitMatching" modelAttribute="data" enctype="multipart/form-data" >
+				<form:form method="POST" action="/matching-rules/submitMatchingUpload" enctype="multipart/form-data" >
 					<div class="box-body">
-						<div class="col-md-12">
-							<label>Column ${nowColumn}</label> <form:select path="${nowColumn}" type="text" class="form-control"
-									items="${columnList}" />
-									<form:input type="hidden" path="nowColumn" value="${nowColumn}" />
+					<div class="col-md-12">
+							<label>Export Format</label> 
+							<select class="form-control">
+								<option>
+								PDF
+								</option>
+								<option>
+								XLS
+								</option>
+							</select>
+						</div>
+						<div class="col-md-6">
+							<label>From</label> 
+							<input type="text" class="form-control datepicker"/>
+						</div>
+						<div class="col-md-6">
+							<label>To</label> 
+							<input type="text" class="form-control datepicker"/>
 						</div>
 					</div>
 					<div class="box-footer">
-						<button type="submit" class="btn btn-primary">Submit</button>
+						<button type="submit" class="btn btn-primary">Export</button>
 					</div>
 				</form:form>
 				<!-- /.box-body -->

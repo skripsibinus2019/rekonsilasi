@@ -4,12 +4,12 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
-		User <small>Add User</small>
+		User <small>Edit User</small>
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
 		<li><a href="#">User</a></li>
-		<li class="active">Add User</li>
+		<li class="active">Edit User</li>
 	</ol>
 </section>
 
@@ -19,7 +19,7 @@
 		<div class="col-xs-6 col-xs-offset-3">
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title">Add New User</h3>
+					<h3 class="box-title">Edit User</h3>
 				</div>
 				<!-- /.box-header -->
 				<form:form method="POST" action="/user-management/user/addSubmit" modelAttribute="data" >

@@ -567,5 +567,11 @@ public class MainController {
         return "redirect:/dashboard";
     }
     
+    @RequestMapping(value = "/export/log_transaction", method = RequestMethod.GET)
+    public String exportLogTrans() { 
+    	
+        return "export.index";
+    }
+    
     
 }

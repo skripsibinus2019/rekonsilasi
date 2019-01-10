@@ -31,5 +31,11 @@ public class MatchingRulesDAO extends JdbcDaoSupport {
 		this.getJdbcTemplate().update(sql, params);
 		
     }
+    
+    public void removeAll() {
+		String sql = "delete Table_CSV";
+		this.getJdbcTemplate().update(sql, new Object[]{ });
+
+	}
  
 }

@@ -3,13 +3,13 @@
 <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        My Transaction
+        User Transaction
         <small>Activity</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">User</a></li>
-        <li class="active">My Activity</li>
+        <li class="active">User Activity</li>
       </ol>
     </section>
 
@@ -21,7 +21,7 @@
           <div class="box">
             <div class="box-header">
             
-              <h3 class="box-title">My Activity</h3>
+              <h3 class="box-title">User Activity</h3>
             </div>
             <!-- /.box-header -->
             <div class="col-xs-12"></div>

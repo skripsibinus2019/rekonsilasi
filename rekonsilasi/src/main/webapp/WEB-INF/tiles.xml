@@ -15,6 +15,7 @@
 	        <add-attribute value="/static/bower_components/jquery-slimscroll/jquery.slimscroll.min.js" />
 	        <add-attribute value="/static/bower_components/fastclick/lib/fastclick.js" />
 	        <add-attribute value="/static/bower_components/sweetalert/sweetalert.min.js" />
+	        <add-attribute value="/static/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js" />
 	        <add-attribute value="/static/dist/js/adminlte.min.js" />
 	        <add-attribute value="/static/dist/js/demo.js" />
 	    </put-list-attribute>
@@ -173,6 +174,13 @@
 		<put-attribute name="content" value="/WEB-INF/pages/activity/index.jsp" />
 		<put-list-attribute name="javascriptsPage">
 			<add-attribute value="/static/js/activity.js" />
+	    </put-list-attribute>
+	</definition>
+	
+	<definition name="export.index" extends="default">
+		<put-attribute name="content" value="/WEB-INF/pages/rekonsiliasi/report/export/index.jsp" />
+		<put-list-attribute name="javascriptsPage">
+			<add-attribute value="/static/js/export.js" />
 	    </put-list-attribute>
 	</definition>
 	
