@@ -20,7 +20,7 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+            <sec:authorize access="hasAnyRole('ROLE_SUPERVISOR')">
               <table id="admin" class="table table-bordered table-hover" width="100%">
                 <thead>
                 <tr>
@@ -39,7 +39,7 @@
               </table>
             </sec:authorize>
             
-            <sec:authorize access="hasAnyRole('ROLE_OPERATOR')">
+            <sec:authorize access="hasAnyRole('ROLE_OPERATOR', 'ROLE_ADMIN')">
               <table id="user" class="table table-bordered table-hover" width="100%">
                 <thead>
                 <tr>

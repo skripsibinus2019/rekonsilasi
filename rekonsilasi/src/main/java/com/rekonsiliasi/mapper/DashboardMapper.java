@@ -14,7 +14,7 @@ import com.rekonsiliasi.model.UserRole;
 public class DashboardMapper implements RowMapper<Dashboard>{
 	
     public static final String BASE_SQL = //
-            "Select (Select count(id) from Table_A) countA, (Select count(id) from Table_B) countB, (Select count(id) from Table_CSV) countCSV";
+            "Select TOP 5 (Select count(id) from Table_A) countA, (Select count(id) from Table_B) countB, (Select count(id) from Table_CSV) countCSV";
 
 	@Override
 	public Dashboard mapRow(ResultSet rs, int rowNum) throws SQLException {

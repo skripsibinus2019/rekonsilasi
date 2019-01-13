@@ -21,26 +21,26 @@
 					<h3 class="box-title">Log Transaction Export</h3>
 				</div>
 				<!-- /.box-header -->
-				<form:form method="POST" action="/matching-rules/submitMatchingUpload" enctype="multipart/form-data" >
+				<form:form method="POST" action="/export/log_transaction/submit" enctype="multipart/form-data" >
 					<div class="box-body">
 					<div class="col-md-12">
 							<label>Export Format</label> 
-							<select class="form-control">
-								<option>
+							<select class="form-control" name="type">
+								<option value="0">
 								PDF
 								</option>
-								<option>
+								<option value="1">
 								XLS
 								</option>
 							</select>
 						</div>
 						<div class="col-md-6">
 							<label>From</label> 
-							<input type="text" class="form-control datepicker"/>
+							<input type="text" class="form-control datepicker" name="From" data-date-format="yyyy-mm-dd"/>
 						</div>
 						<div class="col-md-6">
 							<label>To</label> 
-							<input type="text" class="form-control datepicker"/>
+							<input type="text" class="form-control datepicker" name="To" data-date-format="yyyy-mm-dd"/>
 						</div>
 					</div>
 					<div class="box-footer">

@@ -55,6 +55,17 @@ public class LogTransactionDAO extends JdbcDaoSupport {
         return list;
     }
     
+    public List<LogTransaction> listLogTransactionByDate(String From, String To) {
+        String sql = LogTransactionMapper.BASE_SQL
+        		+ " AND l.transactionDate BETWEEN ? AND ?";
+ 
+        Object[] params = new Object[] { From, To };
+        LogTransactionMapper mapper = new LogTransactionMapper();
+        
+        List<LogTransaction> list = this.getJdbcTemplate().query(sql, params, mapper);
+        return list;
+    }
+    
 //    public void saveRecord(LogTransaction lt) {
 //    	
 //    	String sql = "Insert into Log_Transaction (logTransId, tableA_id, tableB_id, wsid, amount, transactionDate) "//
