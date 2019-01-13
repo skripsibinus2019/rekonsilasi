@@ -212,30 +212,81 @@ public class MainController {
     	return dataaas;
     }
     
+
     @RequestMapping(value = { "/log_transaction/data" }, method =  {RequestMethod.GET,RequestMethod.POST}, produces = "application/json")
     @ResponseBody
-    public LogTransaction getListLogTransaction(HttpServletRequest request, HttpServletResponse response, Model model){
-    	LogTransaction dataaas = new LogTransaction();
-    	List<LogTransaction> datas = new ArrayList<LogTransaction>();
+    public LogTransaction getListLogTransaction(HttpServletRequest request, HttpServletResponse response, Model model,
+    		@ModelAttribute(value = "search[value]") String search,
+    		@ModelAttribute(value = "draw") String draw,
+    		@ModelAttribute(value = "start") String start,
+    		@ModelAttribute(value = "length") String length){
+    	
+    	LogTransaction data = new LogTransaction();
+    	List<LogTransaction> listOfData = new ArrayList<>();
     	Principal principal = request.getUserPrincipal();
 		String username = principal.getName();
 		Integer userId = userDAO.getUserByUsername(username).getUserId();
-    	for (LogTransaction logTrans : logTransactionDAO.listLogTransaction()) {
-    		if(favoriteDAO.getUserByUserIdlogTransId(userId, logTrans.getId()) != null) {
-    			logTrans.setFav(0);
-    		}else {
-    			logTrans.setFav(1);
-    		}
-			datas.add(logTrans);
-		}
-    	dataaas.setList(datas);
-    	Integer asd = dataaas.getList().size();
+		List<LogTransaction> filteredData = new ArrayList<>();
+    	Integer pageSize;
+    	if(length != null) {
+    		pageSize = Integer.parseInt(length);
+    	}else {
+    		pageSize = 0;
+    	}
+    	Integer skip;
+    	if(start != null) {
+    		skip = Integer.parseInt(start);
+    	}else {
+    		skip = 0;
+    	}
     	
-    	dataaas.setRecordsFiltered(asd);
-    	dataaas.setRecordsTotal(asd);
-    	dataaas.setDraw("");
-    	return dataaas;
+    	if(search!=null) {
+        	for (LogTransaction logTrans : logTransactionDAO.listLogTransaction()) {
+        		if(favoriteDAO.getUserByUserIdlogTransId(userId, logTrans.getId()) != null) {
+        			logTrans.setFav(0);
+        		}else {
+        			logTrans.setFav(1);
+        		}
+        		if(!search.equals("")) {
+	        		if(logTrans.getNamaStatus().contains(search)
+	        				| logTrans.getWsId().contains(search) 
+	        				| logTrans.getTableSource().contains(search)
+	        				| logTrans.getNotes().contains(search)
+	        				| logTrans.getNamaStatus().contains(search)
+	        				| logTrans.getAmount().toString().contains(search)
+	        				| logTrans.getTransactionDate().toString().contains(search)
+	        				) {
+	        			listOfData.add(logTrans);
+	        		} else {
+	        			continue;
+	        		}
+        		}else {
+        			listOfData.add(logTrans);
+        		}
+    		}
+    	}
+    	
+    	Integer x = listOfData.size() % pageSize;
+    	for (int a = skip;a<x+a;a++) {
+    		filteredData.add(listOfData.get(skip));
+    	}
+    	
+    	
+    	data.setList(listOfData);
+    	Integer asd = data.getList().size();
+    	
+
+    	
+    	Integer recordsTotal = filteredData.size();
+    	
+    	
+    	
+    	data.setRecordsFiltered(recordsTotal);
+    	data.setRecordsTotal(recordsTotal);
+    	data.setDraw(draw);
+    	return data;
     }
+
     
     @RequestMapping(value = { "/Rekonsiliasi/find" }, method =  RequestMethod.GET, produces = "application/json")
     @ResponseBody
