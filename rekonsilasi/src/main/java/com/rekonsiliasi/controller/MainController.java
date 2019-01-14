@@ -130,9 +130,30 @@ public class MainController {
 	
     @RequestMapping(value = { "/Rekonsiliasi/List" }, method =  {RequestMethod.GET,RequestMethod.POST}, produces = "application/json")
     @ResponseBody
-    public Department getListDepartement(HttpServletRequest request, HttpServletResponse response, Model model){
+    public Department getListDepartement(HttpServletRequest request, HttpServletResponse response, Model model,
+    		@ModelAttribute(value = "search[value]") String search,
+    		@ModelAttribute(value = "draw") String draw,
+    		@ModelAttribute(value = "start") String start,
+    		@ModelAttribute(value = "length") String length){
+    	
     	Department dataaas = new Department();
-    	List<Department> datas = new ArrayList<Department>();
+    	List<Department> datas = new ArrayList<>();
+    	Integer pageSize;
+    	List<Department> filteredData1 = new ArrayList<>();
+    	List<Department> filteredData2 = new ArrayList<>();
+    	if(length != null) {
+    		pageSize = Integer.parseInt(length);
+    	}else {
+    		pageSize = 0;
+    	}
+    	Integer skip;
+    	if(start != null) {
+    		skip = Integer.parseInt(start);
+    	}else {
+    		skip = 0;
+    	}
+    	Integer recordsTotal = datas.size();
+    	
     	for (Department department : departmentDAO.listDepartment()) {
 			datas.add(department);
 		}
@@ -140,12 +161,47 @@ public class MainController {
 			datas.add(department);
 		}
     	
-    	dataaas.setList(datas);
+    	if(search!=null) {
+	    	for (Department department : datas) {
+	    		if(!search.equals("")) {
+	        		if(department.getAmount().toString().contains(search)
+	        				| department.getTableSource().contains(search)
+	        				| department.getTransactionDate().toString().contains(search)
+	        				| department.getWsId().contains(search)
+	        				) {
+	        			filteredData1.add(department);
+	        		} else {
+	        			continue;
+	        		}
+        		}else {
+        			filteredData1.add(department);
+        		}
+			}
+    	}
+    	
+    	Integer x = datas.size() % pageSize;
+    	
+    	for(int a = 0;a<pageSize;a++,skip++) {
+    		try {
+    			filteredData2.add(filteredData1.get(skip));
+    		}catch(Exception e) {
+    			// buat break
+    			break;
+    		}
+    	}
+    	
+    	dataaas.setList(filteredData2);
     	Integer asd = dataaas.getList().size();
     	
-    	dataaas.setRecordsFiltered(asd);
-    	dataaas.setRecordsTotal(asd);
-    	dataaas.setDraw("");
+
+    	if(search.equals("")) {
+    		recordsTotal = datas.size();
+    	}else {
+    		recordsTotal = filteredData2.size();
+    	}
+    	dataaas.setRecordsFiltered(recordsTotal);
+    	dataaas.setRecordsTotal(recordsTotal);
+    	dataaas.setDraw(draw);
     	return dataaas;
     }
     
@@ -219,19 +275,82 @@ public class MainController {
     
     @RequestMapping(value = { "/approval/data" }, method =  {RequestMethod.GET,RequestMethod.POST}, produces = "application/json")
     @ResponseBody
-    public LogTransaction getListApproval(HttpServletRequest request, HttpServletResponse response, Model model){
-    	LogTransaction dataaas = new LogTransaction();
-    	List<LogTransaction> datas = new ArrayList<LogTransaction>();
-    	for (LogTransaction logTrans : logTransactionDAO.allLogTransaction()) {
-			datas.add(logTrans);
-		}
-    	dataaas.setList(datas);
-    	Integer asd = dataaas.getList().size();
+    public LogTransaction getListApproval(HttpServletRequest request, HttpServletResponse response, Model model,
+    		@ModelAttribute(value = "search[value]") String search,
+    		@ModelAttribute(value = "draw") String draw,
+    		@ModelAttribute(value = "start") String start,
+    		@ModelAttribute(value = "length") String length){
+    	LogTransaction data = new LogTransaction();
+    	List<LogTransaction> listOfData = new ArrayList<>();
+    	Principal principal = request.getUserPrincipal();
+		String username = principal.getName();
+		Integer userId = userDAO.getUserByUsername(username).getUserId();
+		List<LogTransaction> filteredData2 = new ArrayList<>();
+    	Integer pageSize;
+    	if(length != null) {
+    		pageSize = Integer.parseInt(length);
+    	}else {
+    		pageSize = 0;
+    	}
+    	Integer skip;
+    	if(start != null) {
+    		skip = Integer.parseInt(start);
+    	}else {
+    		skip = 0;
+    	}
+    	Integer recordsTotal ;
     	
-    	dataaas.setRecordsFiltered(asd);
-    	dataaas.setRecordsTotal(asd);
-    	dataaas.setDraw("");
-    	return dataaas;
+    	if(search!=null) {
+        	for (LogTransaction logTrans : logTransactionDAO.allLogTransaction()) {
+        		if(favoriteDAO.getUserByUserIdlogTransId(userId, logTrans.getId()) != null) {
+        			logTrans.setFav(0);
+        		}else {
+        			logTrans.setFav(1);
+        		}
+        		if(!search.equals("")) {
+	        		if(logTrans.getNamaStatus().contains(search)
+	        				| logTrans.getWsId().contains(search) 
+	        				| logTrans.getTableSource().contains(search)
+	        				| logTrans.getNotes().contains(search)
+	        				| logTrans.getNamaStatus().contains(search)
+	        				| logTrans.getAmount().toString().contains(search)
+	        				| logTrans.getTransactionDate().toString().contains(search)
+	        				) {
+	        			listOfData.add(logTrans);
+	        		} else {
+	        			continue;
+	        		}
+        		}else {
+        			listOfData.add(logTrans);
+        		}
+    		}
+    	}
+    	
+    	Integer x = listOfData.size() % pageSize;
+    	
+    	for(int a = 0;a<pageSize;a++,skip++) {
+    		try {
+    			filteredData2.add(listOfData.get(skip));
+    		}catch(Exception e) {
+    			// buat break
+    			break;
+    		}
+    	}
+    	
+    	data.setList(filteredData2);
+    	Integer asd = data.getList().size();
+    	
+
+    	if(search.equals("")) {
+    		recordsTotal = listOfData.size();
+    	}else {
+    		recordsTotal = filteredData2.size();
+    	}
+    	
+    	data.setRecordsFiltered(recordsTotal);
+    	data.setRecordsTotal(recordsTotal);
+    	data.setDraw(draw);
+    	return data;
     }
     
 
@@ -248,7 +367,7 @@ public class MainController {
     	Principal principal = request.getUserPrincipal();
 		String username = principal.getName();
 		Integer userId = userDAO.getUserByUsername(username).getUserId();
-		List<LogTransaction> filteredData = new ArrayList<>();
+		List<LogTransaction> filteredData2 = new ArrayList<>();
     	Integer pageSize;
     	if(length != null) {
     		pageSize = Integer.parseInt(length);
@@ -261,6 +380,7 @@ public class MainController {
     	}else {
     		skip = 0;
     	}
+    	Integer recordsTotal ;
     	
     	if(search!=null) {
         	for (LogTransaction logTrans : logTransactionDAO.listLogTransaction()) {
@@ -289,18 +409,25 @@ public class MainController {
     	}
     	
     	Integer x = listOfData.size() % pageSize;
-    	for (int a = skip;a<x+a;a++) {
-    		filteredData.add(listOfData.get(skip));
+    	
+    	for(int a = 0;a<pageSize;a++,skip++) {
+    		try {
+    			filteredData2.add(listOfData.get(skip));
+    		}catch(Exception e) {
+    			// buat break
+    			break;
+    		}
     	}
     	
-    	
-    	data.setList(listOfData);
+    	data.setList(filteredData2);
     	Integer asd = data.getList().size();
     	
 
-    	Integer recordsTotal = filteredData.size();
-    	
-    	
+    	if(search.equals("")) {
+    		recordsTotal = listOfData.size();
+    	}else {
+    		recordsTotal = filteredData2.size();
+    	}
     	
     	data.setRecordsFiltered(recordsTotal);
     	data.setRecordsTotal(recordsTotal);
