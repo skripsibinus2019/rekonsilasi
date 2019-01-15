@@ -30,7 +30,7 @@
 								PDF
 								</option>
 								<option value="1">
-								XLS
+								XLSX
 								</option>
 							</select>
 						</div>

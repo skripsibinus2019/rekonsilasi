@@ -24,6 +24,8 @@
 <!-- Bootstrap 3.3.7 -->
 <link rel="stylesheet"
 	href="<c:url value='/static/bower_components/bootstrap/dist/css/bootstrap.min.css'/>">
+<link rel="stylesheet"
+	href="<c:url value='/static/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.standalone.min.css'/>">
 <!-- Font Awesome -->
 <link rel="stylesheet"
 	href="<c:url value='/static/bower_components/font-awesome/css/font-awesome.min.css'/>">

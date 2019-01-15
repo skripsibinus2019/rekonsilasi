@@ -55,6 +55,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -775,125 +777,134 @@ public class MainController {
 
 	@RequestMapping(value = "export/log_transaction/submit", method = RequestMethod.POST)
     public String SubmitExport(HttpServletRequest request, @RequestParam("type") int type, @RequestParam("From") String from, @RequestParam("To") String to) throws IOException, DocumentException {
-		Workbook workbook = new XSSFWorkbook();
-		Sheet sheet = workbook.createSheet("Report");
-		
-		Font headerFont = workbook.createFont();
-		headerFont.setBold(true);
-		headerFont.setFontHeightInPoints((short) 14);
-		headerFont.setColor(IndexedColors.RED.getIndex());
-		
-		CellStyle headerCellStyle = workbook.createCellStyle();
-		headerCellStyle.setFont(headerFont);
-
-    	    // Create a Row
-    	Row headerRow = sheet.createRow(0);
-    	Cell cell = headerRow.createCell(0);
-        cell.setCellValue("WSID");
-        cell.setCellStyle(headerCellStyle);
-        
-        cell = headerRow.createCell(1);
-        cell.setCellValue("AMOUNT");
-        cell.setCellStyle(headerCellStyle);
-        
-        cell = headerRow.createCell(2);
-        cell.setCellValue("TRANSACTION DATE");
-        cell.setCellStyle(headerCellStyle);
-        
-        cell = headerRow.createCell(3);
-        cell.setCellValue("TABLE SOURCE");
-        cell.setCellStyle(headerCellStyle);
-        
-        cell = headerRow.createCell(4);
-        cell.setCellValue("NOTES");
-        cell.setCellStyle(headerCellStyle);
-        
-        cell = headerRow.createCell(5);
-        cell.setCellValue("STATUS");
-        cell.setCellStyle(headerCellStyle);
-        
-        int rowNum = 1;
-        for (LogTransaction logTrans : logTransactionDAO.listLogTransactionByDate(from, to)) {
-            Row row = sheet.createRow(rowNum++);
-            if(logTrans.getWsId() != null) {
-            	row.createCell(0).setCellValue(logTrans.getWsId());
-            }
-            
-            if(logTrans.getAmount() != null) {
-            	row.createCell(1).setCellValue(logTrans.getAmount());
-            }
-            
-            if(logTrans.getTransactionDate() != null) {
-            	row.createCell(2).setCellValue(logTrans.getTransactionDate());
-            }
-            
-            if(logTrans.getTableSource() != null) {
-            row.createCell(3).setCellValue(logTrans.getTableSource());
-            }
-            
-            if(logTrans.getNotes() != null) {
-            row.createCell(4).setCellValue(logTrans.getNotes());
-            }
-            
-            if(logTrans.getNamaStatus() != null) {
-            row.createCell(5).setCellValue(logTrans.getNamaStatus());
-            }
-      }
-
-        // Resize all columns to fit the content size
-        for (int i = 0; i < headerRow.getPhysicalNumberOfCells(); i++) {
-          sheet.autoSizeColumn(i);
-        }
-
-        // Write the output to a file
-        FileOutputStream fileOut;
 		String uploadRootPath = request.getServletContext().getRealPath("\\static\\temp");
-		fileOut = new FileOutputStream(uploadRootPath + "\\" + "export.xlsx");
-		workbook.write(fileOut);
-		fileOut.close();
-		
-		FileInputStream input_document = new FileInputStream(new File(uploadRootPath + "\\" + "export.xlsx"));
-        // Read workbook into HSSFWorkbook
-        XSSFWorkbook my_xls_workbook = new XSSFWorkbook(input_document); 
-        // Read worksheet into HSSFSheet
-        XSSFSheet my_worksheet = my_xls_workbook.getSheetAt(0); 
-        // To iterate over the rows
-        Iterator<Row> rowIterator = my_worksheet.iterator();
-        //We will create output PDF document objects at this point
-        Document iText_xls_2_pdf = new Document();
-        PdfWriter.getInstance(iText_xls_2_pdf, new FileOutputStream(uploadRootPath + "\\" + "export.pdf"));
-        iText_xls_2_pdf.open();
-        //we have two columns in the Excel sheet, so we create a PDF table with two columns                
-        PdfPTable my_table = new PdfPTable(6);
-        //cell object to capture data
-        PdfPCell table_cell;
-        //Loop through rows.
-        while(rowIterator.hasNext()) {
-                Row row = rowIterator.next(); 
-                Iterator<Cell> cellIterator = row.cellIterator();
-                        while(cellIterator.hasNext()) {
-                                Cell cells = cellIterator.next(); //Fetch CELL
-                                switch(cells.getCellType()) { //Identify CELL type
-                                        
-                                case Cell.CELL_TYPE_STRING:
-                                	//Push the data from Excel to PDF Cell
-                                    table_cell=new PdfPCell(new Phrase(cell.getStringCellValue()));
-                                    //feel free to move the code below to suit to your needs
-                                    my_table.addCell(table_cell);
-                                   break;
-                                }
-                                //next line
-                        }
-        
-        }
-        
-        //Finally add the table to PDF document
-        iText_xls_2_pdf.add(my_table);                       
-        iText_xls_2_pdf.close();                
-        //we created our pdf file..
-        input_document.close(); //close xlsx
+		if(type == 1) {
+			Workbook workbook = new XSSFWorkbook();
+			Sheet sheet = workbook.createSheet("Report");
+			
+			Font headerFont = workbook.createFont();
+			headerFont.setBold(true);
+			headerFont.setFontHeightInPoints((short) 14);
+			headerFont.setColor(IndexedColors.RED.getIndex());
+			
+			CellStyle headerCellStyle = workbook.createCellStyle();
+			headerCellStyle.setFont(headerFont);
+	
+	    	    // Create a Row
+	    	Row headerRow = sheet.createRow(0);
+	    	Cell cell = headerRow.createCell(0);
+	        cell.setCellValue("WSID");
+	        cell.setCellStyle(headerCellStyle);
+	        
+	        cell = headerRow.createCell(1);
+	        cell.setCellValue("AMOUNT");
+	        cell.setCellStyle(headerCellStyle);
+	        
+	        cell = headerRow.createCell(2);
+	        cell.setCellValue("TRANSACTION DATE");
+	        cell.setCellStyle(headerCellStyle);
+	        
+	        cell = headerRow.createCell(3);
+	        cell.setCellValue("TABLE SOURCE");
+	        cell.setCellStyle(headerCellStyle);
+	        
+	        cell = headerRow.createCell(4);
+	        cell.setCellValue("NOTES");
+	        cell.setCellStyle(headerCellStyle);
+	        
+	        cell = headerRow.createCell(5);
+	        cell.setCellValue("STATUS");
+	        cell.setCellStyle(headerCellStyle);
+	        
+	        int rowNum = 1;
+	        for (LogTransaction logTrans : logTransactionDAO.listLogTransactionByDate(from, to)) {
+	            Row row = sheet.createRow(rowNum++);
+	            if(logTrans.getWsId() != null) {
+	            	row.createCell(0).setCellValue(logTrans.getWsId());
+	            }
+	            
+	            if(logTrans.getAmount() != null) {
+	            	row.createCell(1).setCellValue(logTrans.getAmount());
+	            }
+	            
+	            if(logTrans.getTransactionDate() != null) {
+	            	row.createCell(2).setCellValue(logTrans.getTransactionDate());
+	            }
+	            
+	            if(logTrans.getTableSource() != null) {
+	            row.createCell(3).setCellValue(logTrans.getTableSource());
+	            }
+	            
+	            if(logTrans.getNotes() != null) {
+	            row.createCell(4).setCellValue(logTrans.getNotes());
+	            }
+	            
+	            if(logTrans.getNamaStatus() != null) {
+	            row.createCell(5).setCellValue(logTrans.getNamaStatus());
+	            }
+	      }
+	
+	        // Resize all columns to fit the content size
+	        for (int i = 0; i < headerRow.getPhysicalNumberOfCells(); i++) {
+	          sheet.autoSizeColumn(i);
+	        }
+	
+	        // Write the output to a file
+	        FileOutputStream fileOut;
+			fileOut = new FileOutputStream(uploadRootPath + "\\" + "export.xlsx");
+			workbook.write(fileOut);
+			fileOut.close();
+			return "redirect:/static/temp/export.xlsx";
+		}else {
+	        Document iText_xls_2_pdf = new Document(PageSize.A4.rotate());
+	        PdfWriter.getInstance(iText_xls_2_pdf, new FileOutputStream(uploadRootPath + "\\" + "export.pdf"));
+	        iText_xls_2_pdf.open();
+	        //we have two columns in the Excel sheet, so we create a PDF table with two columns                
+	        PdfPTable table = new PdfPTable(6);
+			table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+			table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
+	
+			table.addCell("WSID");
+			table.addCell("AMOUNT");
+			table.addCell("TRANSACTION DATE");
+			table.addCell("TABLE SOURCE");
+			table.addCell("NOTES");
+			table.addCell("STATUS");
+	
+			for (LogTransaction logTrans : logTransactionDAO.listLogTransactionByDate(from, to)) {
+				if(logTrans.getWsId() != null) {
+					table.addCell(logTrans.getWsId());
+	            }
+	            
+	            if(logTrans.getAmount() != null) {
+	            	table.addCell(logTrans.getAmount().toString());
+	            }
+	            
+	            if(logTrans.getTransactionDate() != null) {
+	            	table.addCell(logTrans.getTransactionDate());
+	            }
+	            
+	            if(logTrans.getTableSource() != null) {
+	            	table.addCell(logTrans.getTableSource());
+	            }
+	            
+	            if(logTrans.getNotes() != null) {
+	            	table.addCell(logTrans.getNotes());
+	            }
+	            
+	            if(logTrans.getNamaStatus() != null) {
+	            	table.addCell(logTrans.getNamaStatus());
+	            }
+			}
+	
+	
+	        //Finally add the table to PDF document
+	        iText_xls_2_pdf.add(table);                       
+	        iText_xls_2_pdf.close();
+	        return "redirect:/static/temp/export.pdf";
+		}
 
-        return "redirect:/static/temp/export.xlsx";
+        
     }
     
     
