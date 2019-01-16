@@ -10,6 +10,10 @@ $(document).ready(function() {
 			"datatype" : "json"
 		},
 		"columns" : [ {
+			"data" : "id",
+			"name" : "id",
+			"autoWidth" : true
+		}, {
 			"data" : "wsId",
 			"name" : "wsId",
 			"autoWidth" : true
@@ -30,10 +34,16 @@ $(document).ready(function() {
 			"name" : "notes",
 			"autoWidth" : true
 		}, {
-			"data" : "namaStatus",
-			"name" : "namaStatus",
-			"autoWidth" : true
-		},{
+			data: "namaStatus", render: function (data, type, row) {
+				if(row.namaStatus == "Pending"){
+					return "<span class='label label-primary'>Proposed</span>";
+				}else if(row.namaStatus == "Approved"){
+					return "<span class='label label-success'>Approved</span>";
+				}else if(row.namaStatus == "Rejected"){
+					return "<span class='label label-danger'>Rejected</span>";
+				}
+            }
+        },{
 			data: null, render: function (data, type, row) {
 				if(row.fav == 1){
 					return "<a href='/log_transaction/"+ row.id + "' class='btn btn-info' ><i class='fa fa-info'></i></a> <a href='/favorite/"+ row.id + "' class='btn btn-warning' ><i class='fa fa-star'></i></a>";

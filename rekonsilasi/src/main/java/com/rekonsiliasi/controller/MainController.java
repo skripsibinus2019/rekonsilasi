@@ -223,7 +223,9 @@ public class MainController {
     
     @RequestMapping(value = { "approval/{id}/approve/process"}, method =  {RequestMethod.GET,RequestMethod.POST})
     public String approved(Model model, @PathVariable("id")String IdRequest, 
-    		@ModelAttribute(value = "data") LogTransaction data, HttpServletRequest request) {
+    		@ModelAttribute(value = "data") LogTransaction data, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    	
+    	redirectAttributes.addFlashAttribute("message", "Data Has Been Approved!");
     	
     	//proses approve
 		StatusLog statuslog = new StatusLog();
@@ -776,132 +778,138 @@ public class MainController {
     }
 
 	@RequestMapping(value = "export/log_transaction/submit", method = RequestMethod.POST)
-    public String SubmitExport(HttpServletRequest request, @RequestParam("type") int type, @RequestParam("From") String from, @RequestParam("To") String to) throws IOException, DocumentException {
-		String uploadRootPath = request.getServletContext().getRealPath("\\static\\temp");
-		if(type == 1) {
-			Workbook workbook = new XSSFWorkbook();
-			Sheet sheet = workbook.createSheet("Report");
-			
-			Font headerFont = workbook.createFont();
-			headerFont.setBold(true);
-			headerFont.setFontHeightInPoints((short) 14);
-			headerFont.setColor(IndexedColors.RED.getIndex());
-			
-			CellStyle headerCellStyle = workbook.createCellStyle();
-			headerCellStyle.setFont(headerFont);
-	
-	    	    // Create a Row
-	    	Row headerRow = sheet.createRow(0);
-	    	Cell cell = headerRow.createCell(0);
-	        cell.setCellValue("WSID");
-	        cell.setCellStyle(headerCellStyle);
-	        
-	        cell = headerRow.createCell(1);
-	        cell.setCellValue("AMOUNT");
-	        cell.setCellStyle(headerCellStyle);
-	        
-	        cell = headerRow.createCell(2);
-	        cell.setCellValue("TRANSACTION DATE");
-	        cell.setCellStyle(headerCellStyle);
-	        
-	        cell = headerRow.createCell(3);
-	        cell.setCellValue("TABLE SOURCE");
-	        cell.setCellStyle(headerCellStyle);
-	        
-	        cell = headerRow.createCell(4);
-	        cell.setCellValue("NOTES");
-	        cell.setCellStyle(headerCellStyle);
-	        
-	        cell = headerRow.createCell(5);
-	        cell.setCellValue("STATUS");
-	        cell.setCellStyle(headerCellStyle);
-	        
-	        int rowNum = 1;
-	        for (LogTransaction logTrans : logTransactionDAO.listLogTransactionByDate(from, to)) {
-	            Row row = sheet.createRow(rowNum++);
-	            if(logTrans.getWsId() != null) {
-	            	row.createCell(0).setCellValue(logTrans.getWsId());
-	            }
-	            
-	            if(logTrans.getAmount() != null) {
-	            	row.createCell(1).setCellValue(logTrans.getAmount());
-	            }
-	            
-	            if(logTrans.getTransactionDate() != null) {
-	            	row.createCell(2).setCellValue(logTrans.getTransactionDate());
-	            }
-	            
-	            if(logTrans.getTableSource() != null) {
-	            row.createCell(3).setCellValue(logTrans.getTableSource());
-	            }
-	            
-	            if(logTrans.getNotes() != null) {
-	            row.createCell(4).setCellValue(logTrans.getNotes());
-	            }
-	            
-	            if(logTrans.getNamaStatus() != null) {
-	            row.createCell(5).setCellValue(logTrans.getNamaStatus());
-	            }
-	      }
-	
-	        // Resize all columns to fit the content size
-	        for (int i = 0; i < headerRow.getPhysicalNumberOfCells(); i++) {
-	          sheet.autoSizeColumn(i);
-	        }
-	
-	        // Write the output to a file
-	        FileOutputStream fileOut;
-			fileOut = new FileOutputStream(uploadRootPath + "\\" + "export.xlsx");
-			workbook.write(fileOut);
-			fileOut.close();
-			return "redirect:/static/temp/export.xlsx";
+    public String SubmitExport(HttpServletRequest request, @RequestParam("type") int type, @RequestParam("From") String from, @RequestParam("To") String to, RedirectAttributes redirectAttributes) throws IOException, DocumentException {
+		if(from.equals("") || to.equals("")) {
+			redirectAttributes.addFlashAttribute("message", 
+                    "Date Must be Filled!");
+			return "redirect:/export/log_transaction/";
 		}else {
-	        Document iText_xls_2_pdf = new Document(PageSize.A4.rotate());
-	        PdfWriter.getInstance(iText_xls_2_pdf, new FileOutputStream(uploadRootPath + "\\" + "export.pdf"));
-	        iText_xls_2_pdf.open();
-	        //we have two columns in the Excel sheet, so we create a PDF table with two columns                
-	        PdfPTable table = new PdfPTable(6);
-			table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
-			table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
-	
-			table.addCell("WSID");
-			table.addCell("AMOUNT");
-			table.addCell("TRANSACTION DATE");
-			table.addCell("TABLE SOURCE");
-			table.addCell("NOTES");
-			table.addCell("STATUS");
-	
-			for (LogTransaction logTrans : logTransactionDAO.listLogTransactionByDate(from, to)) {
-				if(logTrans.getWsId() != null) {
-					table.addCell(logTrans.getWsId());
-	            }
-	            
-	            if(logTrans.getAmount() != null) {
-	            	table.addCell(logTrans.getAmount().toString());
-	            }
-	            
-	            if(logTrans.getTransactionDate() != null) {
-	            	table.addCell(logTrans.getTransactionDate());
-	            }
-	            
-	            if(logTrans.getTableSource() != null) {
-	            	table.addCell(logTrans.getTableSource());
-	            }
-	            
-	            if(logTrans.getNotes() != null) {
-	            	table.addCell(logTrans.getNotes());
-	            }
-	            
-	            if(logTrans.getNamaStatus() != null) {
-	            	table.addCell(logTrans.getNamaStatus());
-	            }
+			String uploadRootPath = request.getServletContext().getRealPath("\\static\\temp");
+			if(type == 1) {
+				Workbook workbook = new XSSFWorkbook();
+				Sheet sheet = workbook.createSheet("Report");
+				
+				Font headerFont = workbook.createFont();
+				headerFont.setBold(true);
+				headerFont.setFontHeightInPoints((short) 14);
+				headerFont.setColor(IndexedColors.RED.getIndex());
+				
+				CellStyle headerCellStyle = workbook.createCellStyle();
+				headerCellStyle.setFont(headerFont);
+		
+		    	    // Create a Row
+		    	Row headerRow = sheet.createRow(0);
+		    	Cell cell = headerRow.createCell(0);
+		        cell.setCellValue("WSID");
+		        cell.setCellStyle(headerCellStyle);
+		        
+		        cell = headerRow.createCell(1);
+		        cell.setCellValue("AMOUNT");
+		        cell.setCellStyle(headerCellStyle);
+		        
+		        cell = headerRow.createCell(2);
+		        cell.setCellValue("TRANSACTION DATE");
+		        cell.setCellStyle(headerCellStyle);
+		        
+		        cell = headerRow.createCell(3);
+		        cell.setCellValue("TABLE SOURCE");
+		        cell.setCellStyle(headerCellStyle);
+		        
+		        cell = headerRow.createCell(4);
+		        cell.setCellValue("NOTES");
+		        cell.setCellStyle(headerCellStyle);
+		        
+		        cell = headerRow.createCell(5);
+		        cell.setCellValue("STATUS");
+		        cell.setCellStyle(headerCellStyle);
+		        
+		        int rowNum = 1;
+		        for (LogTransaction logTrans : logTransactionDAO.listLogTransactionByDate(from, to)) {
+		            Row row = sheet.createRow(rowNum++);
+		            if(logTrans.getWsId() != null) {
+		            	row.createCell(0).setCellValue(logTrans.getWsId());
+		            }
+		            
+		            if(logTrans.getAmount() != null) {
+		            	row.createCell(1).setCellValue(logTrans.getAmount());
+		            }
+		            
+		            if(logTrans.getTransactionDate() != null) {
+		            	row.createCell(2).setCellValue(logTrans.getTransactionDate());
+		            }
+		            
+		            if(logTrans.getTableSource() != null) {
+		            row.createCell(3).setCellValue(logTrans.getTableSource());
+		            }
+		            
+		            if(logTrans.getNotes() != null) {
+		            row.createCell(4).setCellValue(logTrans.getNotes());
+		            }
+		            
+		            if(logTrans.getNamaStatus() != null) {
+		            row.createCell(5).setCellValue(logTrans.getNamaStatus());
+		            }
+		      }
+		
+		        // Resize all columns to fit the content size
+		        for (int i = 0; i < headerRow.getPhysicalNumberOfCells(); i++) {
+		          sheet.autoSizeColumn(i);
+		        }
+		
+		        // Write the output to a file
+		        FileOutputStream fileOut;
+				fileOut = new FileOutputStream(uploadRootPath + "\\" + "export.xlsx");
+				workbook.write(fileOut);
+				fileOut.close();
+				return "redirect:/static/temp/export.xlsx";
+			}else {
+		        Document iText_xls_2_pdf = new Document(PageSize.A4.rotate());
+		        PdfWriter.getInstance(iText_xls_2_pdf, new FileOutputStream(uploadRootPath + "\\" + "export.pdf"));
+		        iText_xls_2_pdf.open();
+		        //we have two columns in the Excel sheet, so we create a PDF table with two columns                
+		        PdfPTable table = new PdfPTable(6);
+				table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
+		
+				table.addCell("WSID");
+				table.addCell("AMOUNT");
+				table.addCell("TRANSACTION DATE");
+				table.addCell("TABLE SOURCE");
+				table.addCell("NOTES");
+				table.addCell("STATUS");
+		
+				for (LogTransaction logTrans : logTransactionDAO.listLogTransactionByDate(from, to)) {
+					if(logTrans.getWsId() != null) {
+						table.addCell(logTrans.getWsId());
+		            }
+		            
+		            if(logTrans.getAmount() != null) {
+		            	table.addCell(logTrans.getAmount().toString());
+		            }
+		            
+		            if(logTrans.getTransactionDate() != null) {
+		            	table.addCell(logTrans.getTransactionDate());
+		            }
+		            
+		            if(logTrans.getTableSource() != null) {
+		            	table.addCell(logTrans.getTableSource());
+		            }
+		            
+		            if(logTrans.getNotes() != null) {
+		            	table.addCell(logTrans.getNotes());
+		            }
+		            
+		            if(logTrans.getNamaStatus() != null) {
+		            	table.addCell(logTrans.getNamaStatus());
+		            }
+				}
+		
+		
+		        //Finally add the table to PDF document
+		        iText_xls_2_pdf.add(table);                       
+		        iText_xls_2_pdf.close();
+		        return "redirect:/static/temp/export.pdf";
 			}
-	
-	
-	        //Finally add the table to PDF document
-	        iText_xls_2_pdf.add(table);                       
-	        iText_xls_2_pdf.close();
-	        return "redirect:/static/temp/export.pdf";
 		}
 
         

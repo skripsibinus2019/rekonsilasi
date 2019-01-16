@@ -51,9 +51,9 @@ public class StatusLogMapper implements RowMapper<StatusLog> {
         User.setUsername(rs.getString("username"));
         User.setJob_title(rs.getString("job_title"));
         
-        logTransaction.setAmount(rs.getInt("amount"));
+        logTransaction.setAmount(rs.getLong("amount"));
         logTransaction.setTransactionDate(rs.getString("transactionDate"));
-        logTransaction.setTransactionDate(rs.getString("wsid"));
+        logTransaction.setWsId(rs.getString("wsid"));
         logTransaction.setId(rs.getLong("logTransId"));
         
 
@@ -61,13 +61,13 @@ public class StatusLogMapper implements RowMapper<StatusLog> {
         Integer tableB_id = rs.getInt("tableB_id");
         if(tableA_id != 0) {
         	logTransaction.setTableSource("A");
-        	logTransaction.setTableSourceId(rs.getInt("tableA_id"));
+        	logTransaction.setTableSourceId(rs.getLong("tableA_id"));
         }else if(tableB_id != 0){
         	logTransaction.setTableSource("B");
-        	logTransaction.setTableSourceId(rs.getInt("tableB_id"));
+        	logTransaction.setTableSourceId(rs.getLong("tableB_id"));
         }else {
         	logTransaction.setTableSource("CSV");
-        	logTransaction.setTableSourceId(0);
+        	logTransaction.setTableSourceId((long) 0);
         }
         
 

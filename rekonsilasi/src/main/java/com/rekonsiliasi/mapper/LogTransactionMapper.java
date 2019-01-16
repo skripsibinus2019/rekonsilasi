@@ -42,21 +42,21 @@ public class LogTransactionMapper implements RowMapper<LogTransaction> {
     public LogTransaction mapRow(ResultSet rs, int rowNum) throws SQLException {
 //        Integer id = rs.getInt("logTransId");
         String wsid = rs.getString("wsid");
-        Integer amount = rs.getInt("amount");
+        Long amount = rs.getLong("amount");
         String transactionDate = rs.getString("transactionDate");
         String tableSource = "";
-        Integer tableSourceId;
-        Integer tableA_id = rs.getInt("tableA_id");
-        Integer tableB_id = rs.getInt("tableB_id");
+        Long tableSourceId;
+        Long tableA_id = rs.getLong("tableA_id");
+        Long tableB_id = rs.getLong("tableB_id");
         if(tableA_id != 0) {
         	tableSource = "A";
-        	tableSourceId = rs.getInt("tableA_id");
+        	tableSourceId = rs.getLong("tableA_id");
         }else if(tableB_id != 0){
         	tableSource = "B";
-        	tableSourceId = rs.getInt("tableB_id");
+        	tableSourceId = rs.getLong("tableB_id");
         }else {
         	tableSource = "CSV";
-        	tableSourceId = 0;
+        	tableSourceId = (long) 0;
         }
         
         Integer status = rs.getInt("status");

@@ -235,14 +235,8 @@
               <!-- Menu Body -->
               <li class="user-body">
                 <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="user-management/user/myActivity">My Activity</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
+                  <div class="col-xs-12 text-center">
+                    <a href="/user-management/user/myActivity">My Activity</a>
                   </div>
                 </div>
                 <!-- /.row -->
@@ -250,7 +244,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="user-management/user/editProfile" class="btn btn-default btn-flat">Profile</a>
+                  <a href="/user-management/user/editProfile" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
                   <a href="/j_spring_security_logout" class="btn btn-default btn-flat">Sign out</a>

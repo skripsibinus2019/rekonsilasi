@@ -13,6 +13,41 @@
 <section class="content">
 	<div class="row">
 		<div class="col-xs-offset-3 col-xs-6">
+		<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">Detail</h3>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body">
+					<table class="table table-bordered">
+						<tr>
+		                <td><b>REPORT ID</b></td>
+					    <td>${data[0].logTransaction.id}</td>
+					  </tr>
+		           	   <tr>
+		                <td><b>WSID</b></td>
+					    <td>${data[0].logTransaction.wsId}</td>
+					  </tr>
+					  <tr>
+		                <td><b>AMOUNT</b></td>
+					    <td>${data[0].logTransaction.amount}</td>
+					  </tr>
+					  <tr>
+		                <td><b>TRANSACTION DATE</b></td>
+					    <td>${data[0].logTransaction.transactionDate}</td>
+					  </tr>
+					  <tr>
+		                <td><b>TABLE SOURCE</b></td>
+					    <td>${data[0].logTransaction.tableSource}</td>
+					  </tr>
+					  <tr>
+		                <td><b>TABLE SOURCE ID</b></td>
+					    <td>${data[0].logTransaction.tableSourceId}</td>
+					  </tr>
+					  
+					</table>
+				</div>
+		</div>
 			<div class="box">
 				<div class="box-header">
 					<h3 class="box-title">Timeline</h3>

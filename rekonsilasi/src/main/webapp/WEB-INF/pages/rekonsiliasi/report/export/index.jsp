@@ -20,6 +20,14 @@
 				<div class="box-header">
 					<h3 class="box-title">Log Transaction Export</h3>
 				</div>
+				<c:if test="${message eq \"Date Must be Filled!\" }">
+				<div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                ${message}
+                </div>
+                </c:if>
+              	
 				<!-- /.box-header -->
 				<form:form method="POST" action="/export/log_transaction/submit" enctype="multipart/form-data" >
 					<div class="box-body">

@@ -29,7 +29,7 @@ public class FavoriteMapper implements RowMapper<Favorite>{
 		
 		LogTransaction logTransaction = new LogTransaction();
 		logTransaction.setId(rs.getLong("logTransId"));
-		logTransaction.setAmount(rs.getInt("amount"));
+		logTransaction.setAmount(rs.getLong("amount"));
 		logTransaction.setWsId(rs.getString("wsid"));
 		logTransaction.setTransactionDate(rs.getString("transactionDate"));
 		logTransaction.setStatus(rs.getInt("status"));

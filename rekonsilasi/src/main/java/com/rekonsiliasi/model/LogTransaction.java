@@ -10,13 +10,13 @@ public class LogTransaction {
  
     private Long id;
     private String wsId;
-    private Integer amount;
+    private Long amount;
     private String transactionDate;
 	private List<LogTransaction> list;
     private String draw;
     private Integer recordsFiltered;
     private Integer recordsTotal;
-	private int tableSourceId;
+	private Long tableSourceId;
     private String tableSource;
     private Integer status;
     private String namaStatus;
@@ -118,11 +118,11 @@ public class LogTransaction {
 		this.wsId = wsId;
 	}
 
-	public Integer getAmount() {
+	public Long getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Integer amount) {
+	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
 
@@ -134,11 +134,11 @@ public class LogTransaction {
 		this.transactionDate = transactionDate;
 	}
 	
-	public int getTableSourceId() {
+	public Long getTableSourceId() {
 		return tableSourceId;
 	}
 
-	public void setTableSourceId(int tableSourceId) {
+	public void setTableSourceId(Long tableSourceId) {
 		this.tableSourceId = tableSourceId;
 	}
 
@@ -146,9 +146,9 @@ public class LogTransaction {
 		 
     }
 
-	public LogTransaction(Long id, String wsId, Integer amount, String transactionDate, List<LogTransaction> list,
+	public LogTransaction(Long id, String wsId, Long amount, String transactionDate, List<LogTransaction> list,
 			String draw, Integer recordsFiltered, Integer recordsTotal, String tableSourceA, String tableSourceB,
-			Integer tableSourceId) {
+			Long tableSourceId) {
 		super();
 		this.id = id;
 		this.wsId = wsId;
@@ -161,7 +161,7 @@ public class LogTransaction {
 		this.tableSourceId = tableSourceId;
 	}
 	
-	public LogTransaction(Long id,String wsId, Integer amount, String transactionDate, String tableSourceA, String tableSourceB,
+	public LogTransaction(Long id,String wsId, Long amount, String transactionDate, String tableSourceA, String tableSourceB,
 			String namaStatus) {
 		super();
 		this.id = id;
@@ -171,7 +171,7 @@ public class LogTransaction {
 		this.namaStatus = namaStatus;
 	}
 
-	public LogTransaction(String wsId, Integer amount, String transactionDate, String tableSourceA, String tableSourceB,
+	public LogTransaction(String wsId, Long amount, String transactionDate, String tableSourceA, String tableSourceB,
 			String namaStatus) {
 		super();
 		this.wsId = wsId;
@@ -180,7 +180,7 @@ public class LogTransaction {
 		this.namaStatus = namaStatus;
 	}
 
-	public LogTransaction(String wsId, Integer amount, String transactionDate, String tableSource, Integer tableSourceId, String tableSourceB,
+	public LogTransaction(String wsId, Long amount, String transactionDate, String tableSource, Long tableSourceId, String tableSourceB,
 			String namaStatus, String notes) {
 		super();
 		this.wsId = wsId;
@@ -192,7 +192,7 @@ public class LogTransaction {
 		this.tableSourceId = tableSourceId;
 	}
 	
-	public LogTransaction(Long id,String wsId, Integer amount, String transactionDate, String tableSource, Integer tableSourceId,
+	public LogTransaction(Long id,String wsId, Long amount, String transactionDate, String tableSource, Long tableSourceId,
 			String namaStatus, String notes) {
 		super();
 		this.id = id;

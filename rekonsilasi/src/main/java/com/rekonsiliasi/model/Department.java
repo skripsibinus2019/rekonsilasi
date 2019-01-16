@@ -8,9 +8,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Department {
  
-    private Integer id;
+    private Long id;
     private String wsId;
-    private Integer amount;
+    private Long amount;
     private String transactionDate;
     private List<Department> list;
     private String draw;
@@ -66,11 +66,11 @@ public class Department {
 		this.list = list;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -82,11 +82,11 @@ public class Department {
 		this.wsId = wsId;
 	}
 
-	public Integer getAmount() {
+	public Long getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Integer amount) {
+	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
 
@@ -102,7 +102,7 @@ public class Department {
 		 
     }
 
-	public Department(Integer id, String wsId, Integer amount, String transactionDate,
+	public Department(Long id, String wsId, Long amount, String transactionDate,
 			List<Department> list, String draw, Integer recordsFiltered, Integer recordsTotal) {
 		super();
 		this.id = id;
@@ -115,14 +115,14 @@ public class Department {
 		this.recordsTotal = recordsTotal;
 	}
 
-	public Department(String wsId, Integer amount, String transactionDate) {
+	public Department(String wsId, Long amount, String transactionDate) {
 		super();
 		this.wsId = wsId;
 		this.amount = amount;
 		this.transactionDate = transactionDate;
 	}
 	
-    public Department(Integer id, String wsId, Integer amount,
+    public Department(Long id, String wsId, Long amount,
             String transactionDate, Integer status, String tableSource,
             String notes) {
         this.id = id;

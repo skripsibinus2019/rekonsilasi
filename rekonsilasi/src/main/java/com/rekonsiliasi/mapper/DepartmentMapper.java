@@ -9,14 +9,12 @@ import org.springframework.jdbc.core.RowMapper;
 public class DepartmentMapper implements RowMapper<Department> {
  
     public static final String BASE_SQL = //
-            "Select a.id, a.wsid, a.amount, a.transactionDate " + 
-            "From Table_A a " + 
-            "WHERE NOT EXISTS(SELECT l.tableA_id From Log_Transaction l WHERE l.tableA_id = a.id)";
+            "Select * " + 
+            "From Table_A AS a";
     
     public static final String BASE_SQL2 = //
-            "Select b.id, b.wsid, b.amount, b.transactionDate " + 
-            "From Table_B b " + 
-            "WHERE NOT EXISTS(SELECT l.tableA_id From Log_Transaction l WHERE l.tableB_id = b.id)";
+            "Select * " + 
+            "From Table_B AS b";
     
     public static final String BASE_SQL3 = //
             "Select c.id, c.wsid, c.amount, c.transactionDate " + 
@@ -28,9 +26,9 @@ public class DepartmentMapper implements RowMapper<Department> {
  
     @Override
     public Department mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Integer id = rs.getInt("id");
+        Long id = rs.getLong("id");
         String wsid = rs.getString("wsid");
-        Integer amount = rs.getInt("amount");
+        Long amount = rs.getLong("amount");
         String transactionDate = rs.getString("transactionDate");
 //        Integer status = rs.getInt("status");
         Integer status = 1;

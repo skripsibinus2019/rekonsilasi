@@ -30,10 +30,16 @@ $(document).ready(function() {
 			"name" : "notes",
 			"autoWidth" : true
 		}, {
-			"data" : "namaStatus",
-			"name" : "namaStatus",
-			"autoWidth" : true
-		}, {
+			data: "namaStatus", render: function (data, type, row) {
+				if(row.namaStatus == "Pending"){
+					return "<span class='label label-primary'>Proposed</span>";
+				}else if(row.namaStatus == "Approved"){
+					return "<span class='label label-success'>Approved</span>";
+				}else if(row.namaStatus == "Rejected"){
+					return "<span class='label label-danger'>Rejected</span>";
+				}
+            }
+        }, {
             data: null, render: function (data, type, row) {
                 return "<a href='/approval/"+ row.id + "/" + "approve" + "' class='btn btn-info' onclick=DeleteData('" + row.CustomerID + "'); >Approve</a>";
             }

@@ -107,9 +107,9 @@ public class LogTransactionDAO extends JdbcDaoSupport {
 				    @Override
 				    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 				        PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-				        statement.setInt(1, l.getTableSourceId());
+				        statement.setLong(1, l.getTableSourceId());
 				        statement.setString(2, l.getWsId());
-				        statement.setInt(3, l.getAmount());
+				        statement.setLong(3, l.getAmount());
 				        statement.setString(4, l.getTransactionDate());
 				        return statement;
 				    }
@@ -125,9 +125,9 @@ public class LogTransactionDAO extends JdbcDaoSupport {
 					    @Override
 					    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 					        PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-					        statement.setInt(1, l.getTableSourceId());
+					        statement.setLong(1, l.getTableSourceId());
 					        statement.setString(2, l.getWsId());
-					        statement.setInt(3, l.getAmount());
+					        statement.setLong(3, l.getAmount());
 					        statement.setString(4, l.getTransactionDate());
 					        return statement;
 					    }
@@ -144,7 +144,7 @@ public class LogTransactionDAO extends JdbcDaoSupport {
 					    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 					        PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 					        statement.setString(1, l.getWsId());
-					        statement.setInt(2, l.getAmount());
+					        statement.setLong(2, l.getAmount());
 					        statement.setString(3, l.getTransactionDate());
 					        statement.setInt(4, 1);
 					        return statement;

@@ -25,7 +25,7 @@ public class DepartmentDAO extends JdbcDaoSupport {
  
     public Department findDepartment(String deptNo) {
         String sql = DepartmentMapper.BASE_SQL //
-                + " and a.id = ?";
+                + " Where a.id = ?";
  
         Object[] params = new Object[] { deptNo };
         
@@ -37,7 +37,7 @@ public class DepartmentDAO extends JdbcDaoSupport {
     
     public Department findDepartment2(String deptNo) {
         String sql = DepartmentMapper.BASE_SQL2 //
-                + " and b.id = ?";
+                + " Where b.id = ?";
  
         Object[] params = new Object[] { deptNo };
          
@@ -61,7 +61,7 @@ public class DepartmentDAO extends JdbcDaoSupport {
  
     public List<Department> listDepartment() {
         String sql = DepartmentMapper.BASE_SQL //
-        		+ "Except " + DepartmentMapper.BASE_SQL2 ;
+        		+ " WHERE NOT EXISTS (SELECT wsid,transactionDate,amount FROM Table_B b Where b.amount = a.amount AND b.transactionDate = a.transactionDate AND b.wsid = a.wsid ) AND NOT EXISTS(SELECT l.tableA_id From Log_Transaction l WHERE l.tableA_id = a.id)" ;
  
         Object[] params = new Object[] {};
         DepartmentMapper mapper = new DepartmentMapper();
@@ -75,7 +75,7 @@ public class DepartmentDAO extends JdbcDaoSupport {
     
     public List<Department> listDepartment2() {
         String sql = DepartmentMapper.BASE_SQL2 //
-        		+ "Except " + DepartmentMapper.BASE_SQL ;
+        		+ " WHERE NOT EXISTS (SELECT wsid,transactionDate,amount FROM Table_A a Where a.amount = b.amount AND a.transactionDate = b.transactionDate AND a.wsid = b.wsid ) AND NOT EXISTS(SELECT l.tableB_id From Log_Transaction l WHERE l.tableB_id = b.id)" ;
  
         Object[] params = new Object[] {};
         DepartmentMapper mapper = new DepartmentMapper();
