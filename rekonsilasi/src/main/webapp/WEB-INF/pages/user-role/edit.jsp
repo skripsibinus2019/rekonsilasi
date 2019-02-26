@@ -9,7 +9,7 @@
 	<ol class="breadcrumb">
 		<li><a href="#"><i class="fa fa-dashboard"></i> User Management</a></li>
 		<li><a href="#">Roles</a></li>
-		<li class="active">Add Role</li>
+		<li class="active">Edit Role</li>
 	</ol>
 </section>
 

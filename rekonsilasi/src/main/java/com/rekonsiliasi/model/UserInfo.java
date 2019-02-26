@@ -14,6 +14,16 @@ public class UserInfo {
 	private String username;
 	@NotNull
 	private String password;
+	private String passwordConfirm;
+	
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
+	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}

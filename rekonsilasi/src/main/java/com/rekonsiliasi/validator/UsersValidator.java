@@ -18,12 +18,19 @@ public class UsersValidator implements Validator {
 
 	@Override
 	public void validate(Object obj, Errors errors) {
+		
+		UserInfo cand = (UserInfo) obj;
+		
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "username.required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.required");
+		//ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "email.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "first_name", "first_name.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "last_name", "last_name.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "job_title", "job_title.required");
+		
+		//if(!cand.getPassword().equals(cand.getPasswordConfirm())) {
+		//	errors.rejectValue("passwordConfirm", "passwordConfirm.confirm");
+		//}
 
 	}
 }

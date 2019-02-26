@@ -259,7 +259,9 @@ public class MainController {
     
     @RequestMapping(value = { "/approval/{id}/reject/process"}, method =  {RequestMethod.GET,RequestMethod.POST})
     public String rejected(Model model, @PathVariable("id")String IdRequest, 
-    		@ModelAttribute(value = "data") LogTransaction data, HttpServletRequest request) {
+    		@ModelAttribute(value = "data") LogTransaction data, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    	
+    	redirectAttributes.addFlashAttribute("message", "Data Has Been Rejected!");
     	
     	//proses reject
 		StatusLog statuslog = new StatusLog();
@@ -492,7 +494,7 @@ public class MainController {
     
     @RequestMapping(value = "/rekonsiliasi/{tableSourceId}/{table}/save", method = RequestMethod.POST)
     public String indexSave(Model model, @PathVariable("tableSourceId")String tableSourceId, 
-    		@PathVariable("table")String table, @ModelAttribute(value = "data") LogTransaction data, HttpServletRequest request) {
+    		@PathVariable("table")String table, @ModelAttribute(value = "data") LogTransaction data, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 
     		logTransactionDAO.saveRecord(data);
     		
@@ -507,9 +509,9 @@ public class MainController {
     		statuslog.setNotes(data.getNotes());
     		
     		statusLogDAO.saveRecordStatusLog(statuslog);
-    		
+    		redirectAttributes.addFlashAttribute("message", "Data Has Been Proposed!");
     	
-    	return "redirect:/rekonsiliasi";
+    	return "redirect:/log_transaction";
     }
     
     @RequestMapping(value = "/rekonsiliasi/status", method = RequestMethod.GET)
@@ -569,7 +571,7 @@ public class MainController {
 				int[] matches = new int[records.get(0).length];
 		    	int biggest = 0;
 				//regex wsid
-				Pattern pattern = Pattern.compile("^(Z|9|[0-6])([a-zA-Z0-6]+)$");
+				Pattern pattern = Pattern.compile("^(Z|9|[0-6])([a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9])$");
 				for(int i = 1; i<10; i++) {
 					for(int j = 0; j<records.get(i).length; j++ ) {
 						Matcher matcher = pattern.matcher(records.get(i)[j]);
@@ -701,6 +703,8 @@ public class MainController {
 					mr.setTransactionDate(records.get(i)[ViewModel.getTransactionDate()]);
 					matchingRulesDao.insertRecord(mr);
 				}
+				redirectAttributes.addFlashAttribute("message", 
+	                    "Data Successfully Added to CSV Table!");
 				return "redirect:/matching-rules/reconciliation";
 			}
 			
@@ -752,7 +756,7 @@ public class MainController {
     }
     
     @RequestMapping(value = "/favorite/{id}", method = RequestMethod.GET)
-    public String addToFavorite(HttpServletRequest request, @PathVariable("id")Integer idRequest) { 
+    public String addToFavorite(HttpServletRequest request, @PathVariable("id")Integer idRequest, RedirectAttributes redirectAttributes) { 
     	
     	Favorite favorite = new Favorite();
     	favorite.setLogTransId(idRequest);
@@ -761,13 +765,16 @@ public class MainController {
 		Integer userId = userDAO.getUserByUsername(username).getUserId();
     	favorite.setUserId(userId);
     	favoriteDAO.addToFavorite(favorite);
-    	
+    	redirectAttributes.addFlashAttribute("message", 
+                "Data Has Been Favorited! Please Check Your Dashboard");
         return "redirect:/log_transaction";
     }
     
     @RequestMapping(value = "/favoriteDelete/{id}", method = RequestMethod.GET)
-    public String deleteFavorite(HttpServletRequest request, @PathVariable("id")Integer idRequest) { 
+    public String deleteFavorite(HttpServletRequest request, @PathVariable("id")Integer idRequest, RedirectAttributes redirectAttributes) { 
     	favoriteDAO.removeFavorite(idRequest);
+    	redirectAttributes.addFlashAttribute("message", 
+                "Favorite Deleted!");
         return "redirect:/dashboard";
     }
     

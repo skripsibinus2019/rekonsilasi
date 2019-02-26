@@ -21,6 +21,13 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
+            <c:if test="${message eq \"Data Has Been Proposed!\" }">
+				<div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Sucess!</h4>
+                ${message}
+                </div>
+             </c:if>
              <sec:authorize access="hasAnyRole('ROLE_SUPERVISOR')">
               <table id="admin" class="table table-bordered table-hover" width="100%">
                 <thead>

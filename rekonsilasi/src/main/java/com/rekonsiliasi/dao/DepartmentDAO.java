@@ -89,7 +89,7 @@ public class DepartmentDAO extends JdbcDaoSupport {
     
     public List<Department> listDepartment3() {
         String sql = DepartmentMapper.BASE_SQL3 //
-        		+ "Except " + DepartmentMapper.BASE_SQL4 ;
+        		+ " WHERE NOT EXISTS (SELECT wsid,transactionDate,amount FROM Table_A a Where a.amount = c.amount AND a.transactionDate = c.transactionDate AND a.wsid = c.wsid )" ;
  
         Object[] params = new Object[] {};
         DepartmentMapper mapper = new DepartmentMapper();

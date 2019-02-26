@@ -82,6 +82,13 @@
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
+				<c:if test="${not empty message}">
+				<div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Sucess!</h4>
+                ${message}
+                </div>
+                </c:if>
 					<div class="table-responsive">
 						<table class="table no-margin">
 							<thead>

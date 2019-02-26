@@ -7,7 +7,13 @@
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
-	${error}
+	<c:if test="${not empty error}">
+		<div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i> Error!</h4>
+        ${error}
+        </div>
+	</c:if>
 <%--     <form name="loginForm" action="<c:url value='/j_spring_security_check' />" method="post"> --%>
     <form name="loginForm" action="<c:url value="/j_spring_security_check"></c:url>" method="post" role="form">
       <div class="form-group has-feedback">

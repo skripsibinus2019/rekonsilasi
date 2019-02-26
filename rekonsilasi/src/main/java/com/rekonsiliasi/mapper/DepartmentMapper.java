@@ -17,12 +17,8 @@ public class DepartmentMapper implements RowMapper<Department> {
             "From Table_B AS b";
     
     public static final String BASE_SQL3 = //
-            "Select c.id, c.wsid, c.amount, c.transactionDate " + 
-            "From Table_CSV c ";
-    
-    public static final String BASE_SQL4 = //
-    		"Select a.id, a.wsid, a.amount, a.transactionDate " + 
-            "From Table_A a ";
+            "Select * " + 
+            "From Table_CSV c";
  
     @Override
     public Department mapRow(ResultSet rs, int rowNum) throws SQLException {

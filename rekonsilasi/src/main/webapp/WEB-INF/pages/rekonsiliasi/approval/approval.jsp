@@ -30,6 +30,13 @@
                 ${message}
                 </div>
                 </c:if>
+                <c:if test="${message eq \"Data Has Been Rejected!\" }">
+				<div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Sucess!</h4>
+                ${message}
+                </div>
+                </c:if>
               <table id="example1" class="table table-bordered table-hover" width="100%">
                 <thead>
                 <tr>

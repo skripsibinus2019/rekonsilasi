@@ -83,11 +83,13 @@ public class UsersController {
     }
 	
 	@RequestMapping(value= "user-management/user/addSubmit", method = RequestMethod.POST)
-	public String addPerson(@ModelAttribute("data") @Validated UserInfo u, BindingResult bindingResult){
+	public String addPerson(@ModelAttribute("data") @Validated UserInfo u, BindingResult bindingResult, RedirectAttributes redirectAttribute){
 		if (bindingResult.hasErrors()) {
 			return "user.add";
 		}
 		userDao.addUser(u);
+		redirectAttribute.addFlashAttribute("message", 
+                "User Successfully Added!");
 		return "redirect:/user-management/user";
 		
 	}
@@ -112,12 +114,14 @@ public class UsersController {
     }
 	
 	@PostMapping("user-management/user/edit/{id}")
-    public String editUserSubmit(@ModelAttribute("data") @Validated UserInfo u, BindingResult bindingResult, @PathVariable("id") int id) {
+    public String editUserSubmit(@ModelAttribute("data") @Validated UserInfo u, BindingResult bindingResult, @PathVariable("id") int id, RedirectAttributes redirectAttribute) {
 
 		if (bindingResult.hasErrors()) {
 			return "user.edit";
 		}
 		userDao.updateUser(u, id);
+		redirectAttribute.addFlashAttribute("message", 
+                "User Successfully Edited!");
 		return "redirect:/user-management/user";
     }
 	
